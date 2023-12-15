@@ -6,7 +6,6 @@ const ProductImages = ({ images }) => {
   return (
     <Carousel
       showArrows={true}
-      emulateTouch={false}
       infiniteLoop={true}
       className='border border-gray-200 bg-white'>
       {images.map((image, index) => (
