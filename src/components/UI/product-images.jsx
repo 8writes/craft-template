@@ -13,6 +13,7 @@ const ProductImages = ({ images }) => {
           <img
             src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${image.src}`}
             alt={image.alt}
+            style={{ maxHeight: '550px' }}
           />
         </div>
       ))}

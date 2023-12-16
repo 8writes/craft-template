@@ -90,14 +90,14 @@ OrderID: ${id}
 
             <CardContent>
               <Typography
-                className='font-Plus-Jakarta-Sans text-slate-700'
+                className='font-Plus-Jakarta-Sans text-slate-700 pb-2'
                 gutterBottom
                 variant='h5'
                 component='div'>
                 {name}
               </Typography>
               <div className='flex justify-end'>
-                <h6 className='my-auto  px-1 font-Plus-Jakarta-Sans text-2xl font-medium md:text-1xl text-gray-800'>
+                <h6 className='my-auto bg-gray-100 rounded-md  px-2 font-Plus-Jakarta-Sans text-2xl font-medium md:text-1xl text-gray-800'>
                   ₦{Number(price).toLocaleString()}
                 </h6>
               </div>
