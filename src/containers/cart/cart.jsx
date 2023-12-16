@@ -78,22 +78,21 @@ Total Price: ${formattedTotalPrice}
                 <ul>
                   {cart.map((item, index) => (
                     <>
-                      <span className='flex my-4'>
+                      <span className='flex flex-wrap my-4'>
                         <Typography variant='h6'>{index + 1}.</Typography>
                         <img
                           src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${item.uploadedImageUrl1}`}
                           alt=''
                           className='rounded-md mx-2'
-                          width={50}
-                          height={50}
+                          style={{ maxHeight: '50px', maxWidth: '50px' }}
                         />
                         <li
-                          className='py-1 flex-1 flex justify-between my-auto'
+                          className='py-1 flex-1 grid justify-between my-auto'
                           key={item.id}>
                           <Typography className='px-2' variant='h6'>
                             {item.name}
                           </Typography>
-                          <Typography className='px-2' variant='h6'>
+                          <Typography className='px-2 bg-slate-300 rounded-sm' variant='h7'>
                             ₦{Number(item.price).toLocaleString()}
                           </Typography>
                         </li>
