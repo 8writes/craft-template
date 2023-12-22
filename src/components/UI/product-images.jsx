@@ -7,7 +7,7 @@ const ProductImages = ({ images }) => {
     <Carousel
       showArrows={true}
       infiniteLoop={true}
-      preventMovementUntilSwipeScrollTolerance={true}
+      swipeable={false}
       className='border border-gray-200 bg-white'>
       {images.map((image, index) => (
         <div key={index}>
