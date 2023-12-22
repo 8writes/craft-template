@@ -83,7 +83,7 @@ OrderID: ${id}
             }}>
             <CardMedia
               component='img'
-              className=' w-full  hover:scale-105 transition-all'
+              className=' w-full h-72 hover:scale-105 transition-all'
               image={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${uploadedImageUrl1}`}
               alt={alt}
             />

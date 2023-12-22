@@ -15,7 +15,7 @@ const ProductSingle = () => {
   const uploadedImageUrl1 = searchParams.get('uploadedImageUrl1')
   const uploadedImageUrl2 = searchParams.get('uploadedImageUrl2')
   const uploadedImageUrl3 = searchParams.get('uploadedImageUrl3')
-  const size = searchParams.get('size')
+ const sizes = searchParams.getAll('size')
   const price = searchParams.get('price')
   const description = searchParams.get('description')
   const cartLinkSrc = searchParams.get('cartLinkSrc')
@@ -36,7 +36,7 @@ const ProductSingle = () => {
  }
 
  const formatCartForWhatsApp = () => {
-   return `${description} size:${size} - ₦${Number(price).toLocaleString()}\n`
+   return `${description} size:${sizes} - ₦${Number(price).toLocaleString()}\n`
  }
 
  const phoneNumber = '+2348155151818' // Replace with the desired phone number
@@ -83,14 +83,23 @@ OrderID: ${id}
               variant='subtitle1'
               color='text.secondary'
               className='text-slate-700'>
-              Size:{' '}
-              <span className='p-2 border-2 border-slate-300'>{size} </span>
+              Size:
+              <div className='flex flex-wrap gap-2'>
+                {sizes.map((singleSize, index) => (
+                  <span key={index} className='p-2 border-2 border-slate-300'>
+                    {singleSize}
+                  </span>
+                ))}
+              </div>
             </Typography>
             <Typography
               variant='subtitle1'
               color='text.secondary'
               className='text-slate-700'>
-              Stock: {stock}
+              Stock:{' '}
+              <span style={{ color: stock === 'In Stock' ? 'green' : 'red', fontWeight: '550' }}>
+                {stock}
+              </span>
             </Typography>
             <Typography
               className='text-gray-800 rounded-sm px-1 bg-slate-200'
