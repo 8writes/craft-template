@@ -209,7 +209,6 @@ const Cart = () => {
             {/* Paystack Checkout Button */}
             <Button
               size='medium'
-              color='primary'
               variant='outlined'
               color='success'
               onClick={() => {
