@@ -12,50 +12,57 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "ADD_TO_CART":
+    case 'ADD_TO_CART':
       // Add the item to the cart and update session storage
-      const updatedCart = [...state.cart, action.payload];
-      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+      const updatedCart = [...state.cart, action.payload]
+      sessionStorage.setItem('cart', JSON.stringify(updatedCart))
       return {
         ...state,
         cart: updatedCart,
         productCount: state.productCount + 1,
-      };
-    case "REMOVE_FROM_CART":
+      }
+    case 'REMOVE_FROM_CART':
       // Remove the item from the cart and session storage
       const updatedCartRemove = state.cart.filter(
         (item) => item !== action.payload
-      );
-      sessionStorage.setItem("cart", JSON.stringify(updatedCartRemove));
+      )
+      sessionStorage.setItem('cart', JSON.stringify(updatedCartRemove))
       // Also, update the addedState in session storage
-      const updatedAddedState = { ...state.addedState };
-      delete updatedAddedState[action.payload];
-      sessionStorage.setItem("addedState", JSON.stringify(updatedAddedState));
+      const updatedAddedState = { ...state.addedState }
+      delete updatedAddedState[action.payload]
+      sessionStorage.setItem('addedState', JSON.stringify(updatedAddedState))
 
       return {
         ...state,
         cart: updatedCartRemove,
         addedState: updatedAddedState,
         productCount: state.productCount - 1,
-      };
-    case "SET_ADDED":
+      }
+    case 'CLEAR_CART':
+      // Clear the cart and addedState
+      sessionStorage.removeItem('cart')
+      sessionStorage.removeItem('addedState')
+      return {
+        ...state,
+        cart: [],
+        addedState: {},
+        productCount: 0,
+      }
+    case 'SET_ADDED':
       // Set the added state and update session storage
       const updatedAddedStateSet = {
         ...state.addedState,
         [action.payload]: true,
-      };
-      sessionStorage.setItem(
-        "addedState",
-        JSON.stringify(updatedAddedStateSet)
-      );
+      }
+      sessionStorage.setItem('addedState', JSON.stringify(updatedAddedStateSet))
 
       return {
         ...state,
         addedState: updatedAddedStateSet,
-      };
+      }
 
     default:
-      return state;
+      return state
   }
 };
 

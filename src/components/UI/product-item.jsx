@@ -5,7 +5,6 @@ import Card from '@mui/material/Card'
 import { CardActionArea } from '@mui/material'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { useCart } from '../../containers/common/Provider/cartProvider'
 import CardContent from '@mui/material/CardContent'
 
 const ProductItem = ({
@@ -34,39 +33,6 @@ const ProductItem = ({
     cartLinkSrc,
     stock,
   }
-
-  const { cartDispatch, addedState } = useCart()
-
-  const isAdded = addedState[id]
-
-  const handleAddToCart = () => {
-    if (!isAdded) {
-      cartDispatch({
-        type: 'ADD_TO_CART',
-        payload: { id, price, description, size },
-      })
-      addedState[id] = true
-    }
-  }
-  const formatCartForWhatsApp = () => {
-    return `${description} size:${size}- ₦${price}\n`
-  }
-
-  const message = `https://wa.me/?text=${encodeURIComponent(
-    `
-                  
---//  SEND PAYMENT SLIP TO CONFIRM ORDER  //--
-
-CHECKOUT MY CART:
-
-${formatCartForWhatsApp()}
-
-Total Price: ${price}
-OrderID: ${id}
-
---//  KINDLY MAKE PAYMENT TO: 2191185098, ZENITH BANK, OKONKWO RITA NNEKA  //--
-`
-  )}`
 
   return (
     <div>

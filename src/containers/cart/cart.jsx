@@ -11,22 +11,17 @@ import Typography from '@mui/material/Typography'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
 import { Button } from '@mui/material'
+import emailjs from 'emailjs-com'
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 const Cart = () => {
   const { cart, cartDispatch, addedState } = useCart()
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    address: '',
-    phoneNumber: '',
-    note: '',
-  })
-
-  const isDisabled =
-    !formData.fullName ||
-    !formData.email ||
-    !formData.address ||
-    !formData.phoneNumber
 
   const totalPrice = cart.reduce((total, item) => {
     const itemPrice = parseFloat(String(item.price)?.replace(/,/g, '')) || 0
@@ -37,10 +32,27 @@ const Cart = () => {
     .toFixed(0)
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    address: '',
+    phoneNumber: '',
+    note: '',
+    price: formattedTotalPrice,
+    status: 'Pending',
+  })
+  
+ const isDisabled =
+   !formData.fullName ||
+   !formData.email ||
+   !formData.address ||
+   !formData.phoneNumber
+
+  
   // Paystack Configuration
   const config = {
     reference: new Date().getTime().toString(),
-    email: 'user@example.com',
+    email: formData.email,
     amount: totalPrice * 100, // Convert to kobo
     publicKey: 'pk_test_990b84e62bcd13690d07272f933a2080b195ce10',
   }
@@ -48,14 +60,68 @@ const Cart = () => {
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
     console.log(reference)
+    clearCart()
+    // Function to handle form data insertion
+    const handleUploadForm = async () => {
+      try {
+        const currentDate = new Date()
+        const date = currentDate.toISOString().split('T')[0]
+        const orderItems = cart.map((item) => {
+          return {
+            name: item.name,
+            size: item.size,
+            price: item.price,
+          }
+        })
+        // Perform data insertion into Supabase
+        const { data, error } = await supabase.from('royeshoesOrders').insert({
+          ...formData,
+          orderInfo: JSON.stringify(orderItems), // Add cart items to orderInfo column
+          orderDate: date, // Include the order date
+          reference: config.reference,
+        })
+
+        // Handle success or error
+        if (error) {
+          console.log(error.message)
+        } else {
+          console.log('success')
+        }
+      } catch (error) {
+        console.error('Error during data insertion:', error.message)
+        setFailed(error.message)
+      } finally {
+        // Additional cleanup or actions if needed
+        clearForm()
+      }
+    }
+
+    // Function to clear form fields
+    const clearForm = () => {
+      setFormData({
+        fullName: '',
+        email: '',
+        address: '',
+        phoneNumber: '',
+        note: '',
+      })
+    }
+    sendEmails()
+    handleUploadForm()
   }
 
   const onClose = () => {
     // Implementation for whatever you want to do when the Paystack dialog is closed.
     console.log('closed')
+    clearCart()
   }
 
   const initializePayment = usePaystackPayment(config)
+
+  const clearCart = () => {
+    // Dispatch an action to clear the cart
+    cartDispatch({ type: 'CLEAR_CART' })
+  }
 
   const handleRemoveFromCart = (item) => {
     cartDispatch({ type: 'REMOVE_FROM_CART', payload: item })
@@ -67,6 +133,66 @@ const Cart = () => {
       ...formData,
       [field]: value,
     })
+  }
+
+  const orderItems = cart.map((item) => {
+    return {
+      name: item.name,
+      size: item.size,
+      price: item.price,
+    }
+  })
+  // Convert orderItems array to a formatted string
+  const formattedOrderItems = orderItems
+    .map(
+      (item) =>
+        `${item.name} - Size: ${
+          item.size
+        }, Price: ₦${item.price.toLocaleString()}`
+    )
+    .join('\n')
+
+  // Function to send emails using emailjs
+  const sendEmails = async () => {
+    try {
+      const templateParams = {
+        to_email: formData.email,
+        from_email: 'mailemmanuel00@gmail.com',
+        to_name: formData.fullName,
+        from_name: 'Royeshoes',
+        subject: 'Order Confirmation',
+        cart: formattedOrderItems,
+        reference_id: config.reference,
+        message: `Thank you for your order! Your order reference: ${config.reference}`,
+      }
+
+      // Construct the WhatsApp link
+      const whatsappLink = `https://wa.me/+2348155151818?text=Track my order with reference ID: ${config.reference}`
+
+      // Include the WhatsApp link in the templateParams
+      templateParams.whatsappLink = whatsappLink
+
+      // Send email to the customer
+      await emailjs.send(
+        'service_t0o3gpe',
+        'template_8g9vtaw',
+        templateParams,
+        'utKOg67bfZjl-zmSw'
+      )
+
+      // Send email to the vendor
+      templateParams.to_email = 'mailemmanuel00@gmail.com'
+      await emailjs.send(
+        'service_t0o3gpe',
+        'template_8g9vtaw',
+        templateParams,
+        'utKOg67bfZjl-zmSw'
+      )
+
+      console.log('Emails sent successfully')
+    } catch (error) {
+      console.error('Error sending emails:', error)
+    }
   }
 
   return (
