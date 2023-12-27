@@ -1,17 +1,27 @@
 /** @format */
-
 'use client'
+
+// Import necessary modules
+import React, { useState } from 'react'
+import { PaystackButton } from 'react-paystack'
 import { SecondaryNav } from '../../components/UI'
 import { ThemeButton } from '../../components/Buttons'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
 
 const Cart = () => {
   const { cart, cartDispatch, addedState } = useCart()
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    address: '',
+    phoneNumber: '',
+    note: '',
+  })
 
   const totalPrice = cart.reduce((total, item) => {
-    // Remove commas and convert to a number
     const itemPrice = parseFloat(String(item.price)?.replace(/,/g, '')) || 0
     return total + itemPrice
   }, 0)
@@ -20,54 +30,53 @@ const Cart = () => {
     .toFixed(0)
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
+  // Paystack Configuration
+  const paystackConfig = {
+    reference: new Date().getTime().toString(),
+    email: 'user@example.com',
+    amount: totalPrice * 100, // Convert to kobo
+    publicKey: 'pk_test_990b84e62bcd13690d07272f933a2080b195ce10',
+  }
+
+  // Paystack success callback
+  const handlePaystackSuccessAction = (reference) => {
+    // Implementation for whatever you want to do with reference and after success call.
+    console.log(reference)
+    
+  }
+
+  // Paystack close callback
+  const handlePaystackCloseAction = () => {
+    // Implementation for whatever you want to do when the Paystack dialog is closed.
+    console.log('closed')
+  }
+
+  const componentProps = {
+    ...paystackConfig,
+    onSuccess: (reference) => handlePaystackSuccessAction(reference),
+    onClose: handlePaystackCloseAction,
+  }
+
   const handleRemoveFromCart = (item) => {
     cartDispatch({ type: 'REMOVE_FROM_CART', payload: item })
     addedState[item.id] = false
   }
 
-  const formatCartForWhatsApp = () => {
-    return cart.map((item, index) => {
-      return `${index + 1}. ${item.description} size:${item.size} - ₦${
-        item.price
-      } ID:${item.id} \n`
+  const handleInputChange = (field, value) => {
+    setFormData({
+      ...formData,
+      [field]: value,
     })
   }
-
-  const message = `https://wa.me/?text=${encodeURIComponent(
-    `
-                  
---//  SEND PAYMENT SLIP TO CONFIRM ORDER  //--
-
-CHECKOUT MY CART:
-
-${formatCartForWhatsApp()}
-
-Total Price: ${formattedTotalPrice}
-
---//  KINDLY MAKE PAYMENT TO: 2191185098, ZENITH BANK, OKONKWO RITA NNEKA  //--
-`
-  )}`
 
   return (
     <div className='pt-24 bg-slate-800 min-h-screen'>
       <SecondaryNav />
-      <div className='grid justify-center justify-items-center my-10'>
-        <div className='grid text-center'>
-          <span className='text-red-600'>
-            <Typography variant='p'>
-              Closing this tab will clear your data !!
-            </Typography>
-          </span>
-
-          <span className='text-green-600'>
-            <Typography variant='p.medium'>
-              Install whatsapp for checkout !!
-            </Typography>
-          </span>
-        </div>
-        <Paper className='px-5 md:px-14 mx-5 py-5 border border-purple-500'>
-          <div className='mt-2 mb-5'>
-            <Typography variant='h4' className='text-gray-700'>
+      <div className='flex flex-wrap justify-center items-start'>
+        {/* Cart Items */}
+        <Paper className='flex flex-col rounded-none items-center px-5 md:px-14 mx-5 my-10 py-5 border mr-5'>
+          <div className='mt-2 mb-5 text-center'>
+            <Typography variant='h5' className='text-gray-700'>
               Shopping Cart
             </Typography>
           </div>
@@ -75,57 +84,50 @@ Total Price: ${formattedTotalPrice}
           {cart ? (
             <>
               {cart.length > 0 ? (
-                <ul>
+                <div className='w-full space-y-4'>
                   {cart.map((item, index) => (
-                    <>
-                      <span className='flex flex-wrap my-4'>
-                        <Typography variant='h6'>{index + 1}.</Typography>
+                    <div
+                      key={item.id}
+                      className='flex items-center border w-72 p-4 rounded-md'>
+                      <div className='flex-shrink-0'>
                         <img
-                          src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${item.uploadedImageUrl1}`}
+                          src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${item.uploadedImageUrl}`}
                           alt=''
-                          className='rounded-md mx-2'
                           style={{ maxHeight: '50px', maxWidth: '50px' }}
                         />
-                        <li
-                          className='py-1 flex-1 grid justify-between my-auto'
-                          key={item.id}>
-                          <Typography className='px-2' variant='h6'>
-                            {item.name}
-                          </Typography>
-                          <Typography className='px-2 bg-slate-300 rounded-sm' variant='h7'>
-                            ₦{Number(item.price).toLocaleString()}
-                          </Typography>
-                        </li>
-                        <span className='my-auto'>
-                          <Typography
-                            variant='h6'
-                            className=' cursor-pointer mx-2  '
-                            onClick={() => handleRemoveFromCart(item)}>
-                            ✖
-                          </Typography>{' '}
-                        </span>
-                      </span>
-                    </>
+                      </div>
+                      <div className='flex-grow ml-4'>
+                        <Typography variant='h6'>{item.name}</Typography>
+                        <Typography variant='p'>Size: {item.size}</Typography>
+                        <Typography
+                          className='text-slate-700'
+                          variant='subtitle1'>
+                          ₦{Number(item.price).toLocaleString()}
+                        </Typography>
+                      </div>
+                      <div className='flex-shrink-0'>
+                        <Typography
+                          variant='h6'
+                          className='cursor-pointer'
+                          onClick={() => handleRemoveFromCart(item)}>
+                          ✖
+                        </Typography>
+                      </div>
+                    </div>
                   ))}
-                  <div className='grid justify-center pt-10'>
-                    <Typography variant='p' className='py-2 font-medium'>
-                      Total Price: {formattedTotalPrice}
-                    </Typography>
-                    <ThemeButton
-                      linkSrc={message}
-                      variant='outlined'
-                      className='normal'>
-                      Checkout Now
-                    </ThemeButton>
-                    <span className='pt-5 text-center'>
-                      <Typography variant='p' className='text-green-600'>
-                        You will be redirected to Whatsapp with your cart.
-                      </Typography>
-                    </span>
-                  </div>
-                </ul>
+                </div>
               ) : (
-                <Typography variant='h6'>Cart is Empty 😥</Typography>
+                <div className='flex flex-col items-center'>
+                  <Typography variant='h6' className='mb-4'>
+                    Cart is Empty 😥
+                  </Typography>
+                  <ThemeButton
+                    linkSrc='/'
+                    variant='outlined'
+                    className='normal'>
+                    Return Home
+                  </ThemeButton>
+                </div>
               )}
             </>
           ) : (
@@ -137,6 +139,88 @@ Total Price: ${formattedTotalPrice}
             </>
           )}
         </Paper>
+
+        {/* Checkout Section */}
+        <div className='flex flex-col bg-white p-10 m-5'>
+          <div className='grid gap-4 mb-4'>
+            <Typography variant='h5' className='text-gray-700 mb-2'>
+              Checkout
+            </Typography>
+            {/* Standard Delivery Form */}
+            <form className='grid gap-2 md:w-96'>
+              <div className='grid gap-2'>
+                <label className='text-gray-700'>Full Name</label>
+                <input
+                  type='text'
+                  placeholder='John Doe'
+                  className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                  value={formData.fullName}
+                  onChange={(e) =>
+                    handleInputChange('fullName', e.target.value)
+                  }
+                />
+              </div>
+              <div className='grid gap-2'>
+                <label className='text-gray-700'>Email Address</label>
+                <input
+                  type='email'
+                  placeholder='JohnDoe@example.com'
+                  className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                />
+              </div>
+              <div className='grid gap-2'>
+                <label className='text-gray-700'>Address</label>
+                <textarea
+                  placeholder='123 Main Street, City, Country'
+                  className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                  value={formData.address}
+                  onChange={(e) => handleInputChange('address', e.target.value)}
+                />
+              </div>
+              <div className='grid gap-2'>
+                <label className='text-gray-700'>Phone Number</label>
+                <input
+                  type='tel'
+                  placeholder='123-456-7890'
+                  className={`border border-gray-300 px-3 py-2 w-full rounded-md`}
+                  value={formData.phoneNumber}
+                  onChange={(e) =>
+                    handleInputChange('phoneNumber', e.target.value)
+                  }
+                />
+              </div>
+              <div className='grid gap-2'>
+                <label className='text-gray-700'>Note</label>
+                <textarea
+                  placeholder='Add any additional notes...'
+                  className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                  value={formData.note}
+                  onChange={(e) => handleInputChange('note', e.target.value)}
+                />
+              </div>
+            </form>
+            <Typography
+              variant='h6'
+              className='py-2 font-medium text-slate-800'>
+              Total Price: {formattedTotalPrice}
+            </Typography>
+            {/* Paystack Checkout Button */}
+            <PaystackButton {...componentProps}>
+              <div className='border-2 border-green-600 text-green-700'>
+                <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
+                Checkout Now
+              </div>
+            </PaystackButton>
+          </div>
+
+          <span className='text-center'>
+            <Typography variant='p' className='text-green-700'>
+              Your order receipt will be emailed to you.
+            </Typography>
+          </span>
+        </div>
       </div>
     </div>
   )
