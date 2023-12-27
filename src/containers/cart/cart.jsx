@@ -3,13 +3,14 @@
 
 // Import necessary modules
 import React, { useState } from 'react'
-import { PaystackButton } from 'react-paystack'
+import { usePaystackPayment } from 'react-paystack'
 import { SecondaryNav } from '../../components/UI'
 import { ThemeButton } from '../../components/Buttons'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
+import { Button } from '@mui/material'
 
 const Cart = () => {
   const { cart, cartDispatch, addedState } = useCart()
@@ -21,6 +22,12 @@ const Cart = () => {
     note: '',
   })
 
+  const isDisabled =
+    !formData.fullName ||
+    !formData.email ||
+    !formData.address ||
+    !formData.phoneNumber
+
   const totalPrice = cart.reduce((total, item) => {
     const itemPrice = parseFloat(String(item.price)?.replace(/,/g, '')) || 0
     return total + itemPrice
@@ -31,31 +38,24 @@ const Cart = () => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
   // Paystack Configuration
-  const paystackConfig = {
+  const config = {
     reference: new Date().getTime().toString(),
     email: 'user@example.com',
     amount: totalPrice * 100, // Convert to kobo
     publicKey: 'pk_test_990b84e62bcd13690d07272f933a2080b195ce10',
   }
 
-  // Paystack success callback
-  const handlePaystackSuccessAction = (reference) => {
+  const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
     console.log(reference)
-    
   }
 
-  // Paystack close callback
-  const handlePaystackCloseAction = () => {
+  const onClose = () => {
     // Implementation for whatever you want to do when the Paystack dialog is closed.
     console.log('closed')
   }
 
-  const componentProps = {
-    ...paystackConfig,
-    onSuccess: (reference) => handlePaystackSuccessAction(reference),
-    onClose: handlePaystackCloseAction,
-  }
+  const initializePayment = usePaystackPayment(config)
 
   const handleRemoveFromCart = (item) => {
     cartDispatch({ type: 'REMOVE_FROM_CART', payload: item })
@@ -207,14 +207,21 @@ const Cart = () => {
               Total Price: {formattedTotalPrice}
             </Typography>
             {/* Paystack Checkout Button */}
-            <PaystackButton {...componentProps}>
-              <div className='border-2 border-green-600 text-green-700'>
-                <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
-                Checkout Now
-              </div>
-            </PaystackButton>
+            <Button
+              size='medium'
+              color='primary'
+              variant='outlined'
+              color='success'
+              onClick={() => {
+                if (!isDisabled) {
+                  initializePayment(onSuccess, onClose)
+                }
+              }}
+              disabled={isDisabled}>
+              <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
+              Checkout Now
+            </Button>
           </div>
-
           <span className='text-center'>
             <Typography variant='p' className='text-green-700'>
               Your order receipt will be emailed to you.
