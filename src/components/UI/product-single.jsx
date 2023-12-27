@@ -6,14 +6,18 @@ import Button from '@mui/material/Button'
 import { useCart } from '../../containers/common/Provider/cartProvider'
 import { useSearchParams } from 'next/navigation'
 import { ProductImages } from '.'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const ProductSingle = () => {
+  const router = useRouter()
+
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
   const name = searchParams.get('name')
   const alt = searchParams.get('alt')
   const uploadedImageUrls = searchParams.getAll('uploadedImageUrls')
- const sizes = searchParams.getAll('size')
+  const sizes = searchParams.getAll('size')
   const price = searchParams.get('price')
   const description = searchParams.get('description')
   const cartLinkSrc = searchParams.get('cartLinkSrc')
@@ -23,36 +27,52 @@ const ProductSingle = () => {
 
   const isAdded = addedState[id]
 
- const handleAddToCart = () => {
-   if (!isAdded) {
-     cartDispatch({
-       type: 'ADD_TO_CART',
-       payload: { id, price, name, size, uploadedImageUrl1 },
-     })
-     addedState[id] = true
-   }
- }
+  const [errorMessage, setErrorMessage] = useState('')
+  const [selectedSize, setSelectedSize] = useState('')
 
- const formatCartForWhatsApp = () => {
-   return `${description} size:${sizes} - ₦${Number(price).toLocaleString()}\n`
- }
+  const handleSizeClick = (size) => {
+    setSelectedSize(size)
+    setErrorMessage('')
+  }
 
- const phoneNumber = '+2348155151818' // Replace with the desired phone number
- const message = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-   `
---//  SEND PAYMENT SLIP TO CONFIRM ORDER  //--
+  const handleAddToCart = () => {
+    if (!isAdded && selectedSize) {
+      cartDispatch({
+        type: 'ADD_TO_CART',
+        payload: {
+          id,
+          price,
+          name,
+          size: selectedSize,
+          uploadedImageUrl: uploadedImageUrls[0],
+        },
+      })
+      addedState[id] = true
+    } else {
+      setErrorMessage('Please select a size.')
+    }
+  }
 
-CHECKOUT MY CART:
-
-${formatCartForWhatsApp()}
-
-Total Price: ₦${Number(price).toLocaleString()}
-OrderID: ${id}
-
---//  KINDLY MAKE PAYMENT TO: 9165911020, OPAY, ADEGOROYE ADEIGBE SIJUADE  //--
-`
- )}`
-
+  const handleBuyNow = () => {
+    if (!isAdded && selectedSize) {
+      cartDispatch({
+        type: 'ADD_TO_CART',
+        payload: {
+          id,
+          price,
+          name,
+          size: selectedSize,
+          uploadedImageUrl: uploadedImageUrls[0],
+        },
+      })
+      addedState[id] = true
+    } else {
+      setErrorMessage('Please select a size.')
+    }
+    if (selectedSize) {
+      router.push('/cart')
+    }
+  }
 
   return (
     <>
@@ -80,12 +100,20 @@ OrderID: ${id}
               Size:
               <div className='flex flex-wrap gap-2'>
                 {sizes.map((singleSize, index) => (
-                  <span key={index} className='p-2 border-2 border-slate-300'>
+                  <button
+                    key={index}
+                    className={`p-2 border-2 border-slate-300 ${
+                      selectedSize === singleSize ? 'bg-gray-300' : ''
+                    }`}
+                    onClick={() => handleSizeClick(singleSize)}>
                     {singleSize}
-                  </span>
+                  </button>
                 ))}
               </div>
             </Typography>
+            {errorMessage && (
+              <span className='text-red-500'>{errorMessage}</span>
+            )}
             <Typography
               variant='subtitle1'
               color='text.secondary'
@@ -107,7 +135,7 @@ OrderID: ${id}
             </Typography>
             <span className='flex gap-5'>
               <Button
-                href={message}
+                onClick={handleBuyNow}
                 size='medium'
                 color='success'
                 variant='outlined'>
