@@ -74,7 +74,15 @@ const Cart = () => {
       <SecondaryNav />
       <div className='flex flex-wrap justify-center items-start'>
         {/* Cart Items */}
-        <Paper className='flex flex-col rounded-none items-center px-5 md:px-14 mx-5 my-10 py-5 border mr-5'>
+        <Paper
+          sx={{
+            borderRadius: '0',
+            width: '50%',
+            '@media (max-width: 600px)': {
+              width: '100%', // Change the width for screens smaller than 600px
+            },
+          }}
+          className='flex flex-col items-center px-5 md:px-14 mx-5 my-10 py-5 border mr-5'>
           <div className='mt-2 mb-5 text-center'>
             <Typography variant='h5' className='text-gray-700'>
               Shopping Cart
@@ -88,7 +96,7 @@ const Cart = () => {
                   {cart.map((item, index) => (
                     <div
                       key={item.id}
-                      className='flex items-center border w-72 p-4 rounded-md'>
+                      className='flex items-center border w-full p-4 rounded-md'>
                       <div className='flex-shrink-0'>
                         <img
                           src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${item.uploadedImageUrl}`}
@@ -118,8 +126,8 @@ const Cart = () => {
                 </div>
               ) : (
                 <div className='flex flex-col items-center'>
-                  <Typography variant='h6' className='mb-4'>
-                    Cart is Empty 😥
+                  <Typography variant='p' className='mb-4'>
+                    Cart is Empty
                   </Typography>
                   <ThemeButton
                     linkSrc='/'
@@ -132,7 +140,7 @@ const Cart = () => {
             </>
           ) : (
             <>
-              <Typography variant='h6'>Cart is Empty 😥</Typography>
+              <Typography variant='p'>Cart is Empty</Typography>
               <ThemeButton linkSrc='/' variant='outlined' className='normal'>
                 Return Home
               </ThemeButton>
