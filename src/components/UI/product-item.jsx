@@ -12,9 +12,7 @@ const ProductItem = ({
   id,
   name,
   alt,
-  uploadedImageUrl1,
-  uploadedImageUrl2,
-  uploadedImageUrl3,
+  uploadedImageUrls,
   size,
   price,
   linkSrc,
@@ -27,9 +25,7 @@ const ProductItem = ({
     id,
     name,
     alt,
-    uploadedImageUrl1,
-    uploadedImageUrl2,
-    uploadedImageUrl3,
+   uploadedImageUrls,
     size,
     price,
     linkSrc,
@@ -84,7 +80,7 @@ OrderID: ${id}
             <CardMedia
               component='img'
               className=' w-full h-72 hover:scale-105 transition-all'
-              image={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${uploadedImageUrl1}`}
+              image={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${uploadedImageUrls[0]}`}
               alt={alt}
             />
 

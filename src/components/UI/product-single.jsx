@@ -12,9 +12,7 @@ const ProductSingle = () => {
   const id = searchParams.get('id')
   const name = searchParams.get('name')
   const alt = searchParams.get('alt')
-  const uploadedImageUrl1 = searchParams.get('uploadedImageUrl1')
-  const uploadedImageUrl2 = searchParams.get('uploadedImageUrl2')
-  const uploadedImageUrl3 = searchParams.get('uploadedImageUrl3')
+  const uploadedImageUrls = searchParams.getAll('uploadedImageUrls')
  const sizes = searchParams.getAll('size')
   const price = searchParams.get('price')
   const description = searchParams.get('description')
@@ -61,11 +59,7 @@ OrderID: ${id}
       <section id={id} className='flex flex-wrap gap-10 justify-center px-5'>
         <div className='flex-1 xl:flex-initial lg:w-5/12 my-5'>
           <ProductImages
-            images={[
-              { src: uploadedImageUrl1, alt: alt },
-              { src: uploadedImageUrl2, alt: alt },
-              { src: uploadedImageUrl3, alt: alt },
-            ]}
+            images={uploadedImageUrls.map((src, index) => ({ src, alt }))}
           />
         </div>
         <div className=' my-auto flex-1  md:flex-initial'>
@@ -97,7 +91,11 @@ OrderID: ${id}
               color='text.secondary'
               className='text-slate-700'>
               Stock:{' '}
-              <span style={{ color: stock === 'In Stock' ? 'green' : 'red', fontWeight: '550' }}>
+              <span
+                style={{
+                  color: stock === 'In Stock' ? 'green' : 'red',
+                  fontWeight: '550',
+                }}>
                 {stock}
               </span>
             </Typography>
