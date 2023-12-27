@@ -8,7 +8,8 @@ const ProductImages = ({ images }) => {
       showArrows={true}
       infiniteLoop={true}
       swipeable={false}
-      className='border border-gray-200 bg-white'>
+      dynamicHeight={true}
+      thumbWidth={60}>
       {images.map((image, index) => (
         <div key={index}>
           <img
