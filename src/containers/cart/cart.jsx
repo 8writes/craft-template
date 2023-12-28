@@ -12,6 +12,9 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
 import { Button } from '@mui/material'
 import emailjs from 'emailjs-com'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+
 import { createClient } from '@supabase/supabase-js'
 
 // Set up Supabase client
@@ -22,6 +25,9 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const Cart = () => {
   // Cart context
   const { cart, cartDispatch, addedState } = useCart()
+
+  // State for order status
+  const [orderStatus, setOrderStatus] = useState(null)
 
   // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
@@ -67,12 +73,14 @@ const Cart = () => {
     clearCart()
     handleUploadForm()
     sendEmails()
+    setOrderStatus('Order successful')
   }
 
   // Close callback
   const onClose = () => {
     console.log('closed')
     clearCart()
+    setOrderStatus('failed to place order')
   }
 
   // Paystack payment initialization
@@ -127,6 +135,7 @@ const Cart = () => {
         cart: formattedOrderItems,
         reference_id: config.reference,
         message: `Thank you for your order! Your order reference: ${config.reference}`,
+        details: formData,
       }
 
       // Construct the WhatsApp link
@@ -370,6 +379,19 @@ const Cart = () => {
             </Typography>
           </span>
         </div>
+        {/* Order Status Alert */}
+        {orderStatus === 'success' && (
+          <Alert severity='success' className='fixed bottom-10 right-10'>
+            <AlertTitle>Order Successful!</AlertTitle>
+            Your order has been placed successfully.
+          </Alert>
+        )}
+        {orderStatus === 'failure' && (
+          <Alert severity='error' className='fixed bottom-10 right-10'>
+            <AlertTitle>Order Failed</AlertTitle>
+            There was an issue placing your order. Please try again.
+          </Alert>
+        )}
       </div>
     </div>
   )
