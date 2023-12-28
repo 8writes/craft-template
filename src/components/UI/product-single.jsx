@@ -41,6 +41,8 @@ const ProductSingle = () => {
     setErrorMessage('')
   }
 
+  const isOutOfStock = stock === 'Out of Stock'
+  
   // Handle adding the product to the cart
   const handleAddToCart = () => {
     if (!isAdded && selectedSize) {
@@ -118,14 +120,16 @@ const ProductSingle = () => {
               Size:
               <div className='flex flex-wrap gap-2'>
                 {sizes.map((singleSize, index) => (
-                  <button
+                  <Button
+                    variant='outlined'
                     key={index}
                     className={`p-2 border-2 border-slate-300 ${
-                      selectedSize === singleSize ? 'bg-gray-300' : ''
+                      selectedSize === singleSize ? 'bg-slate-300' : ''
                     }`}
-                    onClick={() => handleSizeClick(singleSize)}>
+                    onClick={() => handleSizeClick(singleSize)}
+                    disabled={isOutOfStock}>
                     {singleSize}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </Typography>
@@ -160,13 +164,14 @@ const ProductSingle = () => {
                 onClick={handleBuyNow}
                 size='medium'
                 color='success'
-                variant='outlined'>
+                variant='outlined'
+                disabled={isOutOfStock}>
                 Buy Now
               </Button>
               <Button
                 onClick={handleAddToCart}
                 href={cartLinkSrc}
-                disabled={isAdded}
+                disabled={isAdded || isOutOfStock}
                 size='medium'
                 color='primary'
                 variant='outlined'>
