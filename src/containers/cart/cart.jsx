@@ -12,26 +12,29 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
 import { Button } from '@mui/material'
 import emailjs from 'emailjs-com'
-
 import { createClient } from '@supabase/supabase-js'
 
+// Set up Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 const Cart = () => {
+  // Cart context
   const { cart, cartDispatch, addedState } = useCart()
 
+  // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
     const itemPrice = parseFloat(String(item.price)?.replace(/,/g, '')) || 0
     return total + itemPrice
   }, 0)
 
+  // Format total price for display
   const formattedTotalPrice = `₦${totalPrice
     .toFixed(0)
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
+  // Form state
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -41,14 +44,15 @@ const Cart = () => {
     price: formattedTotalPrice,
     status: 'Pending',
   })
-  
- const isDisabled =
-   !formData.fullName ||
-   !formData.email ||
-   !formData.address ||
-   !formData.phoneNumber
 
-  
+  // Check if form is incomplete
+  const isDisabled =
+    !formData.fullName ||
+    !formData.email ||
+    !formData.address ||
+    !formData.phoneNumber ||
+    cart.length === 0
+
   // Paystack Configuration
   const config = {
     reference: new Date().getTime().toString(),
@@ -57,77 +61,35 @@ const Cart = () => {
     publicKey: 'pk_test_990b84e62bcd13690d07272f933a2080b195ce10',
   }
 
+  // Success callback
   const onSuccess = (reference) => {
-    // Implementation for whatever you want to do with reference and after success call.
     console.log(reference)
     clearCart()
-    // Function to handle form data insertion
-    const handleUploadForm = async () => {
-      try {
-        const currentDate = new Date()
-        const date = currentDate.toISOString().split('T')[0]
-        const orderItems = cart.map((item) => {
-          return {
-            name: item.name,
-            size: item.size,
-            price: item.price,
-          }
-        })
-        // Perform data insertion into Supabase
-        const { data, error } = await supabase.from('royeshoesOrders').insert({
-          ...formData,
-          orderInfo: JSON.stringify(orderItems), // Add cart items to orderInfo column
-          orderDate: date, // Include the order date
-          reference: config.reference,
-        })
-
-        // Handle success or error
-        if (error) {
-          console.log(error.message)
-        } else {
-          console.log('success')
-        }
-      } catch (error) {
-        console.error('Error during data insertion:', error.message)
-        setFailed(error.message)
-      } finally {
-        // Additional cleanup or actions if needed
-        clearForm()
-      }
-    }
-
-    // Function to clear form fields
-    const clearForm = () => {
-      setFormData({
-        fullName: '',
-        email: '',
-        address: '',
-        phoneNumber: '',
-        note: '',
-      })
-    }
-    sendEmails()
     handleUploadForm()
+    sendEmails()
   }
 
+  // Close callback
   const onClose = () => {
-    // Implementation for whatever you want to do when the Paystack dialog is closed.
     console.log('closed')
     clearCart()
   }
 
+  // Paystack payment initialization
   const initializePayment = usePaystackPayment(config)
 
+  // Clear cart
   const clearCart = () => {
-    // Dispatch an action to clear the cart
     cartDispatch({ type: 'CLEAR_CART' })
   }
 
+  // Remove item from cart
   const handleRemoveFromCart = (item) => {
     cartDispatch({ type: 'REMOVE_FROM_CART', payload: item })
     addedState[item.id] = false
   }
 
+  // Handle input change in the form
   const handleInputChange = (field, value) => {
     setFormData({
       ...formData,
@@ -135,13 +97,13 @@ const Cart = () => {
     })
   }
 
-  const orderItems = cart.map((item) => {
-    return {
-      name: item.name,
-      size: item.size,
-      price: item.price,
-    }
-  })
+  // Create an array of order items for email
+  const orderItems = cart.map((item) => ({
+    name: item.name,
+    size: item.size,
+    price: item.price,
+  }))
+
   // Convert orderItems array to a formatted string
   const formattedOrderItems = orderItems
     .map(
@@ -155,6 +117,7 @@ const Cart = () => {
   // Function to send emails using emailjs
   const sendEmails = async () => {
     try {
+      // Email template parameters
       const templateParams = {
         to_email: formData.email,
         from_email: 'mailemmanuel00@gmail.com',
@@ -193,6 +156,51 @@ const Cart = () => {
     } catch (error) {
       console.error('Error sending emails:', error)
     }
+  }
+
+  // Function to handle form data insertion
+  const handleUploadForm = async () => {
+    try {
+      const currentDate = new Date()
+      const date = currentDate.toISOString().split('T')[0]
+
+      // Create order items array
+      const orderItems = cart.map((item) => ({
+        name: item.name,
+        size: item.size,
+        price: item.price,
+      }))
+
+      // Insert data into Supabase
+      const { data, error } = await supabase.from('royeshoesOrders').insert({
+        ...formData,
+        orderInfo: JSON.stringify(orderItems),
+        orderDate: date,
+        reference: config.reference,
+      })
+
+      if (error) {
+        console.log(error.message)
+      } else {
+        console.log('success')
+      }
+    } catch (error) {
+      console.error('Error during data insertion:', error.message)
+    } finally {
+      // Additional cleanup or actions if needed
+      clearForm()
+    }
+  }
+
+  // Function to clear form fields
+  const clearForm = () => {
+    setFormData({
+      fullName: '',
+      email: '',
+      address: '',
+      phoneNumber: '',
+      note: '',
+    })
   }
 
   return (
@@ -355,9 +363,10 @@ const Cart = () => {
               Checkout Now
             </Button>
           </div>
+          {/* Order receipt message */}
           <span className='text-center'>
             <Typography variant='p' className='text-green-700'>
-              Your order receipt will be emailed to you.
+              Order receipt will be sent to your email.
             </Typography>
           </span>
         </div>
