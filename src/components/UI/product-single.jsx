@@ -94,7 +94,7 @@ const ProductSingle = () => {
       {/* Product details section */}
       <section id={id} className='flex flex-wrap gap-10 justify-center px-5'>
         {/* Product images */}
-        <div className='flex-1 xl:flex-initial lg:w-5/12 my-5'>
+        <div className='flex lg:w-5/12 my-5'>
           <ProductImages
             images={uploadedImageUrls.map((src, index) => ({ src, alt }))}
           />

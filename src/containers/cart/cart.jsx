@@ -382,14 +382,13 @@ const Cart = () => {
         {/* Order Status Alert */}
         {orderStatus === 'success' && (
           <Alert severity='success' className='fixed bottom-10 right-10'>
-            <AlertTitle>Order Successful!</AlertTitle>
-            Your order has been placed successfully.
+            Order Successful! Your order has been placed successfully.
           </Alert>
         )}
         {orderStatus === 'failure' && (
           <Alert severity='error' className='fixed bottom-10 right-10'>
-            <AlertTitle>Order Failed</AlertTitle>
-            There was an issue placing your order. Please try again.
+            Order Failed There was an issue placing your order. Please try
+            again.
           </Alert>
         )}
       </div>
