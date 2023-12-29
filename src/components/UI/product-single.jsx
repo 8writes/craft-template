@@ -123,8 +123,10 @@ const ProductSingle = () => {
                   <button
                     variant='outlined'
                     key={index}
-                    className={`px-4 py-1 text-slate-800 border-2 border-slate-300 rounded-md ${
-                      selectedSize === singleSize ? ' border-2 border-green-500' : ''
+                    className={`px-4 py-1 text-slate-800 rounded-md ${
+                      selectedSize === singleSize
+                        ? ' border-2 border-green-500 bg-slate-100 '
+                        : 'border-2 border-slate-300'
                     }`}
                     onClick={() => handleSizeClick(singleSize)}
                     disabled={isOutOfStock}>
