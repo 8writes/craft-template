@@ -124,7 +124,7 @@ const ProductSingle = () => {
                     variant='outlined'
                     key={index}
                     className={`px-4 py-1 text-slate-800 border-2 border-slate-300 rounded-md ${
-                      selectedSize === singleSize ? 'border-green-300' : ''
+                      selectedSize === singleSize ? ' border-2 border-green-500' : ''
                     }`}
                     onClick={() => handleSizeClick(singleSize)}
                     disabled={isOutOfStock}>
