@@ -120,16 +120,16 @@ const ProductSingle = () => {
               Size:
               <div className='flex flex-wrap gap-2'>
                 {sizes.map((singleSize, index) => (
-                  <Button
+                  <button
                     variant='outlined'
                     key={index}
-                    className={`p-2 border-2 border-slate-300 ${
-                      selectedSize === singleSize ? 'bg-slate-300' : ''
+                    className={`px-4 py-1 text-slate-800 border-2 border-slate-300 rounded-md ${
+                      selectedSize === singleSize ? 'border-green-300' : ''
                     }`}
                     onClick={() => handleSizeClick(singleSize)}
                     disabled={isOutOfStock}>
                     {singleSize}
-                  </Button>
+                  </button>
                 ))}
               </div>
             </Typography>
