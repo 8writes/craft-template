@@ -9,13 +9,13 @@ const SecondaryNav = () => {
 
   return (
     <>
-      <div className='flex flex-wrap my-5 mx-5 md:mx-20 md:px-1 lg:mx-7 xl:mx-14 max-w-fit '>
+      <div className='flex flex-wrap mx-5 md:mx-20 md:px-1 lg:mx-7 xl:mx-14 max-w-fit '>
         <div className='w-full md:w-fit my-2'>
           <button
             onClick={goBack}
             className='text-black border font-Plus-Jakarta-Sans border-white flex gap-2 px-6 py-2 rounded-md '>
             <KeyboardBackspaceRoundedIcon />
-            Back
+            BACK
           </button>
         </div>
       </div>

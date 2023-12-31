@@ -1,13 +1,13 @@
 /** @format */
 
 import Paper from '@mui/material/Paper'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { useCart } from '../../containers/common/Provider/cartProvider'
 import { useSearchParams } from 'next/navigation'
 import { ProductImages } from '.'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Typography } from '@mui/material'
 
 const ProductSingle = () => {
   // Initialize Next.js router
@@ -94,19 +94,19 @@ const ProductSingle = () => {
       {/* Product details section */}
       <section id={id} className='flex flex-wrap gap-10 justify-center px-5'>
         {/* Product images */}
-        <div className='flex lg:w-5/12 my-5'>
+        <div className='flex max-w-sm md:w-5/12 md:max-w-xl my-5'>
           <ProductImages
             images={uploadedImageUrls.map((src, index) => ({ src, alt }))}
           />
         </div>
         {/* Product information */}
-        <div className=' my-auto flex-1  md:flex-initial'>
+        <div className='flex-1 max-w-xl md:flex-initial'>
           <Paper
-           elevation={0}
-            className='grid gap-5 px-3 py-5 sm:px-20 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
+            elevation={0}
+            className='grid gap-5 px-3 py-5 sm:px-10 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
             {/* Product name */}
             <Typography
-              className='text-gray-800'
+              sx={{ textTransform: 'uppercase' }}
               gutterBottom
               variant='h5'
               component='div'>
@@ -121,9 +121,8 @@ const ProductSingle = () => {
               <div className='flex flex-wrap gap-2'>
                 {sizes.map((singleSize, index) => (
                   <button
-                    variant='outlined'
                     key={index}
-                    className={`px-4 py-1 text-slate-800 ${
+                    className={`px-4 py-1 text-slate-800 uppercase ${
                       selectedSize === singleSize
                         ? ' border-2 border-green-500 '
                         : 'border-2 border-slate-300'
@@ -144,14 +143,16 @@ const ProductSingle = () => {
               variant='subtitle1'
               color='text.secondary'
               className='text-slate-700'>
-              Stock:{' '}
-              <span
-                style={{
-                  color: stock === 'In Stock' ? 'green' : 'red',
-                  fontWeight: '550',
-                }}>
-                {stock}
-              </span>
+              Stock:
+              <div className='uppercase'>
+                <span
+                  style={{
+                    color: stock === 'In Stock' ? 'green' : 'red',
+                    fontWeight: '550',
+                  }}>
+                  {stock}
+                </span>
+              </div>
             </Typography>
             {/* Product price */}
             <Typography
@@ -164,6 +165,7 @@ const ProductSingle = () => {
             <span className='flex gap-5'>
               <Button
                 onClick={handleBuyNow}
+                sx={{ borderRadius: '0px' }}
                 size='medium'
                 color='success'
                 variant='outlined'
@@ -171,6 +173,7 @@ const ProductSingle = () => {
                 Buy Now
               </Button>
               <Button
+                sx={{ borderRadius: '0px' }}
                 onClick={handleAddToCart}
                 href={cartLinkSrc}
                 disabled={isAdded || isOutOfStock}
@@ -181,12 +184,14 @@ const ProductSingle = () => {
               </Button>
             </span>
             {/* Product description */}
-            <Typography variant='p' className=' font-medium'>
-              <span className='text-slate-700 text-lg'>
+            <Typography
+              variant='p'
+              sx={{ my: '10px' }}>
+              <span className='uppercase text-base font-medium'>
                 Product Description:
               </span>{' '}
               <br />
-              {description}
+              <Typography variant='body1'>{description}</Typography>
             </Typography>
           </Paper>
         </div>

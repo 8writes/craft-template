@@ -4,7 +4,7 @@ import { ProductSingle, SecondaryNav } from "@/components/UI";
 const ProductInfo = () => {
   return (
     <>
-      <section className='bg-white grid py-24'>
+      <section className='bg-white grid py-20'>
         <SecondaryNav />
         <div>
           <ProductSingle />
