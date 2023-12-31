@@ -44,7 +44,7 @@ const ProductItem = ({
           <CardActionArea>
             <CardMedia
               component='img'
-              className='w-48 h-40  lg:w-full lg:h-72 hover:scale-105 transition-all'
+              className='w-48 h-40  md:w-full lg:h-72 hover:scale-105 transition-all'
               image={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${uploadedImageUrls[0]}`}
               alt={alt}
             />

@@ -6,7 +6,7 @@ export default function Page() {
 
   return (
     <Template showHeader={true} showFooter={true}>
-      <main className='bg-white pt-36 min-h-screen'>
+      <main className='bg-white pt-20 md:pt-32 min-h-screen'>
         <Products />
       </main>
     </Template>
