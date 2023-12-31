@@ -31,7 +31,7 @@ const Products = () => {
         {products.length === 0 ? (
           <div className='text-center my-10'>
             <Typography variant='h4' className='text-gray-700'>
-              {products ? <>Loading...</> : <>No products yet.</>}
+              {products.length === 0 ? ( <>Loading...</>) : ( <>Loading...</>)}
             </Typography>
           </div>
         ) : (

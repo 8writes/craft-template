@@ -49,14 +49,12 @@ const ProductItem = ({
               alt={alt}
             />
           </CardActionArea>
-          <CardContent>
-            <p
-              className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2'
-            >
+          <CardContent sx={{pl: 0}}>
+            <p className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2 uppercase'>
               {name}
             </p>
-            <div className='flex justify-end'>
-              <h6 className='my-auto  px-2 font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
+            <div>
+              <h6 className='my-auto font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
                 ₦{Number(price).toLocaleString()}
               </h6>
             </div>
