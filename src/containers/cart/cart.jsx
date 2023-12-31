@@ -249,10 +249,13 @@ const Cart = () => {
                         />
                       </div>
                       <div className='flex-grow ml-4'>
-                        <Typography variant='h6'>{item.name}</Typography>
-                        <Typography variant='p'>Size: {item.size}</Typography>
                         <Typography
-                          className='text-slate-700'
+                          variant='h6'
+                          sx={{ textTransform: 'uppercase' }}>
+                          {item.name}
+                        </Typography>
+                        <Typography variant='p'>Size: <span className='uppercase'>{item.size}</span> </Typography>
+                        <Typography
                           variant='subtitle1'>
                           ₦{Number(item.price).toLocaleString()}
                         </Typography>
@@ -270,24 +273,25 @@ const Cart = () => {
                 </div>
               ) : (
                 <div className='flex flex-col items-center'>
-                  <Typography variant='p' className='mb-4'>
-                    Cart is Empty
-                  </Typography>
-                  <ThemeButton
-                    linkSrc='/'
+                  <Typography variant='body1'>Cart is Empty</Typography>
+                  <Button
+                    href='/'
                     variant='outlined'
-                    className='normal'>
+                    sx={{ borderRadius: '0px', my: '5px' }}>
                     Return Home
-                  </ThemeButton>
+                  </Button>
                 </div>
               )}
             </>
           ) : (
             <>
               <Typography variant='p'>Cart is Empty</Typography>
-              <ThemeButton linkSrc='/' variant='outlined' className='normal'>
+              <Button
+                href='/'
+                variant='outlined'
+                sx={{ borderRadius: '0px' }}>
                 Return Home
-              </ThemeButton>
+              </Button>
             </>
           )}
         </Paper>
