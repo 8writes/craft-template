@@ -36,7 +36,7 @@ const ProductItem = ({
 
   return (
     <div>
-      <Card variant='outlined' className='border-4 border-white'>
+      <Card elevation={0}>
         <Link
           href={{
             pathname: 'product-info',
