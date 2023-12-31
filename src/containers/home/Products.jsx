@@ -27,7 +27,7 @@ const Products = () => {
 
   return (
     <>
-      <section className=' md:px-10'>
+      <section className=' px-1 md:px-10'>
         {!products && (
             <div className='text-center my-10'>
           <Typography variant='h5' className='text-gray-700'>

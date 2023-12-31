@@ -103,7 +103,7 @@ const ProductSingle = () => {
         <div className='flex-1 max-w-sm md:flex-initial'>
           <Paper
             elevation={0}
-            className='grid gap-5 px-3 py-5 sm:px-10 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
+            className='grid gap-5 px-3 sm:px-10 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
             {/* Product name */}
             <Typography
               sx={{ textTransform: 'uppercase' }}
