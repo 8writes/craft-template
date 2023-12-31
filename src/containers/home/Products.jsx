@@ -2,19 +2,20 @@
 
 'use client'
 // Imports
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { ProductItem } from '@/components/UI'
 import Typography from '@mui/material/Typography'
 import { usePage } from '../common/Provider/pageProvider'
 import { useData } from '../common/Provider/dataProvider'
+import { useSort } from '../common/Provider/sortProvider'
 
 const Products = () => {
   // States
   const { currentPage, setCurrentPage } = usePage()
   const { products } = useData()
-
-  const [sortOption, setSortOption] = useState('newest')
+  const { sortOption, setSortOption } = useSort()
+  
 
   // Sorting options
   const sortFunctions = {
@@ -40,6 +41,7 @@ const Products = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber)
   }
+
 
   return (
     <>
