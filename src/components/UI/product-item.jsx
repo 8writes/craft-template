@@ -53,12 +53,12 @@ const ProductItem = ({
             <p className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2 uppercase'>
               {name}
             </p>
-            <div className='flex justify-between items-center'>
+            <div className='flex justify-between gap-5'>
               <h6 className='my-auto font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
                 ₦{Number(price).toLocaleString()}
               </h6>
               {stock === 'Out of Stock' && (
-                <p className='my-auto  font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2 uppercase'>
+                <p className='my-auto font-Plus-Jakarta-Sans text-sm lg:text-xl text-red-700 pb-2 uppercase'>
                   {stock}
                 </p>
               )}
