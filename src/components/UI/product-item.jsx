@@ -54,7 +54,6 @@ const ProductItem = ({
             <Typography
               className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2'
               gutterBottom
-              variant='h5'
               component='div'>
               {name}
             </Typography>
