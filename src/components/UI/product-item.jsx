@@ -36,36 +36,35 @@ const ProductItem = ({
 
   return (
     <div>
-      <Card className=' rounded-lg border-2 border-white'>
-        <CardActionArea>
-          <Link
-            href={{
-              pathname: 'product-info',
-              query: queryParams,
-            }}>
+      <Card variant='outlined' className='border-4 border-white'>
+        <Link
+          href={{
+            pathname: 'product-info',
+            query: queryParams,
+          }}>
+          <CardActionArea>
             <CardMedia
               component='img'
-              className=' w-full h-72 hover:scale-105 transition-all'
+              className='w-48 h-40  lg:w-full lg:h-72 hover:scale-105 transition-all'
               image={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${uploadedImageUrls[0]}`}
               alt={alt}
             />
-
-            <CardContent>
-              <Typography
-                className='font-Plus-Jakarta-Sans text-slate-700 pb-2'
-                gutterBottom
-                variant='h5'
-                component='div'>
-                {name}
-              </Typography>
-              <div className='flex justify-end'>
-                <h6 className='my-auto bg-gray-100 rounded-md  px-2 font-Plus-Jakarta-Sans text-2xl font-medium md:text-1xl text-gray-800'>
-                  ₦{Number(price).toLocaleString()}
-                </h6>
-              </div>
-            </CardContent>
-          </Link>
-        </CardActionArea>
+          </CardActionArea>
+          <CardContent>
+            <Typography
+              className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2'
+              gutterBottom
+              variant='h5'
+              component='div'>
+              {name}
+            </Typography>
+            <div className='flex justify-end'>
+              <h6 className='my-auto  px-2 font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
+                ₦{Number(price).toLocaleString()}
+              </h6>
+            </div>
+          </CardContent>
+        </Link>
       </Card>
     </div>
   )

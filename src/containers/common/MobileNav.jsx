@@ -12,7 +12,7 @@ const MobileNavbar = () => {
 
   return (
     <>
-      <section className='flex md:hidden justify-between p-5 bg-gray-100 fixed w-full z-50 shadow-xl shadow-slate-500/40'>
+      <section className='flex md:hidden justify-between p-5 bg-white fixed w-full z-50'>
         <div className='flex justify-between'>
           <Logo />
         </div>

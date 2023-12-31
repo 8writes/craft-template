@@ -13,18 +13,18 @@ const Navbar = () => {
 
   return (
     <>
-      <section className='hidden md:block bg-gray-100 fixed w-full z-50 shadow-lg shadow-slate-10'>
+      <section className='hidden md:block bg-white fixed w-full z-50'>
         <div className='flex justify-between p-5 md:p-7'>
           <Logo />
           <div className='flex items-center text-slate-700 gap-4 mx-10'>
             <Link
-              className='flex hover:text-slate-500 items-center'
+              className='flex items-center'
               href='cart'>
               <Image src={Cart} alt='' width='30' height='30' />
               <Typography
-                className=' text-lg text-slate-800 hover:text-slate-600'
+                className=' text-lg text-slate-800 font-medium hover:text-slate-900'
                 variant='subtitle1'>
-                Shopping Cart
+                CART
               </Typography>
             </Link>
             <Typography

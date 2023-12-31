@@ -13,7 +13,7 @@ const SecondaryNav = () => {
         <div className='w-full md:w-fit my-2'>
           <button
             onClick={goBack}
-            className='text-white border font-Plus-Jakarta-Sans border-white flex gap-2 px-6 py-2 rounded-md '>
+            className='text-black border font-Plus-Jakarta-Sans border-white flex gap-2 px-6 py-2 rounded-md '>
             <KeyboardBackspaceRoundedIcon />
             Back
           </button>

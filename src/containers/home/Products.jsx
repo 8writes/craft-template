@@ -27,17 +27,17 @@ const Products = () => {
 
   return (
     <>
-      <section className='px-5 md:px-10'>
+      <section className=' md:px-10'>
         {products.length === 0 ? (
           <div className='text-center my-10'>
             <Typography variant='h4' className='text-gray-700'>
-              No products yet.
+              {products ? <>Loading...</> : <>No products yet.</>}
             </Typography>
           </div>
         ) : (
-          <div className='flex mx-auto justify-center gap-14 flex-wrap'>
+          <div className='flex mx-auto justify-center gap-5 md:gap-20 flex-wrap '>
             {currentItems.map((product, index) => (
-              <div key={index} className='flex-initial md:w-64 xl:w-80 '>
+              <div key={index} className='flex-initial w-40 md:w-64 xl:w-80 '>
                 <ProductItem {...product} />
               </div>
             ))}
@@ -54,8 +54,8 @@ const Products = () => {
                   variant='h6'
                   className={
                     index + 1 === currentPage
-                      ? 'border-2 border-slate-100 rounded-sm  font-bold  px-3 text-white'
-                      : 'font-bold px-3 text-white'
+                      ? 'border-2 border-slate-100 rounded-sm  font-bold  px-3 text-black'
+                      : 'font-bold px-3 text-black'
                   }
                   gutterBottom>
                   {index + 1}

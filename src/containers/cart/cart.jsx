@@ -213,11 +213,12 @@ const Cart = () => {
   }
 
   return (
-    <div className='pt-24 bg-slate-800 min-h-screen'>
+    <div className='pt-24 bg-white min-h-screen'>
       <SecondaryNav />
       <div className='flex flex-wrap justify-center items-start'>
         {/* Cart Items */}
         <Paper
+          variant='outlined'
           sx={{
             borderRadius: '0',
             width: '50%',

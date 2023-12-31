@@ -102,8 +102,8 @@ const ProductSingle = () => {
         {/* Product information */}
         <div className=' my-auto flex-1  md:flex-initial'>
           <Paper
-            elevation={3}
-            className='grid gap-5 border-4 border-white px-3 py-5 sm:px-20 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
+            variant='outlined'
+            className='grid gap-5 border-2 border-white px-3 py-5 sm:px-20 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
             {/* Product name */}
             <Typography
               className='text-gray-800'
@@ -123,9 +123,9 @@ const ProductSingle = () => {
                   <button
                     variant='outlined'
                     key={index}
-                    className={`px-4 py-1 text-slate-800 rounded-md ${
+                    className={`px-4 py-1 text-slate-800 ${
                       selectedSize === singleSize
-                        ? ' border-2 border-green-500 bg-slate-100 '
+                        ? ' border-2 border-green-500 '
                         : 'border-2 border-slate-300'
                     }`}
                     onClick={() => handleSizeClick(singleSize)}
@@ -155,7 +155,7 @@ const ProductSingle = () => {
             </Typography>
             {/* Product price */}
             <Typography
-              className='text-gray-800 rounded-sm px-1 bg-slate-200'
+              className='text-gray-800 px-1 '
               variant='h5'
               component='div'>
               ₦{Number(price).toLocaleString()}
