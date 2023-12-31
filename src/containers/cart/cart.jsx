@@ -183,9 +183,12 @@ const Cart = () => {
       // Insert data into Supabase
       const { data, error } = await supabase.from('royeshoesOrders').insert({
         ...formData,
-        orderInfo: JSON.stringify(orderItems),
         orderDate: date,
         reference: config.reference,
+        name: orderItems.name,
+        note: formData.note,
+        size: orderItems.size,
+        price: orderItems.price,
       })
 
       if (error) {
