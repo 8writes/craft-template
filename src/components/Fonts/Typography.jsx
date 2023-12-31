@@ -10,7 +10,7 @@ const Typography = ({ variant, children }) => {
       break;
     case "h2":
       className =
-        "font-Plus-Jakarta-Sans   text-2xl md:text-[2rem] font-bold md:leading-tight";
+        "font-Plus-Jakarta-Sans uppercase text-2xl md:text-[2rem] font-bold md:leading-tight";
       break;
     case "p":
       className =

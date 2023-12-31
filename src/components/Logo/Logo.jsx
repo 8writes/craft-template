@@ -1,17 +1,14 @@
-import { Typography } from "@mui/material";
 import Link from "next/link";
+import Typography from "../Fonts/Typography";
 
 const Logo = () => {
   return (
     <>
-      <Link href='/' className='text-gray-700 grid'>
-        <Typography variant='h4'
-          sx={{ textTransform: 'uppercase' }}>
-          Storex
-        </Typography>
+      <Link href="/" className="text-gray-700 grid">
+        <Typography variant="h2">craft</Typography>
       </Link>
     </>
-  )
+  );
 };
 
 export default Logo;
