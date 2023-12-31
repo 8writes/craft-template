@@ -102,8 +102,8 @@ const ProductSingle = () => {
         {/* Product information */}
         <div className=' my-auto flex-1  md:flex-initial'>
           <Paper
-            variant='outlined'
-            className='grid gap-5 border-2 border-white px-3 py-5 sm:px-20 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
+           elevation={0}
+            className='grid gap-5 px-3 py-5 sm:px-20 md:py-5 lg:px-5 lg:py-5 lg:w-96'>
             {/* Product name */}
             <Typography
               className='text-gray-800'
