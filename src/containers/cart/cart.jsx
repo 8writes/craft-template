@@ -28,8 +28,6 @@ const Cart = () => {
 
   // State for order status
   const [orderStatus, setOrderStatus] = useState(null)
-  
-  const [orderItemsArray, setOrderItemsArray] = useState([])
 
   // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
@@ -74,7 +72,7 @@ const Cart = () => {
     console.log(reference)
     clearCart()
     handleUploadForm()
-    sendEmails()
+   // sendEmails()
     setOrderStatus('Order successful')
   }
 
@@ -174,20 +172,22 @@ const Cart = () => {
     try {
       const currentDate = new Date()
       const date = currentDate.toISOString().split('T')[0]
-
-      // Create order items array
-      const orderItems = cart.map((item) => ({
+      // Extract relevant information from cart items
+      const orderInfo = cart.map((item) => ({
         name: item.name,
         size: item.size,
         price: item.price,
       }))
 
-      setOrderItemsArray(orderItems)
+      console.log('orderInfo:', orderInfo)
+
+      // Convert orderInfo array to JSON string
+      const orderInfoString = JSON.stringify(orderInfo)
 
       // Insert data into Supabase
       const { data, error } = await supabase.from('royeshoesOrders').insert({
         ...formData,
-        orderInfo: orderItemsArray,
+        order_info: orderInfoString,
         orderDate: date,
         reference: config.reference,
       })
@@ -199,7 +199,7 @@ const Cart = () => {
       }
     } catch (error) {
       console.error('Error during data insertion:', error.message)
-    } finally {
+    } finally {   
       // Additional cleanup or actions if needed
       clearForm()
     }
