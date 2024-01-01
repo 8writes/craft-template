@@ -1,32 +1,63 @@
 /** @format */
-
 'use client'
 // Imports
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ProductItem } from '@/components/UI'
 import Typography from '@mui/material/Typography'
-import { usePage } from '../common/Provider/pageProvider'
-import { useData } from '../common/Provider/dataProvider'
-import { useSort } from '../common/Provider/sortProvider'
+
+import { createClient } from '@supabase/supabase-js'
+import { useSwipeable } from 'react-swipeable'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 const Products = () => {
   // States
-  const { currentPage, setCurrentPage } = usePage()
-  const { products } = useData()
-  const { sortOption, setSortOption } = useSort()
-  
+  const [products, setProducts] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [sortOption, setSortOption] = useState('newest')
 
+   useEffect(() => {
+     const fetchData = async () => {
+       try {
+         const { data, error } = await supabase.from('royeshoes').select()
+
+         if (error) {
+           console.log('An error occurred', error)
+         }
+
+         // Update the id field with sequential count and add image URL
+         const updatedProducts = data.map((item) => ({
+           ...item,
+           image: item.uploadedImageUrl1,
+         }))
+
+         setProducts(updatedProducts)
+       } catch (error) {
+         console.error('Error fetching data:', error.message)
+       }
+     }
+
+     fetchData()
+
+     // Cleanup function to avoid memory leaks
+     return () => {
+       setProducts([])
+     }
+   }, [])
+  
   // Sorting options
   const sortFunctions = {
     newest: (a, b) => new Date(b.created_at) - new Date(a.created_at),
     priceLow: (a, b) => a.price - b.price,
     priceHigh: (a, b) => b.price - a.price,
     availability: (a, b) => {
-      // Use 'Stock' value directly for sorting
-      if (a.stock === 'In Stock' && b.stock !== 'In Stock') return -1 // In Stock comes first
-      if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1 // Out of Stock comes second
-      return 0 // No change if both have the same availability status
+      if (a.stock === 'In Stock' && b.stock !== 'In Stock') return -1
+      if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1
+      return 0
     },
   }
 
@@ -42,9 +73,19 @@ const Products = () => {
     setCurrentPage(pageNumber)
   }
 
+   const handlers = useSwipeable({
+     onSwipedDown: async (eventData) => {
+       await fetchData()
+     },
+     preventDefaultTouchmoveEvent: true,
+     trackMouse: true,
+     delta: 50,
+     rotationAngle: 0,
+     threshold: 0.1,
+   })
 
   return (
-    <>
+    <div {...handlers}>
       {/* Sorting options */}
       <div className='flex justify-end  mb-10 mx-5 md:mx-24'>
         <label className='mr-2 font-semibold text-slate-700'>Sort by:</label>
@@ -62,14 +103,14 @@ const Products = () => {
       </div>
 
       <section className='px-1 md:px-10'>
-        {!sortedProducts && (
+        {!products && (
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
               No products found
             </Typography>
           </div>
         )}
-        {sortedProducts.length === 0 ? (
+        {products.length === 0 ? (
           <div className='text-center my-10'>
             <Typography variant='h4' className='text-gray-700'>
               Loading products...
@@ -107,7 +148,7 @@ const Products = () => {
           </button>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 
