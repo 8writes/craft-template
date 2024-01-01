@@ -28,6 +28,8 @@ const Cart = () => {
 
   // State for order status
   const [orderStatus, setOrderStatus] = useState(null)
+  
+  const [orderItemsArray, setOrderItemsArray] = useState([])
 
   // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
@@ -180,15 +182,14 @@ const Cart = () => {
         price: item.price,
       }))
 
+      setOrderItemsArray(orderItems)
+
       // Insert data into Supabase
       const { data, error } = await supabase.from('royeshoesOrders').insert({
         ...formData,
+        orderInfo: orderItemsArray,
         orderDate: date,
         reference: config.reference,
-        name: orderItems.name,
-        note: formData.note,
-        size: orderItems.size,
-        price: orderItems.price,
       })
 
       if (error) {
