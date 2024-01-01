@@ -72,7 +72,7 @@ const Cart = () => {
     console.log(reference)
     clearCart()
     handleUploadForm()
-   // sendEmails()
+  //  sendEmails()
     setOrderStatus('Order successful')
   }
 
@@ -172,22 +172,18 @@ const Cart = () => {
     try {
       const currentDate = new Date()
       const date = currentDate.toISOString().split('T')[0]
-      // Extract relevant information from cart items
-      const orderInfo = cart.map((item) => ({
+
+      // Create order items array
+      const orderItems = cart.map((item) => ({
         name: item.name,
         size: item.size,
         price: item.price,
       }))
 
-      console.log('orderInfo:', orderInfo)
-
-      // Convert orderInfo array to JSON string
-      const orderInfoString = JSON.stringify(orderInfo)
-
       // Insert data into Supabase
       const { data, error } = await supabase.from('royeshoesOrders').insert({
         ...formData,
-        order_info: orderInfoString,
+        orderInfo: JSON.stringify(orderItems),
         orderDate: date,
         reference: config.reference,
       })
@@ -195,11 +191,11 @@ const Cart = () => {
       if (error) {
         console.log(error.message)
       } else {
-        console.log('success')
+        console.log('upload successful')
       }
     } catch (error) {
       console.error('Error during data insertion:', error.message)
-    } finally {   
+    } finally {
       // Additional cleanup or actions if needed
       clearForm()
     }
