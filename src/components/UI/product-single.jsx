@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { ProductImages } from '.'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Typography } from '@mui/material'
+import { Alert, Grid, Typography } from '@mui/material'
 
 const ProductSingle = () => {
   // Initialize Next.js router
@@ -30,6 +30,9 @@ const ProductSingle = () => {
 
   // Check if the product is already added to the cart
   const isAdded = addedState[id]
+
+  const [success, setSuccess] = useState('')
+  const [failed, setFailed] = useState('')
 
   // State for selected size and error message
   const [errorMessage, setErrorMessage] = useState('')
@@ -59,9 +62,14 @@ const ProductSingle = () => {
       })
       // Update the added state
       addedState[id] = true
+      setSuccess('Item added to cart')
     } else {
       setErrorMessage('Please select a size.')
     }
+    // Reset success and failure after a delay
+    setTimeout(() => {
+      setSuccess('')
+    }, 2000)
   }
 
   // Handle buying the product
@@ -91,6 +99,36 @@ const ProductSingle = () => {
 
   return (
     <>
+      {success && (
+        <Grid
+          item
+          xs={7}
+          sx={{ m: 3, position: 'fixed', top: 50, right: 0, right: 0, zIndex: 55 }}>
+          <Alert
+            variant='filled'
+            severity='success'
+            sx={{ '& a': { fontWeight: 500 } }}>
+            <span className='text-white'>{success}</span>
+          </Alert>
+        </Grid>
+      )}
+      {failed && (
+        <Grid
+          item
+          xs={7}
+          sx={{ m: 3, position: 'fixed', top: 10, right: 0, zIndex: 55 }}>
+          <Alert
+            variant='filled'
+            severity='error'
+            sx={{ '& a': { fontWeight: 500 } }}>
+            <span className='text-white'>{failed}</span>
+            <CloseRoundedIcon
+              className=' cursor-pointer  mx-2'
+              onClick={() => setFailed('')}
+            />
+          </Alert>
+        </Grid>
+      )}
       {/* Product details section */}
       <section id={id} className='flex flex-wrap gap-10 justify-center px-5'>
         {/* Product images */}
@@ -184,9 +222,7 @@ const ProductSingle = () => {
               </Button>
             </span>
             {/* Product description */}
-            <Typography
-              variant='p'
-              sx={{ my: '10px' }}>
+            <Typography variant='p' sx={{ my: '10px' }}>
               <span className='uppercase text-base font-medium'>
                 Product Description:
               </span>{' '}

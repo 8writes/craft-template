@@ -5,15 +5,14 @@
 import React, { useState } from 'react'
 import { usePaystackPayment } from 'react-paystack'
 import { SecondaryNav } from '../../components/UI'
-import { ThemeButton } from '../../components/Buttons'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
-import { Button } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import emailjs from 'emailjs-com'
 import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { createClient } from '@supabase/supabase-js'
 
@@ -25,6 +24,8 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const Cart = () => {
   // Cart context
   const { cart, cartDispatch, addedState } = useCart()
+  const [success, setSuccess] = useState('')
+  const [failed, setFailed] = useState('')
 
   // State for order status
   const [orderStatus, setOrderStatus] = useState(null)
@@ -73,14 +74,14 @@ const Cart = () => {
     clearCart()
     handleUploadForm()
     //  sendEmails()
-    setOrderStatus('Order successful')
+      setSuccess(
+        `Order placed successfully, check ${formData.email} for details.`
+      )
   }
 
   // Close callback
   const onClose = () => {
-    console.log('closed')
-    clearCart()
-    setOrderStatus('failed to place order')
+    setFailed('Failed to place order')
   }
 
   // Paystack payment initialization
@@ -95,7 +96,13 @@ const Cart = () => {
   const handleRemoveFromCart = (item) => {
     cartDispatch({ type: 'REMOVE_FROM_CART', payload: item })
     addedState[item.id] = false
+    setFailed('Item removed from cart')
   }
+
+  // Reset success and failure after a delay
+  setTimeout(() => {
+    setFailed('')
+  }, 2000)
 
   // Handle input change in the form
   const handleInputChange = (field, value) => {
@@ -168,43 +175,39 @@ const Cart = () => {
   }
 
   // Function to handle form data insertion
- const handleUploadForm = async () => {
-   try {
-     const currentDate = new Date()
-     const date = currentDate.toISOString().split('T')[0]
+  const handleUploadForm = async () => {
+    try {
+      const currentDate = new Date()
+      const date = currentDate.toISOString().split('T')[0]
 
-     // Create order items array
-     const orderItems = cart.map((item) => ({
-       name: item.name,
-       size: item.size,
-       price: item.price,
-     }))
+      // Create order items array
+      const orderItems = cart.map((item) => ({
+        name: item.name,
+        size: item.size,
+        price: item.price,
+      }))
 
-     const payload = {
-       ...formData,
-       order_info: orderItems,
-       orderDate: date,
-       reference: config.reference,
-     }
+      const payload = {
+        ...formData,
+        order_info: orderItems,
+        orderDate: date,
+        reference: config.reference,
+      }
 
+      // Insert data into Supabase
+      const { data, error } = await supabase
+        .from('royeshoesOrders')
+        .insert(payload)
 
-     // Insert data into Supabase
-     const { data, error } = await supabase
-       .from('royeshoesOrders')
-       .insert(payload)
-
-     if (error) {
-       console.log('Supabase error:', error)
-     } else {
-       console.log('upload successful')
-     }
-   } catch (error) {
-     console.error('Error during data insertion:', error)
-   } finally {
-     // Additional cleanup or actions if needed
-     clearForm()
-   }
- }
+      if (error) {
+        console.log('Supabase error:', error)
+      }
+    } catch (error) {
+    } finally {
+      // Additional cleanup or actions if needed
+      clearForm()
+    }
+  }
 
   // Function to clear form fields
   const clearForm = () => {
@@ -219,6 +222,36 @@ const Cart = () => {
 
   return (
     <div className='pt-24 bg-white min-h-screen'>
+      {success && (
+        <Grid
+          item
+          xs={7}
+          sx={{ m: 3, position: 'fixed', top: 0, right: 0, zIndex: 55 }}>
+          <Alert
+            variant='filled'
+            severity='success'
+            sx={{ '& a': { fontWeight: 500 } }}>
+            <span className='text-white'>{success}</span>
+          </Alert>
+        </Grid>
+      )}
+      {failed && (
+        <Grid
+          item
+          xs={7}
+          sx={{ m: 3, position: 'fixed', top: 50, right: 0, zIndex: 55 }}>
+          <Alert
+            variant='filled'
+            severity='error'
+            sx={{ '& a': { fontWeight: 500 } }}>
+            <span className='text-white'>{failed}</span>
+            <CloseRoundedIcon
+              className=' cursor-pointer  mx-2'
+              onClick={() => setFailed('')}
+            />
+          </Alert>
+        </Grid>
+      )}
       <SecondaryNav />
       <div className='flex flex-wrap justify-center items-start'>
         {/* Cart Items */}
