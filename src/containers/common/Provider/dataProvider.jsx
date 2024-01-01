@@ -3,6 +3,7 @@
 'use client'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { useSwipeable } from 'react-swipeable'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -43,8 +44,21 @@ export function DataProvider({ children }) {
     }
   }, [])
 
+  const handlers = useSwipeable({
+    onSwipedDown: async (eventData) => {
+      await fetchData()
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+    delta: 50,
+    rotationAngle: 0,
+    threshold: 0.1,
+  })
+
   return (
-    <DataContext.Provider value={{ products }}>{children}</DataContext.Provider>
+    <DataContext.Provider value={{ products }} {...handlers}>
+      {children}
+    </DataContext.Provider>
   )
 }
 
