@@ -8,6 +8,7 @@ import { ProductImages } from '.'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Alert, Grid, Typography } from '@mui/material'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 const ProductSingle = () => {
   // Initialize Next.js router
