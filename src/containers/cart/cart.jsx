@@ -72,7 +72,7 @@ const Cart = () => {
     console.log(reference)
     clearCart()
     handleUploadForm()
-  //  sendEmails()
+    //  sendEmails()
     setOrderStatus('Order successful')
   }
 
@@ -168,38 +168,43 @@ const Cart = () => {
   }
 
   // Function to handle form data insertion
-  const handleUploadForm = async () => {
-    try {
-      const currentDate = new Date()
-      const date = currentDate.toISOString().split('T')[0]
+ const handleUploadForm = async () => {
+   try {
+     const currentDate = new Date()
+     const date = currentDate.toISOString().split('T')[0]
 
-      // Create order items array
-      const orderItems = cart.map((item) => ({
-        name: item.name,
-        size: item.size,
-        price: item.price,
-      }))
+     // Create order items array
+     const orderItems = cart.map((item) => ({
+       name: item.name,
+       size: item.size,
+       price: item.price,
+     }))
 
-      // Insert data into Supabase
-      const { data, error } = await supabase.from('royeshoesOrders').insert({
-        ...formData,
-        orderInfo: JSON.stringify(orderItems),
-        orderDate: date,
-        reference: config.reference,
-      })
+     const payload = {
+       ...formData,
+       order_info: orderItems,
+       orderDate: date,
+       reference: config.reference,
+     }
 
-      if (error) {
-        console.log(error.message)
-      } else {
-        console.log('upload successful')
-      }
-    } catch (error) {
-      console.error('Error during data insertion:', error.message)
-    } finally {
-      // Additional cleanup or actions if needed
-      clearForm()
-    }
-  }
+
+     // Insert data into Supabase
+     const { data, error } = await supabase
+       .from('royeshoesOrders')
+       .insert(payload)
+
+     if (error) {
+       console.log('Supabase error:', error)
+     } else {
+       console.log('upload successful')
+     }
+   } catch (error) {
+     console.error('Error during data insertion:', error)
+   } finally {
+     // Additional cleanup or actions if needed
+     clearForm()
+   }
+ }
 
   // Function to clear form fields
   const clearForm = () => {
@@ -254,9 +259,10 @@ const Cart = () => {
                           sx={{ textTransform: 'uppercase' }}>
                           {item.name}
                         </Typography>
-                        <Typography variant='p'>Size: <span className='uppercase'>{item.size}</span> </Typography>
-                        <Typography
-                          variant='subtitle1'>
+                        <Typography variant='p'>
+                          Size: <span className='uppercase'>{item.size}</span>{' '}
+                        </Typography>
+                        <Typography variant='subtitle1'>
                           ₦{Number(item.price).toLocaleString()}
                         </Typography>
                       </div>
@@ -286,10 +292,7 @@ const Cart = () => {
           ) : (
             <>
               <Typography variant='p'>Cart is Empty</Typography>
-              <Button
-                href='/'
-                variant='outlined'
-                sx={{ borderRadius: '0px' }}>
+              <Button href='/' variant='outlined' sx={{ borderRadius: '0px' }}>
                 Return Home
               </Button>
             </>
