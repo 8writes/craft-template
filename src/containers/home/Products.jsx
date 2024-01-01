@@ -19,7 +19,7 @@ const Products = () => {
 
   // Sorting options
   const sortFunctions = {
-    newest: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+    newest: (a, b) => new Date(b.created_at) - new Date(a.created_at),
     priceLow: (a, b) => a.price - b.price,
     priceHigh: (a, b) => b.price - a.price,
     availability: (a, b) => {
