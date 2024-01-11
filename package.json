@@ -25,7 +25,8 @@
     "react-router-dom": "^6.17.0",
     "react-share": "^4.4.1",
     "react-swipeable": "^7.0.1",
-    "utf-8-validate": "^6.0.3"
+    "utf-8-validate": "^6.0.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10",

@@ -3,17 +3,25 @@
 
 // Import necessary modules
 import React, { useState } from 'react'
-import { usePaystackPayment } from 'react-paystack'
 import { SecondaryNav } from '../../components/UI'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
-import { Button, Grid } from '@mui/material'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField,
+} from '@mui/material'
 import emailjs from 'emailjs-com'
 import Alert from '@mui/material/Alert'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 
 const Cart = () => {
   // Cart context
@@ -23,6 +31,50 @@ const Cart = () => {
 
   // State for order status
   const [orderStatus, setOrderStatus] = useState(null)
+
+  // State for payment popup
+  const [paymentPopupOpen, setPaymentPopupOpen] = useState(false)
+  const [reference, setReference] = useState(null)
+
+  // Open payment popup
+  const openPaymentPopup = () => {
+    setPaymentPopupOpen(true)
+  }
+
+  // Close payment popup
+  const closePaymentPopup = () => {
+    setPaymentPopupOpen(false)
+  }
+
+  // Handle order confirmation
+  const handleConfirmOrder = async () => {
+    try {
+     
+      const generatedReferenceId = uuidv4()
+      setReference(generatedReferenceId)
+
+      // await sendEmails()
+
+      await handleUploadForm()
+    } catch (error) {
+    } finally {
+      setPaymentPopupOpen(false)
+    }
+  }
+
+  const [senderDetails, setSenderDetails] = useState({
+    fullName: '',
+    bank: '',
+  })
+
+  const isDisabledOrder = !senderDetails.fullName || !senderDetails.bank
+
+  const handleSenderDetailsChange = (field, value) => {
+    setSenderDetails({
+      ...senderDetails,
+      [field]: value,
+    })
+  }
 
   // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
@@ -53,38 +105,6 @@ const Cart = () => {
     !formData.address ||
     !formData.phone_number ||
     cart.length === 0
-
-  // Paystack Configuration
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: formData.email,
-    amount: totalPrice * 100, // Convert to kobo
-    publicKey: 'pk_test_990b84e62bcd13690d07272f933a2080b195ce10',
-  }
-
-  // Success callback
-  const onSuccess = (reference) => {
-    console.log(reference)
-    clearCart()
-    handleUploadForm()
-    //  sendEmails()
-    setSuccess(
-      `Order placed successfully, check ${formData.email} for details.`
-    )
-  }
-
-  // Close callback
-  const onClose = () => {
-    setFailed('Failed to place order')
-  }
-
-  // Paystack payment initialization
-  const initializePayment = usePaystackPayment(config)
-
-  // Clear cart
-  const clearCart = () => {
-    cartDispatch({ type: 'CLEAR_CART' })
-  }
 
   // Remove item from cart
   const handleRemoveFromCart = (item) => {
@@ -134,13 +154,13 @@ const Cart = () => {
         from_name: 'Royeshoes',
         subject: 'Order Confirmation',
         cart: formattedOrderItems,
-        reference_id: config.reference,
-        message: `Thank you for your order! Your order reference: ${config.reference}`,
+        reference_id: reference,
+        message: `Thank you for your order! Your order reference: ${reference}`,
         details: formData,
       }
 
       // Construct the WhatsApp link
-      const whatsappLink = `https://wa.me/+2348155151818?text=Track my order with reference ID: ${config.reference}`
+      const whatsappLink = `https://wa.me/+2348155151818?text=Track my order with reference ID: ${reference}`
 
       // Include the WhatsApp link in the templateParams
       templateParams.whatsappLink = whatsappLink
@@ -179,13 +199,14 @@ const Cart = () => {
         name: item.name,
         size: item.size,
         price: item.price,
+        details: senderDetails,
       }))
 
       const payload = {
         ...formData,
         order_info: orderItems,
         order_date: date,
-        reference: config.reference,
+        reference,
       }
 
       const response = await axios.post(
@@ -204,9 +225,17 @@ const Cart = () => {
     } finally {
       // Additional cleanup or actions if needed
       clearForm()
+      clearCart()
+        setSuccess(
+          `Order placed successfully, check ${formData.email} for details.`
+        )
     }
   }
 
+   const clearCart = () => {
+     cartDispatch({ type: 'CLEAR_CART' })
+  }
+  
   // Function to clear form fields
   const clearForm = () => {
     setFormData({
@@ -396,25 +425,23 @@ const Cart = () => {
               className='py-2 font-medium text-slate-800'>
               Total Price: {formattedTotalPrice}
             </Typography>
-            {/* Paystack Checkout Button */}
+            {/* Checkout Cart Button */}
             <Button
               size='medium'
               variant='outlined'
               color='success'
-              onClick={() => {
-                if (!isDisabled) {
-                  initializePayment(onSuccess, onClose)
-                }
-              }}
+              onClick={openPaymentPopup}
               disabled={isDisabled}>
               <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
-              Checkout Now
+              Checkout Cart
             </Button>
           </div>
           {/* Order receipt message */}
           <span className='text-center'>
             <Typography variant='p' className='text-green-700'>
-              Order receipt will be sent to your email.
+              Receipts will be sent to your email.
+              <br />
+              Kindly make payment to confirm your order
             </Typography>
           </span>
         </div>
@@ -431,6 +458,47 @@ const Cart = () => {
           </Alert>
         )}
       </div>
+      {/* Payment Popup */}
+      <Dialog open={paymentPopupOpen} onClose={closePaymentPopup}>
+        <DialogTitle>Powered by Craaft</DialogTitle>
+        <DialogContent>
+          <hr />
+          <Typography variant='h6'>Vendor Details</Typography>
+          <Typography>Name:</Typography>
+          <Typography>Number:</Typography>
+          <Typography>Bank:</Typography>
+          <hr />
+          <Typography variant='h6'>Sender Details</Typography>
+          <TextField
+            label='Account Full Name'
+            value={senderDetails.fullName}
+            onChange={(e) =>
+              handleSenderDetailsChange('fullName', e.target.value)
+            }
+            fullWidth
+            margin='normal'
+          />
+          <TextField
+            label='Bank Name'
+            value={senderDetails.bank}
+            onChange={(e) => handleSenderDetailsChange('bank', e.target.value)}
+            fullWidth
+            margin='normal'
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button variant='filled' onClick={closePaymentPopup} color='error'>
+            Cancel
+          </Button>
+          <Button
+            disabled={isDisabledOrder}
+            variant='outlined'
+            onClick={handleConfirmOrder}
+            color='success'>
+            Confirm {formattedTotalPrice}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
