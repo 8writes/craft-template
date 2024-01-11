@@ -2,12 +2,7 @@
 
 'use client'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'  
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+import axios from 'axios'
 
 const DataContext = createContext()
 
@@ -17,7 +12,11 @@ export function DataProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data, error } = await supabase.from('royeshoes').select()
+        const response = await axios.get(
+          `https://craftserver.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`
+        )
+
+        const { error, data } = response.data
 
         if (error) {
           console.log('An error occurred', error)
@@ -44,9 +43,7 @@ export function DataProvider({ children }) {
   }, [])
 
   return (
-    <DataContext.Provider value={{ products }}>
-      {children}
-    </DataContext.Provider>
+    <DataContext.Provider value={{ products }}>{children}</DataContext.Provider>
   )
 }
 

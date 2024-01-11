@@ -19,7 +19,7 @@ const ProductSingle = () => {
   const id = searchParams.get('id')
   const name = searchParams.get('name')
   const alt = searchParams.get('alt')
-  const uploadedImageUrls = searchParams.getAll('uploadedImageUrls')
+  const uploaded_image_urls = searchParams.getAll('uploaded_image_urls')
   const sizes = searchParams.getAll('size')
   const price = searchParams.get('price')
   const description = searchParams.get('description')
@@ -46,7 +46,7 @@ const ProductSingle = () => {
   }
 
   const isOutOfStock = stock === 'Out of Stock'
-  
+
   // Handle adding the product to the cart
   const handleAddToCart = () => {
     if (!isAdded && selectedSize) {
@@ -58,7 +58,7 @@ const ProductSingle = () => {
           price,
           name,
           size: selectedSize,
-          uploadedImageUrl: uploadedImageUrls[0],
+          uploadedImageUrl: uploaded_image_urls[0],
         },
       })
       // Update the added state
@@ -84,7 +84,7 @@ const ProductSingle = () => {
           price,
           name,
           size: selectedSize,
-          uploadedImageUrl: uploadedImageUrls[0],
+          uploadedImageUrl: uploaded_image_urls[0],
         },
       })
       // Update the added state
@@ -104,7 +104,14 @@ const ProductSingle = () => {
         <Grid
           item
           xs={7}
-          sx={{ m: 3, position: 'fixed', top: 50, right: 0, right: 0, zIndex: 55 }}>
+          sx={{
+            m: 3,
+            position: 'fixed',
+            top: 50,
+            right: 0,
+            right: 0,
+            zIndex: 55,
+          }}>
           <Alert
             variant='filled'
             severity='success'
@@ -135,7 +142,7 @@ const ProductSingle = () => {
         {/* Product images */}
         <div className='flex max-w-sm md:w-5/12 md:max-w-xl my-5'>
           <ProductImages
-            images={uploadedImageUrls.map((src, index) => ({ src, alt }))}
+            images={uploaded_image_urls.map((src, index) => ({ src, alt }))}
           />
         </div>
         {/* Product information */}

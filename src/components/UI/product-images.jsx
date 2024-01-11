@@ -13,7 +13,7 @@ const ProductImages = ({ images }) => {
       {images.map((image, index) => (
         <div key={index}>
           <img
-            src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${image.src}`}
+            src={`${image.src}`}
             alt={image.alt}
             style={{ maxHeight: '550px' }}
           />

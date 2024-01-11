@@ -13,13 +13,7 @@ import { Button, Grid } from '@mui/material'
 import emailjs from 'emailjs-com'
 import Alert from '@mui/material/Alert'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-
-import { createClient } from '@supabase/supabase-js'
-
-// Set up Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+import axios from 'axios'
 
 const Cart = () => {
   // Cart context
@@ -43,10 +37,10 @@ const Cart = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    fullName: '',
+    full_name: '',
     email: '',
     address: '',
-    phoneNumber: '',
+    phone_number: '',
     note: '',
     price: formattedTotalPrice,
     status: 'Pending',
@@ -54,10 +48,10 @@ const Cart = () => {
 
   // Check if form is incomplete
   const isDisabled =
-    !formData.fullName ||
+    !formData.full_name ||
     !formData.email ||
     !formData.address ||
-    !formData.phoneNumber ||
+    !formData.phone_number ||
     cart.length === 0
 
   // Paystack Configuration
@@ -74,9 +68,9 @@ const Cart = () => {
     clearCart()
     handleUploadForm()
     //  sendEmails()
-      setSuccess(
-        `Order placed successfully, check ${formData.email} for details.`
-      )
+    setSuccess(
+      `Order placed successfully, check ${formData.email} for details.`
+    )
   }
 
   // Close callback
@@ -136,7 +130,7 @@ const Cart = () => {
       const templateParams = {
         to_email: formData.email,
         from_email: 'mailemmanuel00@gmail.com',
-        to_name: formData.fullName,
+        to_name: formData.full_name,
         from_name: 'Royeshoes',
         subject: 'Order Confirmation',
         cart: formattedOrderItems,
@@ -190,17 +184,21 @@ const Cart = () => {
       const payload = {
         ...formData,
         order_info: orderItems,
-        orderDate: date,
+        order_date: date,
         reference: config.reference,
       }
 
-      // Insert data into Supabase
-      const { data, error } = await supabase
-        .from('royeshoesOrders')
-        .insert(payload)
+      const response = await axios.post(
+        `https://craftserver.onrender.com/v1/api/insert?store_order_id=teststore_order_partition`,
+        {
+          payload,
+        }
+      )
+
+      const { error } = response.data
 
       if (error) {
-        console.log('Supabase error:', error)
+        console.log('An unexpected error occurred:', error)
       }
     } catch (error) {
     } finally {
@@ -212,10 +210,10 @@ const Cart = () => {
   // Function to clear form fields
   const clearForm = () => {
     setFormData({
-      fullName: '',
+      full_name: '',
       email: '',
       address: '',
-      phoneNumber: '',
+      phone_number: '',
       note: '',
     })
   }
@@ -281,7 +279,7 @@ const Cart = () => {
                       className='flex items-center border w-full p-4 rounded-md'>
                       <div className='flex-shrink-0'>
                         <img
-                          src={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${item.uploadedImageUrl}`}
+                          src={`${item.uploadedImageUrl}`}
                           alt=''
                           style={{ maxHeight: '50px', maxWidth: '50px' }}
                         />
@@ -346,9 +344,9 @@ const Cart = () => {
                   type='text'
                   placeholder='John Doe'
                   className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
-                  value={formData.fullName}
+                  value={formData.full_name}
                   onChange={(e) =>
-                    handleInputChange('fullName', e.target.value)
+                    handleInputChange('full_name', e.target.value)
                   }
                 />
               </div>
@@ -377,9 +375,9 @@ const Cart = () => {
                   type='tel'
                   placeholder='123-456-7890'
                   className={`border border-gray-300 px-3 py-2 w-full rounded-md`}
-                  value={formData.phoneNumber}
+                  value={formData.phone_number}
                   onChange={(e) =>
-                    handleInputChange('phoneNumber', e.target.value)
+                    handleInputChange('phone_number', e.target.value)
                   }
                 />
               </div>

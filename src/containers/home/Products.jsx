@@ -5,14 +5,8 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ProductItem } from '@/components/UI'
 import Typography from '@mui/material/Typography'
-
-import { createClient } from '@supabase/supabase-js'
+import axios from 'axios'
 import { useSwipeable } from 'react-swipeable'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
 
 const Products = () => {
   // States
@@ -23,7 +17,12 @@ const Products = () => {
    useEffect(() => {
      const fetchData = async () => {
        try {
-         const { data, error } = await supabase.from('royeshoes').select()
+         
+         const response = await axios.get(
+           `https://craftserver.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`
+         )
+
+         const { error, data } = response.data
 
          if (error) {
            console.log('An error occurred', error)
@@ -106,14 +105,14 @@ const Products = () => {
         {!products && (
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
-              No products found
+              Loading products...
             </Typography>
           </div>
         )}
         {products.length === 0 ? (
           <div className='text-center my-10'>
             <Typography variant='h4' className='text-gray-700'>
-              Loading products...
+              No products found
             </Typography>
           </div>
         ) : (

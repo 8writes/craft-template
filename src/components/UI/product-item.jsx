@@ -11,7 +11,7 @@ const ProductItem = ({
   id,
   name,
   alt,
-  uploadedImageUrls, 
+  uploaded_image_urls,
   size,
   price,
   linkSrc,
@@ -24,7 +24,7 @@ const ProductItem = ({
     id,
     name,
     alt,
-   uploadedImageUrls,
+    uploaded_image_urls,
     size,
     price,
     linkSrc,
@@ -46,25 +46,25 @@ const ProductItem = ({
             <CardMedia
               component='img'
               className='w-48 h-40  md:w-full lg:h-72 hover:scale-105 transition-all'
-              image={`https://hymcbwrcksuwhtfstztz.supabase.co/storage/v1/object/public/${uploadedImageUrls[0]}`}
+              image={`${uploaded_image_urls}`}
               alt={alt}
             />
           </CardActionArea>
-          <CardContent sx={{ pl: 0, pr: 0}}>
+          <CardContent sx={{ pl: 0, pr: 0 }}>
             <p className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2 uppercase'>
               {name}
             </p>
             <div className='flex justify-between gap-6'>
               <>
-              <h6 className='my-auto font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
-                ₦{Number(price).toLocaleString()}
-              </h6>
+                <h6 className='my-auto font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
+                  ₦{Number(price).toLocaleString()}
+                </h6>
               </>
               <>
-              {stock === 'Out of Stock' && (
-                <p className='my-auto font-Plus-Jakarta-Sans text-sm lg:text-xl text-red-700 pb-2 uppercase'>
-                  {stock}
-                </p>
+                {stock === 'Out of Stock' && (
+                  <p className='my-auto font-Plus-Jakarta-Sans text-sm lg:text-xl text-red-700 pb-2 uppercase'>
+                    {stock}
+                  </p>
                 )}
               </>
             </div>
