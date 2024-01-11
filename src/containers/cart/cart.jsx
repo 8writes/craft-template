@@ -22,12 +22,14 @@ import Alert from '@mui/material/Alert'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import { LoadingButton } from '@mui/lab'
 
 const Cart = () => {
   // Cart context
   const { cart, cartDispatch, addedState } = useCart()
   const [success, setSuccess] = useState('')
   const [failed, setFailed] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   // State for order status
   const [orderStatus, setOrderStatus] = useState(null)
@@ -49,7 +51,6 @@ const Cart = () => {
   // Handle order confirmation
   const handleConfirmOrder = async () => {
     try {
-     
       const generatedReferenceId = uuidv4()
       setReference(generatedReferenceId)
 
@@ -190,6 +191,7 @@ const Cart = () => {
 
   // Function to handle form data insertion
   const handleUploadForm = async () => {
+    setIsLoading(true)
     try {
       const currentDate = new Date()
       const date = currentDate.toISOString().split('T')[0]
@@ -223,19 +225,20 @@ const Cart = () => {
       }
     } catch (error) {
     } finally {
+      setIsLoading(false)
       // Additional cleanup or actions if needed
       clearForm()
       clearCart()
-        setSuccess(
-          `Order placed successfully, check ${formData.email} for details.`
-        )
+      setSuccess(
+        `Order placed successfully, check ${formData.email} for details.`
+      )
     }
   }
 
-   const clearCart = () => {
-     cartDispatch({ type: 'CLEAR_CART' })
+  const clearCart = () => {
+    cartDispatch({ type: 'CLEAR_CART' })
   }
-  
+
   // Function to clear form fields
   const clearForm = () => {
     setFormData({
@@ -460,8 +463,11 @@ const Cart = () => {
       </div>
       {/* Payment Popup */}
       <Dialog open={paymentPopupOpen} onClose={closePaymentPopup}>
-        <DialogTitle>Powered by Craaft</DialogTitle>
+        <DialogTitle>
+          <Typography variant='h6'>Powered by Craaft</Typography>
+        </DialogTitle>
         <DialogContent>
+          <Typography variant='h7'>Payment by transfer</Typography>
           <hr />
           <Typography variant='h6'>Vendor Details</Typography>
           <Typography>Name:</Typography>
@@ -490,13 +496,14 @@ const Cart = () => {
           <Button variant='filled' onClick={closePaymentPopup} color='error'>
             Cancel
           </Button>
-          <Button
+          <LoadingButton
+            loading={isLoading}
             disabled={isDisabledOrder}
             variant='outlined'
             onClick={handleConfirmOrder}
             color='success'>
-            Confirm {formattedTotalPrice}
-          </Button>
+            I have sent {formattedTotalPrice}
+          </LoadingButton>
         </DialogActions>
       </Dialog>
     </div>
