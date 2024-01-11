@@ -105,14 +105,14 @@ const Products = () => {
         {!products && (
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
-              Loading products...
+              No products found{' '}
             </Typography>
           </div>
         )}
         {products.length === 0 ? (
           <div className='text-center my-10'>
             <Typography variant='h4' className='text-gray-700'>
-              No products found
+              Loading products...
             </Typography>
           </div>
         ) : (
