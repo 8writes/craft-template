@@ -212,7 +212,7 @@ const Cart = () => {
       }
 
       const response = await axios.post(
-        `https://craftserver.onrender.com/v1/api/insert?store_order_id=teststore_order_partition`,
+        ` https://craftserver.onrender.com/v1/api/insert?store_order_id=teststore_order_partition`,
         {
           payload,
         }

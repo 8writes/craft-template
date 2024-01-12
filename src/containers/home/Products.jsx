@@ -14,40 +14,39 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [sortOption, setSortOption] = useState('newest')
 
-   useEffect(() => {
-     const fetchData = async () => {
-       try {
-         
-         const response = await axios.get(
-           `https://craftserver.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`
-         )
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          ` https://craftserver.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`
+        )
 
-         const { error, data } = response.data
+        const { error, data } = response.data
 
-         if (error) {
-           console.log('An error occurred', error)
-         }
+        if (error) {
+          console.log('An error occurred', error)
+        }
 
-         // Update the id field with sequential count and add image URL
-         const updatedProducts = data.map((item) => ({
-           ...item,
-           image: item.uploadedImageUrl1,
-         }))
+        // Update the id field with sequential count and add image URL
+        const updatedProducts = data.map((item) => ({
+          ...item,
+          image: item.uploadedImageUrl1,
+        }))
 
-         setProducts(updatedProducts)
-       } catch (error) {
-         console.error('Error fetching data:', error.message)
-       }
-     }
+        setProducts(updatedProducts)
+      } catch (error) {
+        console.error('Error fetching data:', error.message)
+      }
+    }
 
-     fetchData()
+    fetchData()
 
-     // Cleanup function to avoid memory leaks
-     return () => {
-       setProducts([])
-     }
-   }, [])
-  
+    // Cleanup function to avoid memory leaks
+    return () => {
+      setProducts([])
+    }
+  }, [])
+
   // Sorting options
   const sortFunctions = {
     newest: (a, b) => new Date(b.created_at) - new Date(a.created_at),
@@ -72,16 +71,16 @@ const Products = () => {
     setCurrentPage(pageNumber)
   }
 
-   const handlers = useSwipeable({
-     onSwipedDown: async (eventData) => {
-       await fetchData()
-     },
-     preventDefaultTouchmoveEvent: true,
-     trackMouse: true,
-     delta: 50,
-     rotationAngle: 0,
-     threshold: 0.1,
-   })
+  const handlers = useSwipeable({
+    onSwipedDown: async (eventData) => {
+      await fetchData()
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+    delta: 50,
+    rotationAngle: 0,
+    threshold: 0.1,
+  })
 
   return (
     <div {...handlers}>
