@@ -21,8 +21,8 @@ import emailjs from 'emailjs-com'
 import Alert from '@mui/material/Alert'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
 import { LoadingButton } from '@mui/lab'
+const generateUniqueId = require('generate-unique-id')
 
 const Cart = () => {
   // Cart context
@@ -50,15 +50,16 @@ const Cart = () => {
 
   // Handle order confirmation
   const handleConfirmOrder = async () => {
+   
+    const id1 = generateUniqueId()
     try {
-
-      setReference(uuidv4())
+      setReference(id1)
 
       // await sendEmails()
 
       await handleUploadForm()
     } catch (error) {
-       console.error('Error in handleConfirmOrder:', error)
+      console.error('Error in handleConfirmOrder:', error)
     } finally {
       setPaymentPopupOpen(false)
     }
