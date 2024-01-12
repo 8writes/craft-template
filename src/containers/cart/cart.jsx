@@ -41,6 +41,8 @@ const Cart = () => {
   // Open payment popup
   const openPaymentPopup = () => {
     setPaymentPopupOpen(true)
+    const id1 = generateUniqueId()
+    setReference(id1)
   }
 
   // Close payment popup
@@ -51,10 +53,8 @@ const Cart = () => {
   // Handle order confirmation
   const handleConfirmOrder = async () => {
    
-    const id1 = generateUniqueId()
     try {
-      setReference(id1)
-
+    
       // await sendEmails()
 
       await handleUploadForm()
