@@ -51,13 +51,14 @@ const Cart = () => {
   // Handle order confirmation
   const handleConfirmOrder = async () => {
     try {
-      const generatedReferenceId = uuidv4()
-      setReference(generatedReferenceId)
+
+      setReference(uuidv4())
 
       // await sendEmails()
 
       await handleUploadForm()
     } catch (error) {
+       console.error('Error in handleConfirmOrder:', error)
     } finally {
       setPaymentPopupOpen(false)
     }
