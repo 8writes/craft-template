@@ -1,5 +1,7 @@
 /** @format */
+
 'use client'
+
 // Imports
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -17,8 +19,12 @@ const Products = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const subdomain = window.location.hostname.split('.')[0]
+
+        const storeNameId = subdomain
+
         const response = await axios.get(
-          ` https://craftserver.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`
+          ` https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`
         )
 
         const { error, data } = response.data
@@ -27,7 +33,6 @@ const Products = () => {
           console.log('An error occurred', error)
         }
 
-        // Update the id field with sequential count and add image URL
         const updatedProducts = data.map((item) => ({
           ...item,
           image: item.uploadedImageUrl1,
@@ -41,7 +46,6 @@ const Products = () => {
 
     fetchData()
 
-    // Cleanup function to avoid memory leaks
     return () => {
       setProducts([])
     }
@@ -100,7 +104,7 @@ const Products = () => {
         </select>
       </div>
 
-      <section className='px-1 md:px-10'>
+      <section className='px-1 md:px-10 my-auto'>
         {!products && (
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
@@ -109,8 +113,8 @@ const Products = () => {
           </div>
         )}
         {products.length === 0 ? (
-          <div className='text-center my-10'>
-            <Typography variant='h4' className='text-gray-700'>
+          <div className='text-center'>
+            <Typography variant='h5' className='text-gray-700'>
               Loading products...
             </Typography>
           </div>
