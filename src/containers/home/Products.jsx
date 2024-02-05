@@ -15,10 +15,13 @@ const Products = () => {
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [sortOption, setSortOption] = useState('newest')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
+
         const subdomain = window.location.hostname.split('.')[0]
 
         const storeNameId = subdomain
@@ -41,6 +44,8 @@ const Products = () => {
         setProducts(updatedProducts)
       } catch (error) {
         console.error('Error fetching data:', error.message)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -105,17 +110,16 @@ const Products = () => {
       </div>
 
       <section className='px-1 md:px-10 my-auto'>
-        {!products && (
+        {loading ? ( // Check loading state
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
-              No products found{' '}
+              Loading products...
             </Typography>
           </div>
-        )}
-        {products.length === 0 ? (
-          <div className='text-center'>
+        ) : !products || products.length === 0 ? (
+          <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
-              Loading products...
+              No products found
             </Typography>
           </div>
         ) : (

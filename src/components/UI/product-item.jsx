@@ -48,7 +48,7 @@ const ProductItem = ({
               className='w-48 h-40  md:w-full lg:h-72 hover:scale-105 transition-all'
               image={uploaded_image_urls[0]}
               alt={alt}
-            />
+            />  
           </CardActionArea>
           <CardContent sx={{ pl: 0, pr: 0 }}>
             <p className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2 uppercase'>

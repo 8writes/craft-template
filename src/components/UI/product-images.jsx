@@ -1,6 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+/**
+ * eslint-disable @next/next/no-img-element
+ *
+ * @format
+ */
+
+import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 
 const ProductImages = ({ images }) => {
   return (
@@ -21,6 +26,6 @@ const ProductImages = ({ images }) => {
       ))}
     </Carousel>
   )
-};
+}
 
-export default ProductImages;
+export default ProductImages
