@@ -1,9 +1,16 @@
-import Link from "next/link";
-import Typography from "../Fonts/Typography";
+/** @format */
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import Typography from '../Fonts/Typography'
 
 const Logo = () => {
+  const [subdomain, setSubdomain] = useState('')
 
-  const subdomain = window.location.hostname.split('.')[0]
+  useEffect(() => {
+    const subdomain = window.location.hostname.split('.')[0]
+    setSubdomain(subdomain)
+  }, [])
 
   return (
     <>
@@ -12,6 +19,6 @@ const Logo = () => {
       </Link>
     </>
   )
-};
+}
 
-export default Logo;
+export default Logo
