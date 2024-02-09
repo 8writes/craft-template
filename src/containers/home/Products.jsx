@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { ProductItem } from '@/components/UI'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
-import { useSwipeable } from 'react-swipeable'
 
 const Products = () => {
   // States
@@ -27,7 +26,7 @@ const Products = () => {
         const storeNameId = subdomain
 
         const response = await axios.get(
-          ` https://craaft.onrender.com/v1/api/fetch?store_name_id=${mystore}_product_partition`
+          ` https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`
         )
 
         const { error, data } = response.data
@@ -80,19 +79,8 @@ const Products = () => {
     setCurrentPage(pageNumber)
   }
 
-  const handlers = useSwipeable({
-    onSwipedDown: async (eventData) => {
-      await fetchData()
-    },
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-    delta: 50,
-    rotationAngle: 0,
-    threshold: 0.1,
-  })
-
   return (
-    <div {...handlers}>
+    <div>
       {/* Sorting options */}
       <div className='flex justify-end  mb-10 mx-5 md:mx-24'>
         <label className='mr-2 font-semibold text-slate-700'>Sort by:</label>
