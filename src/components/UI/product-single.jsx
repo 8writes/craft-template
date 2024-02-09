@@ -21,6 +21,7 @@ const ProductSingle = () => {
   const alt = searchParams.get('alt')
   const uploaded_image_urls = searchParams.getAll('uploaded_image_urls')
   const sizes = searchParams.getAll('size')
+   const color = searchParams.getAll('color')
   const price = searchParams.get('price')
   const description = searchParams.get('description')
   const cartLinkSrc = searchParams.get('cartLinkSrc')
@@ -38,10 +39,15 @@ const ProductSingle = () => {
   // State for selected size and error message
   const [errorMessage, setErrorMessage] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
+  const [selectedColor, setSelectedColor] = useState('')
 
   // Handle size selection
   const handleSizeClick = (size) => {
     setSelectedSize(size)
+    setErrorMessage('')
+  }
+  const handleColorClick = (color) => {
+    setSelectedColor(color)
     setErrorMessage('')
   }
 
@@ -49,7 +55,7 @@ const ProductSingle = () => {
 
   // Handle adding the product to the cart
   const handleAddToCart = () => {
-    if (!isAdded && selectedSize) {
+    if (!isAdded && selectedSize && selectedColor) {
       // Dispatch action to add the product to the cart
       cartDispatch({
         type: 'ADD_TO_CART',
@@ -65,7 +71,7 @@ const ProductSingle = () => {
       addedState[id] = true
       setSuccess('Item added to cart')
     } else {
-      setErrorMessage('Please select a size.')
+      setErrorMessage('Please make a selection.')
     }
     // Reset success and failure after a delay
     setTimeout(() => {
@@ -184,6 +190,32 @@ const ProductSingle = () => {
             {errorMessage && (
               <span className='text-red-500'>{errorMessage}</span>
             )}
+            {/* Color selection */}
+            <Typography
+              variant='subtitle1'
+              color='text.secondary'
+              className='text-slate-700'>
+              Color:
+              <div className='flex flex-wrap gap-2'>
+                {color.map((color, index) => (
+                  <button
+                    key={index}
+                    className={`px-4 py-1 text-slate-800 uppercase ${
+                      selectedColor === color
+                        ? ' border-2 border-green-500 '
+                        : 'border-2 border-slate-300'
+                    }`}
+                    onClick={() => handleColorClick(color)}
+                    disabled={isOutOfStock}>
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </Typography>
+            {/* Error message for size selection */}
+            {errorMessage && (
+              <span className='text-red-500'>{errorMessage}</span>
+            )}
             {/* Stock status */}
             <Typography
               variant='subtitle1'
@@ -193,7 +225,12 @@ const ProductSingle = () => {
               <div className='uppercase'>
                 <span
                   style={{
-                    color: stock === 'In Stock' ? 'green' : 'red',
+                    color:
+                      stock === 'In Stock'
+                        ? 'green'
+                        : stock === 'Out Of Stock'
+                        ? 'red'
+                        : 'yellow',
                     fontWeight: '550',
                   }}>
                   {stock}

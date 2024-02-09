@@ -27,7 +27,7 @@ const Products = () => {
         const storeNameId = subdomain
 
         const response = await axios.get(
-          ` https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`
+          ` https://craaft.onrender.com/v1/api/fetch?store_name_id=${mystore}_product_partition`
         )
 
         const { error, data } = response.data
@@ -110,7 +110,7 @@ const Products = () => {
       </div>
 
       <section className='px-1 md:px-10 my-auto'>
-        {loading ? ( // Check loading state
+        {loading ? ( 
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
               Loading products...
