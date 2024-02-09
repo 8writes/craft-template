@@ -21,7 +21,7 @@ const ProductSingle = () => {
   const alt = searchParams.get('alt')
   const uploaded_image_urls = searchParams.getAll('uploaded_image_urls')
   const sizes = searchParams.getAll('size')
-   const color = searchParams.getAll('color')
+  const color = searchParams.getAll('color')
   const price = searchParams.get('price')
   const description = searchParams.get('description')
   const cartLinkSrc = searchParams.get('cartLinkSrc')
@@ -186,10 +186,6 @@ const ProductSingle = () => {
                 ))}
               </div>
             </Typography>
-            {/* Error message for size selection */}
-            {errorMessage && (
-              <span className='text-red-500'>{errorMessage}</span>
-            )}
             {/* Color selection */}
             <Typography
               variant='subtitle1'
@@ -224,15 +220,16 @@ const ProductSingle = () => {
               Stock:
               <div className='uppercase'>
                 <span
-                  style={{
-                    color:
-                      stock === 'In Stock'
-                        ? 'green'
-                        : stock === 'Out Of Stock'
-                        ? 'red'
-                        : 'yellow',
-                    fontWeight: '550',
-                  }}>
+                  class={` font-semibold
+                      ${
+                        stock === 'In Stock'
+                          ? 'text-green-600'
+                          : stock === 'Out Of Stock'
+                          ? 'text-red-600'
+                          : 'text-yellow-600'
+                      }
+                    
+                  `}>
                   {stock}
                 </span>
               </div>
