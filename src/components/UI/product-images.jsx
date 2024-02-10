@@ -12,7 +12,6 @@ const ProductImages = ({ images }) => {
     <Carousel
       showArrows={true}
       infiniteLoop={true}
-      swipeable={true}
       dynamicHeight={false}
       thumbWidth={60}>
       {images.map((image, index) => (
