@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from '../common/Provider/cartProvider'
+import logo from '../../../public/logo.svg'
 import {
   Button,
   Dialog,
@@ -22,6 +23,8 @@ import Alert from '@mui/material/Alert'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import axios from 'axios'
 import { LoadingButton } from '@mui/lab'
+import Link from 'next/link'
+import Image from 'next/image'
 const generateUniqueId = require('generate-unique-id')
 
 const Cart = () => {
@@ -38,6 +41,18 @@ const Cart = () => {
   const [paymentPopupOpen, setPaymentPopupOpen] = useState(false)
   const [reference, setReference] = useState(null)
 
+  const banksInNigeria = [
+    'Select Bank',
+    'Access Bank',
+    'Zenith Bank',
+    'First Bank',
+    'GTBank',
+    'Opay',
+    'Kuda Bank',
+    'Union Bank',
+    'United Bank Of Africa',
+  ]
+
   // Open payment popup
   const openPaymentPopup = () => {
     setPaymentPopupOpen(true)
@@ -52,9 +67,7 @@ const Cart = () => {
 
   // Handle order confirmation
   const handleConfirmOrder = async () => {
-   
     try {
-    
       // await sendEmails()
 
       await handleUploadForm()
@@ -285,93 +298,15 @@ const Cart = () => {
         </Grid>
       )}
       <SecondaryNav />
-      <div className='flex flex-wrap justify-center items-start'>
-        {/* Cart Items */}
-        <Paper
-          variant='outlined'
-          sx={{
-            borderRadius: '0',
-            width: '50%',
-            '@media (max-width: 600px)': {
-              width: '100%', // Change the width for screens smaller than 600px
-            },
-          }}
-          className='flex flex-col items-center px-5 md:px-14 mx-5 my-10 py-5 border mr-5'>
-          <div className='mt-2 mb-5 text-center'>
-            <Typography variant='h5' className='text-gray-700'>
-              Shopping Cart
-            </Typography>
-          </div>
-
-          {cart ? (
-            <>
-              {cart.length > 0 ? (
-                <div className='w-full space-y-4'>
-                  {cart.map((item, index) => (
-                    <div
-                      key={item.id}
-                      className='flex items-center border w-full p-4 rounded-md'>
-                      <div className='flex-shrink-0'>
-                        <img
-                          src={`${item.uploadedImageUrl}`}
-                          alt=''
-                          style={{ maxHeight: '50px', maxWidth: '50px' }}
-                        />
-                      </div>
-                      <div className='flex-grow ml-4'>
-                        <Typography
-                          variant='h6'
-                          sx={{ textTransform: 'uppercase' }}>
-                          {item.name}
-                        </Typography>
-                        <Typography variant='p'>
-                          Size: <span className='uppercase'>{item.size}</span>{' '}
-                        </Typography>
-                        <Typography variant='subtitle1'>
-                          ₦{Number(item.price).toLocaleString()}
-                        </Typography>
-                      </div>
-                      <div className='flex-shrink-0'>
-                        <Typography
-                          variant='h6'
-                          className='cursor-pointer'
-                          onClick={() => handleRemoveFromCart(item)}>
-                          ✖
-                        </Typography>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className='flex flex-col items-center'>
-                  <Typography variant='body1'>Cart is Empty</Typography>
-                  <Button
-                    href='/'
-                    variant='outlined'
-                    sx={{ borderRadius: '0px', my: '5px' }}>
-                    Return Home
-                  </Button>
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              <Typography variant='p'>Cart is Empty</Typography>
-              <Button href='/' variant='outlined' sx={{ borderRadius: '0px' }}>
-                Return Home
-              </Button>
-            </>
-          )}
-        </Paper>
-
+      <div className='flex flex-wrap gap-10 justify-center items-start'>
         {/* Checkout Section */}
-        <div className='flex flex-col bg-white p-10 m-5'>
+        <div className='flex flex-col bg-white w-full lg:w-96 p-5 md:p-10 md:m-5'>
           <div className='grid gap-4 mb-4'>
             <Typography variant='h5' className='text-gray-700 mb-2'>
               Checkout
             </Typography>
             {/* Standard Delivery Form */}
-            <form className='grid gap-2 md:w-96'>
+            <form className='grid gap-2 w-full lg:w-96'>
               <div className='grid gap-2'>
                 <label className='text-gray-700'>Full Name</label>
                 <input
@@ -441,14 +376,6 @@ const Cart = () => {
               Checkout Cart
             </Button>
           </div>
-          {/* Order receipt message */}
-          <span className='text-center'>
-            <Typography variant='p' className='text-green-700'>
-              Receipts will be sent to your email.
-              <br />
-              Kindly make payment to confirm your order
-            </Typography>
-          </span>
         </div>
         {/* Order Status Alert */}
         {orderStatus === 'success' && (
@@ -462,38 +389,153 @@ const Cart = () => {
             again.
           </Alert>
         )}
+        {/* Cart Items */}
+        <div className='flex flex-col items-center w-full lg:w-2/5 px-5 md:px-14 mx-5 my-10 py-5 border mr-5'>
+          <div className='mt-2 mb-5 text-center'>
+            <Typography variant='h5' className='text-gray-700'>
+              Shopping Cart
+            </Typography>
+          </div>
+
+          {cart ? (
+            <>
+              {cart.length > 0 ? (
+                <div className='w-full space-y-4'>
+                  {cart.map((item, index) => (
+                    <div
+                      key={item.id}
+                      className='flex items-center border w-full p-4 rounded-md'>
+                      <div className='flex-shrink-0'>
+                        <img
+                          src={`${item.uploadedImageUrl}`}
+                          alt=''
+                          style={{ maxHeight: '100px', maxWidth: '100px' }}
+                        />
+                      </div>
+                      <div className='flex-grow ml-4'>
+                        <Typography
+                          variant='h6'
+                          sx={{ textTransform: 'uppercase' }}>
+                          {item.name}
+                        </Typography>
+                        <Typography variant='p'>
+                          Size: <span className='uppercase'>{item.size}</span>{' '}
+                        </Typography>
+                        <Typography variant='subtitle1'>
+                          ₦{Number(item.price).toLocaleString()}
+                        </Typography>
+                      </div>
+                      <div className='flex-shrink-0'>
+                        <Typography
+                          variant='h6'
+                          className='cursor-pointer'
+                          onClick={() => handleRemoveFromCart(item)}>
+                          ✖
+                        </Typography>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className='flex flex-col items-center'>
+                  <Typography variant='body1'>Cart is Empty</Typography>
+                  <Button
+                    href='/'
+                    variant='outlined'
+                    sx={{ borderRadius: '0px', my: '5px' }}>
+                    Return Home
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <Typography variant='p'>Cart is Empty</Typography>
+              <Button href='/' variant='outlined' sx={{ borderRadius: '0px' }}>
+                Return Home
+              </Button>
+            </>
+          )}
+        </div>
       </div>
       {/* Payment Popup */}
       <Dialog open={paymentPopupOpen} onClose={closePaymentPopup}>
-        <DialogTitle>
-          <Typography variant='h6'>Powered by Craaft</Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant='h7'>Payment by transfer</Typography>
-          <hr />
-          <Typography variant='h6'>Vendor Details</Typography>
-          <Typography>Name:</Typography>
-          <Typography>Number:</Typography>
-          <Typography>Bank:</Typography>
-          <hr />
-          <Typography variant='h6'>Sender Details</Typography>
-          <TextField
-            label='Account Full Name'
-            value={senderDetails.fullName}
-            onChange={(e) =>
-              handleSenderDetailsChange('fullName', e.target.value)
-            }
-            fullWidth
-            margin='normal'
-          />
-          <TextField
-            label='Bank Name'
-            value={senderDetails.bank}
-            onChange={(e) => handleSenderDetailsChange('bank', e.target.value)}
-            fullWidth
-            margin='normal'
-          />
-        </DialogContent>
+        <div className='p-5 flex-wrap gap-5 flex justify-between '>
+          <div>
+            <p className='text-base font-bold text-indigo-700'>
+              Powered by
+              <Link href='#'>
+                <Image
+                  src={logo}
+                  className='Logo h-fit'
+                  alt='Craaft Logo'
+                  width={100}
+                  height={45}
+                  loading='lazy'
+                />
+              </Link>
+            </p>
+            <p className='text-sm font-semibold text-indigo-700 uppercase mt-3 '>
+              Payment by bank transfer
+            </p>
+          </div>
+          <Link href='#' className=' h-fit'>
+            <p className='text-sm text-red-600 font-semibold'>
+             ! Make a complaint
+            </p>
+          </Link>
+        </div>
+        <hr />
+        <div className='p-5'>
+          <div className='mb-4'>
+            <p className='text-2xl font-semibold text-gray-700'>
+              Vendor Details
+            </p>
+            <p className='font-semibold'>Account Name:</p>
+            <p className='font-semibold'>Account Number:</p>
+            <p className='font-semibold'>Bank Name:</p>
+          </div>
+          <div className='my-2'>
+            <p className='text-2xl font-semibold text-gray-700'>
+              Sender Details
+            </p>
+            <TextField
+              label='Account Full Name'
+              value={senderDetails.fullName}
+              onChange={(e) =>
+                handleSenderDetailsChange('fullName', e.target.value)
+              }
+              fullWidth
+              margin='normal'
+            />
+            <p className='text-2xl font-semibold text-gray-700'>
+              Sender Details
+            </p>
+            <select
+              value={senderDetails.bank}
+              onChange={(e) =>
+                handleSenderDetailsChange('bank', e.target.value)
+              }
+              style={{ width: '100%', padding: '8px', margin: '8px 0' }}>
+              {banksInNigeria.map((bank) => (
+                <option key={bank} value={bank}>
+                  {bank}
+                </option>
+              ))}
+            </select>
+            <label className='grid my-5'>
+              Upload Payment Slip
+              <input
+                type='file'
+                className='my-5 cursor-pointer'
+                onChange={(e) =>
+                  handleSenderDetailsChange('bank', e.target.value)
+                }
+              />
+            </label>{' '}
+          </div>
+          <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
+        </div>
         <DialogActions>
           <Button variant='filled' onClick={closePaymentPopup} color='error'>
             Cancel
@@ -504,9 +546,17 @@ const Cart = () => {
             variant='outlined'
             onClick={handleConfirmOrder}
             color='success'>
-            I have sent {formattedTotalPrice}
+            Place Order
           </LoadingButton>
         </DialogActions>
+        {/* Order receipt message */}
+        <span className='text-center m-3'>
+          <p className='text-green-700'>
+            Order details will be sent to your email.
+            <br />
+            Kindly upload payment slip to confirm your order
+          </p>
+        </span>
       </Dialog>
     </div>
   )
