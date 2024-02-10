@@ -66,6 +66,7 @@ const ProductSingle = () => {
         payload: {
           id,
           price,
+          color,
           name,
           size: selectedSize,
           uploadedImageUrl: uploaded_image_urls[0],
@@ -97,6 +98,7 @@ const ProductSingle = () => {
          payload: {
            id,
            price,
+           color,
            name,
            size: selectedSize,
            uploadedImageUrl: uploaded_image_urls[0],

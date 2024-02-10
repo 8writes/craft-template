@@ -42,15 +42,30 @@ const Cart = () => {
   const [reference, setReference] = useState(null)
 
   const banksInNigeria = [
-    'Select Bank',
     'Access Bank',
+    'Citibank',
+    'Diamond Bank',
+    'Ecobank Nigeria',
+    'Enterprise Bank',
+    'Fidelity Bank',
+    'First Bank of Nigeria',
+    'First City Monument Bank (FCMB)',
+    'Guaranty Trust Bank (GTBank)',
+    'Heritage Bank',
+    'Keystone Bank',
+    'Providus Bank',
+    'Polaris Bank',
+    'Stanbic IBTC Bank',
+    'Standard Chartered Bank',
+    'Sterling Bank',
+    'SunTrust Bank',
+    'Union Bank of Nigeria',
+    'United Bank for Africa (UBA)',
+    'Unity Bank',
+    'Wema Bank',
     'Zenith Bank',
-    'First Bank',
-    'GTBank',
     'Opay',
     'Kuda Bank',
-    'Union Bank',
-    'United Bank Of Africa',
   ]
 
   // Open payment popup
@@ -422,6 +437,9 @@ const Cart = () => {
                         <Typography variant='p'>
                           Size: <span className='uppercase'>{item.size}</span>{' '}
                         </Typography>
+                        <Typography variant='p'>
+                          Color: <span className='uppercase'>{item.color}</span>{' '}
+                        </Typography>
                         <Typography variant='subtitle1'>
                           ₦{Number(item.price).toLocaleString()}
                         </Typography>
@@ -463,7 +481,7 @@ const Cart = () => {
       <Dialog
         maxWidth='sm'
         fullWidth
-        sx={{overflow: 'hidden'}}
+        sx={{ overflow: 'hidden' }}
         open={paymentPopupOpen}
         onClose={closePaymentPopup}>
         <div className='p-5 flex-wrap gap-5 flex justify-between '>
@@ -543,7 +561,9 @@ const Cart = () => {
           <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
         </div>
         <DialogActions>
-          <button className='text-red-700 font-semibold mx-4' onClick={closePaymentPopup} >
+          <button
+            className='text-red-700 font-semibold mx-4'
+            onClick={closePaymentPopup}>
             Cancel
           </button>
           <LoadingButton
