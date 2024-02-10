@@ -98,7 +98,7 @@ const Products = () => {
       </div>
 
       <section className='px-1 md:px-10 my-auto'>
-        {loading ? ( 
+        {loading ? (
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
               Loading products...
@@ -111,9 +111,9 @@ const Products = () => {
             </Typography>
           </div>
         ) : (
-          <div className='flex mx-auto justify-center gap-5 md:gap-20 flex-wrap '>
+          <div className='flex mx-auto justify-center gap-5 md:gap-10 flex-wrap '>
             {currentItems.map((product, index) => (
-              <div key={index} className='flex-initial w-40 md:w-64 xl:w-80 '>
+              <div key={index} className='flex-initial w-40 md:w-64'>
                 <ProductItem {...product} />
               </div>
             ))}
