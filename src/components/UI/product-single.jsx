@@ -57,8 +57,8 @@ const ProductSingle = () => {
   const handleAddToCart = () => {
      if (
        !isAdded &&
-       (!sizes.length || selectedSize) &&
-       (!color.length || selectedColor)
+       (!sizes.length === 0 || selectedSize) &&
+       (!color.length === 0 || selectedColor)
      ) {
        // Dispatch action to add the product to the cart
        cartDispatch({
