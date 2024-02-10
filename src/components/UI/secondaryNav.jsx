@@ -13,7 +13,7 @@ const SecondaryNav = () => {
         <div className='w-full md:w-fit my-2'>
           <span
             onClick={goBack}
-            className='text-black font-Plus-Jakarta-Sans flex gap-2'>
+            className='text-black font-Plus-Jakarta-Sans flex gap-2 px-2 py-2 cursor-pointer'>
             <KeyboardBackspaceRoundedIcon />
             BACK
           </span>
