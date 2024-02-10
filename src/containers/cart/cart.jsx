@@ -459,7 +459,11 @@ const Cart = () => {
         </div>
       </div>
       {/* Payment Popup */}
-      <Dialog open={paymentPopupOpen} onClose={closePaymentPopup}>
+      <Dialog
+        maxWidth='sm'
+        fullWidth
+        open={paymentPopupOpen}
+        onClose={closePaymentPopup}>
         <div className='p-5 flex-wrap gap-5 flex justify-between '>
           <div>
             <p className='text-base font-bold text-indigo-700'>
@@ -480,8 +484,8 @@ const Cart = () => {
             </p>
           </div>
           <Link href='#' className=' h-fit'>
-            <p className='text-sm text-red-600 font-semibold'>
-             ! Make a complaint
+            <p className='text-sm text-red-600 underline font-semibold'>
+              ! Make a complaint
             </p>
           </Link>
         </div>
@@ -537,9 +541,9 @@ const Cart = () => {
           <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
         </div>
         <DialogActions>
-          <Button variant='filled' onClick={closePaymentPopup} color='error'>
+          <button className='text-red-700 font-semibold mx-4' onClick={closePaymentPopup} >
             Cancel
-          </Button>
+          </button>
           <LoadingButton
             loading={isLoading}
             disabled={isDisabledOrder}
@@ -552,9 +556,7 @@ const Cart = () => {
         {/* Order receipt message */}
         <span className='text-center m-3'>
           <p className='text-green-700'>
-            Order details will be sent to your email.
-            <br />
-            Kindly upload payment slip to confirm your order
+            !Order details will be sent to your email.
           </p>
         </span>
       </Dialog>
