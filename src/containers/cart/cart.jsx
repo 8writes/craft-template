@@ -428,7 +428,7 @@ const Cart = () => {
                           style={{ maxHeight: '100px', maxWidth: '100px' }}
                         />
                       </div>
-                      <div className='flex-grow ml-4'>
+                      <div className='flex-col ml-4'>
                         <Typography
                           variant='h6'
                           sx={{ textTransform: 'uppercase' }}>

@@ -260,7 +260,7 @@ const ProductSingle = () => {
                 size='medium'
                 color='success'
                 variant='outlined'
-                disabled={isOutOfStock}>
+                disabled={isAdded || isOutOfStock}>
                 Buy Now
               </Button>
               <Button
