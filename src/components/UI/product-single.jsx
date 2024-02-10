@@ -55,28 +55,28 @@ const ProductSingle = () => {
 
   // Handle adding the product to the cart
   const handleAddToCart = () => {
-     if (
-       !isAdded &&
-       (!sizes.length === 1 || selectedSize) &&
-       (!color.length === 1 || selectedColor)
-     ) {
-       // Dispatch action to add the product to the cart
-       cartDispatch({
-         type: 'ADD_TO_CART',
-         payload: {
-           id,
-           price,
-           name,
-           size: selectedSize,
-           uploadedImageUrl: uploaded_image_urls[0],
-         },
-       })
-       // Update the added state
-       addedState[id] = true
-       setSuccess('Item added to cart')
-     } else {
-       setErrorMessage('Please make a selection.')
-     }
+    const hasValidSize = (sizes.length === 1 && sizes[0] === '') || selectedSize
+    const hasValidColor =
+      (color.length === 1 && color[0] === '') || selectedColor
+
+    if (!isAdded && hasValidSize && hasValidColor) {
+      // Dispatch action to add the product to the cart
+      cartDispatch({
+        type: 'ADD_TO_CART',
+        payload: {
+          id,
+          price,
+          name,
+          size: selectedSize,
+          uploadedImageUrl: uploaded_image_urls[0],
+        },
+      })
+      // Update the added state
+      addedState[id] = true
+      setSuccess('Item added to cart')
+    } else {
+      setErrorMessage('Please make a selection.')
+    }
     // Reset success and failure after a delay
     setTimeout(() => {
       setSuccess('')
