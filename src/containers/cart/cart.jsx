@@ -215,6 +215,7 @@ const Cart = () => {
       const orderItems = cart.map((item) => ({
         name: item.name,
         size: item.size,
+        color: item.color,
         price: item.price,
         details: senderDetails,
       }))
