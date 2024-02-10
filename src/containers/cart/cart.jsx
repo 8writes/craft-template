@@ -464,7 +464,7 @@ const Cart = () => {
         fullWidth
         open={paymentPopupOpen}
         onClose={closePaymentPopup}>
-        <div className='p-5 flex-wrap gap-5 flex justify-between '>
+        <div className='p-5 overflow-hidden flex-wrap gap-5 flex justify-between '>
           <div>
             <p className='text-base font-bold text-indigo-700'>
               Powered by
