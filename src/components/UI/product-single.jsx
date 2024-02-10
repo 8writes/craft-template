@@ -51,11 +51,11 @@ const ProductSingle = () => {
     setErrorMessage('')
   }
 
-  const isOutOfStock = stock === 'Out of Stock'
+  const isOutOfStock = stock === 'Out Of Stock'
 
   // Handle adding the product to the cart
   const handleAddToCart = () => {
-    if (!isAdded && selectedSize && selectedColor) {
+    if (!isAdded && selectedSize.length === 0 && selectedColor.length === 0) {
       // Dispatch action to add the product to the cart
       cartDispatch({
         type: 'ADD_TO_CART',
