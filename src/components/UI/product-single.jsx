@@ -107,7 +107,7 @@ const ProductSingle = () => {
        // Update the added state
        addedState[id] = true
      } else {
-       setErrorMessage('Please select a size.')
+     setErrorMessage('Please make a selection.')
      }
     if (selectedSize) {
       // Redirect to the cart page
