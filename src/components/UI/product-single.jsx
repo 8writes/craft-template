@@ -56,10 +56,10 @@ const ProductSingle = () => {
   // Handle adding the product to the cart
   const handleAddToCart = () => {
     const hasValidSize =
-      (sizes.length === 0 && sizes.length === 1 && sizes[0] === '') ||
+      (sizes === NULL || sizes.length === 1 && sizes[0] === '') ||
       selectedSize
     const hasValidColor =
-      (color.length === 0 && color.length === 1 && color[0] === '') ||
+      (color === NULL || color.length === 1 && color[0] === '') ||
       selectedColor
 
     if (!isAdded && hasValidSize && hasValidColor) {
@@ -89,9 +89,10 @@ const ProductSingle = () => {
 
   // Handle buying the product
   const handleBuyNow = () => {
-    const hasValidSize = (sizes.length === 0 && sizes.length === 1 && sizes[0] === '') || selectedSize
+    const hasValidSize =
+      (sizes === NULL || sizes.length === 1 && sizes[0] === '') || selectedSize
     const hasValidColor =
-      (color.length === 0 && color.length === 1 && color[0] === '') || selectedColor
+      (color === NULL || color.length === 1 && color[0] === '') || selectedColor
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
