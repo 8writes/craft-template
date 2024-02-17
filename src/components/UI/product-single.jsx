@@ -55,9 +55,12 @@ const ProductSingle = () => {
 
   // Handle adding the product to the cart
   const handleAddToCart = () => {
-    const hasValidSize = (sizes.length === 1 && sizes[0] === '') || selectedSize
+    const hasValidSize =
+      (sizes.length === 0 && sizes.length === 1 && sizes[0] === '') ||
+      selectedSize
     const hasValidColor =
-      (color.length === 1 && color[0] === '') || selectedColor
+      (color.length === 0 && color.length === 1 && color[0] === '') ||
+      selectedColor
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -81,37 +84,34 @@ const ProductSingle = () => {
     // Reset success and failure after a delay
     setTimeout(() => {
       setSuccess('')
-    }, 2000)
+    }, 3000)
   }
 
   // Handle buying the product
   const handleBuyNow = () => {
-     const hasValidSize =
-       (sizes.length === 1 && sizes[0] === '') || selectedSize
-     const hasValidColor =
-       (color.length === 1 && color[0] === '') || selectedColor
+    const hasValidSize = (sizes.length === 0 && sizes.length === 1 && sizes[0] === '') || selectedSize
+    const hasValidColor =
+      (color.length === 0 && color.length === 1 && color[0] === '') || selectedColor
 
-     if (!isAdded && hasValidSize && hasValidColor) {
-       // Dispatch action to add the product to the cart
-       cartDispatch({
-         type: 'ADD_TO_CART',
-         payload: {
-           id,
-           price,
-           color,
-           name,
-           size: selectedSize,
-           uploadedImageUrl: uploaded_image_urls[0],
-         },
-       })
-       // Update the added state
-       addedState[id] = true
-     } else {
-     setErrorMessage('Please make a selection.')
-     }
-    if (selectedSize) {
-      // Redirect to the cart page
+    if (!isAdded && hasValidSize && hasValidColor) {
+      // Dispatch action to add the product to the cart
+      cartDispatch({
+        type: 'ADD_TO_CART',
+        payload: {
+          id,
+          price,
+          color,
+          name,
+          size: selectedSize,
+          uploadedImageUrl: uploaded_image_urls[0],
+        },
+      })
+      // Update the added state
+      addedState[id] = true
+
       router.push('/cart')
+    } else {
+      setErrorMessage('Please make a selection.')
     }
   }
 
