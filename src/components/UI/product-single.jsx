@@ -91,10 +91,14 @@ const ProductSingle = () => {
 
   // Handle buying the product
   const handleBuyNow = () => {
-    const hasValidSize =
-      (sizes.length === 1 && sizes[0] === '') || selectedSize
-    const hasValidColor =
-      (color.length === 1 && color[0] === '') || selectedColor
+   const hasValidSize =
+     (sizes.length === 1 && sizes[0] === '') ||
+     selectedSize ||
+     sizes.length === 0
+   const hasValidColor =
+     (color.length === 1 && color[0] === '') ||
+     selectedColor ||
+     color.length === 0
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart

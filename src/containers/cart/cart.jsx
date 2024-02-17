@@ -420,30 +420,34 @@ const Cart = () => {
                   {cart.map((item, index) => (
                     <div
                       key={item.id}
-                      className='flex items-center border w-full p-4 rounded-md'>
-                      <div className='flex-shrink-0'>
-                        <img
-                          src={`${item.uploadedImageUrl}`}
-                          alt=''
-                          style={{ maxHeight: '100px', maxWidth: '100px' }}
-                        />
-                      </div>
-                      <div className='flex-col ml-4'>
-                        <Typography
-                          variant='h6'
-                          sx={{ textTransform: 'uppercase' }}>
-                          {item.name}
-                        </Typography>
-                        <Typography variant='p'>
-                          Size: <span className='uppercase'>{item.size}</span>{' '}
-                        </Typography>
-                        <Typography variant='p'>
-                          Color: <span className='uppercase'>{item.color}</span>{' '}
-                        </Typography>
-                        <Typography variant='subtitle1'>
-                          ₦{Number(item.price).toLocaleString()}
-                        </Typography>
-                      </div>
+                      className='flex justify-between items-center border w-full p-4 rounded-md'>
+                      <>
+                        <div className='flex-shrink-0'>
+                          <img
+                            src={`${item.uploadedImageUrl}`}
+                            alt=''
+                            style={{ maxHeight: '100px', maxWidth: '100px' }}
+                          />
+                        </div>
+                        <div className='flex-col ml-4'>
+                          <Typography
+                            variant='h6'
+                            sx={{ textTransform: 'uppercase' }}>
+                            {item.name}
+                          </Typography>
+                          <Typography variant='p'>
+                            Size: <span className='uppercase'>{item.size}</span>{' '}
+                          </Typography>
+                          <Typography variant='p'>
+                            Color:{' '}
+                            <span className='uppercase'>{item.color}</span>{' '}
+                          </Typography>
+                          <Typography variant='subtitle1'>
+                            ₦{Number(item.price).toLocaleString()}
+                          </Typography>
+                        </div>
+                      </>
+
                       <div className='flex-shrink-0'>
                         <Typography
                           variant='h6'
