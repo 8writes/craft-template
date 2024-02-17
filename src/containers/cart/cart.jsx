@@ -421,7 +421,7 @@ const Cart = () => {
                     <div
                       key={item.id}
                       className='flex justify-between items-center border w-full p-4 rounded-md'>
-                      <>
+                      <div>
                         <div className='flex-shrink-0'>
                           <img
                             src={`${item.uploadedImageUrl}`}
@@ -446,7 +446,7 @@ const Cart = () => {
                             ₦{Number(item.price).toLocaleString()}
                           </Typography>
                         </div>
-                      </>
+                      </div>
 
                       <div className='flex-shrink-0'>
                         <Typography
