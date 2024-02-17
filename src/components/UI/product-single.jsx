@@ -55,9 +55,9 @@ const ProductSingle = () => {
 
   // Handle adding the product to the cart
   const handleAddToCart = () => {
-    const hasValidSize = (sizes.length === 0 && sizes[0] === '') || selectedSize
+    const hasValidSize = (sizes.length === 1 && sizes[0] === '') || selectedSize
     const hasValidColor =
-      (color.length === 0 && color[0] === '') || selectedColor
+      (color.length === 1 && color[0] === '') || selectedColor
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -87,9 +87,9 @@ const ProductSingle = () => {
   // Handle buying the product
   const handleBuyNow = () => {
      const hasValidSize =
-       (sizes.length === 0 && sizes[0] === '') || selectedSize
+       (sizes.length === 1 && sizes[0] === '') || selectedSize
      const hasValidColor =
-       (color.length === 0 && color[0] === '') || selectedColor
+       (color.length === 1 && color[0] === '') || selectedColor
 
      if (!isAdded && hasValidSize && hasValidColor) {
        // Dispatch action to add the product to the cart
