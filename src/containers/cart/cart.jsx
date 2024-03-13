@@ -461,7 +461,10 @@ const Cart = () => {
                 </div>
               ) : (
                 <div className='flex flex-col items-center'>
-                  <Typography variant='body1'>Cart is Empty</Typography>
+                  <Typography variant='p'>Your cart is empty</Typography>
+                  <Typography variant='p'>
+                    Looks like you haven’t added anything to your cart yet.
+                  </Typography>
                   <Button
                     href='/'
                     variant='outlined'
