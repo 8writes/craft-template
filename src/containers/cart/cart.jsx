@@ -477,9 +477,6 @@ const Cart = () => {
           ) : (
             <>
               <Typography variant='p'>Your cart is empty</Typography>
-              <Typography variant='p'>
-                Looks like you haven’t added anything to your cart yet.
-              </Typography>
               <Button href='/' variant='outlined' sx={{ borderRadius: '0px' }}>
                 Return Home
               </Button>
