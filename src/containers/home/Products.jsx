@@ -55,6 +55,7 @@ const Products = () => {
     availability: (a, b) => {
       if (a.stock === 'In Stock' && b.stock !== 'In Stock') return -1
       if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1
+      if (a.stock !== 'In Stock' && b.stock !== 'In Stock') return 0
       return 0
     },
   }
