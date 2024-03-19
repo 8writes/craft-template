@@ -467,8 +467,7 @@ const Cart = () => {
                         size='medium'
                         variant='outlined'
                         color='success'
-                        onClick={openPaymentPopup}
-                        disabled={isDisabled}>
+                        onClick={openPaymentPopup}>
                         <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
                         Proceed to Checkout
                       </Button>
@@ -509,80 +508,60 @@ const Cart = () => {
         sx={{ overflow: 'hidden' }}
         open={paymentPopupOpen}
         onClose={closePaymentPopup}>
-        <div className='p-5 flex-wrap gap-5 flex justify-between '>
-          <div>
-            <p className='text-base font-bold text-indigo-700'>
-              Powered by
-              <Link href='#'>
-                <Image
-                  src={logo}
-                  className='Logo h-fit'
-                  alt='Craaft Logo'
-                  width={100}
-                  height={45}
-                  loading='lazy'
-                />
-              </Link>
-            </p>
-            <p className='text-sm font-semibold text-indigo-700 uppercase mt-3 '>
-              Payment by bank transfer
-            </p>
-          </div>
-          <Link href='#' className=' h-fit'>
-            <p className='text-sm text-red-600 underline font-semibold'>
-              ! Make a complaint
-            </p>
-          </Link>
-        </div>
-        <hr />
         <div className='p-5'>
-          <div className='mb-4'>
-            <p className='text-2xl font-semibold text-gray-700'>
-              Vendor Details
-            </p>
-            <p className='font-semibold'>Account Name:</p>
-            <p className='font-semibold'>Account Number:</p>
-            <p className='font-semibold'>Bank Name:</p>
-          </div>
-          <div className='my-2'>
-            <p className='text-2xl font-semibold text-gray-700'>
-              Sender Details
-            </p>
-            <TextField
-              label='Account Full Name'
-              value={senderDetails.fullName}
-              onChange={(e) =>
-                handleSenderDetailsChange('fullName', e.target.value)
-              }
-              fullWidth
-              margin='normal'
-            />
-            <p className='text-2xl font-semibold text-gray-700'>
-              Sender Details
-            </p>
-            <select
-              value={senderDetails.bank}
-              onChange={(e) =>
-                handleSenderDetailsChange('bank', e.target.value)
-              }
-              style={{ width: '100%', padding: '8px', margin: '8px 0' }}>
-              {banksInNigeria.map((bank) => (
-                <option key={bank} value={bank}>
-                  {bank}
-                </option>
-              ))}
-            </select>
-            <label className='grid my-5'>
-              Upload Payment Slip
+          <form className='grid gap-2 w-full lg:w-96'>
+            <div className='grid gap-2'>
+              <label className='text-gray-700'>Full Name</label>
               <input
-                type='file'
-                className='my-5 cursor-pointer'
+                type='text'
+                placeholder='John Doe'
+                className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                value={formData.full_name}
+                onChange={(e) => handleInputChange('full_name', e.target.value)}
+              />
+            </div>
+            <div className='grid gap-2'>
+              <label className='text-gray-700'>Email Address</label>
+              <input
+                type='email'
+                placeholder='JohnDoe@example.com'
+                className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                value={formData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+              />
+            </div>
+            <div className='grid gap-2'>
+              <label className='text-gray-700'>Address</label>
+              <textarea
+                placeholder='123 Main Street, City, Country'
+                className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                value={formData.address}
+                onChange={(e) => handleInputChange('address', e.target.value)}
+              />
+            </div>
+            <div className='grid gap-2'>
+              <label className='text-gray-700'>Phone Number</label>
+              <input
+                type='tel'
+                placeholder='123-456-7890'
+                className={`border border-gray-300 px-3 py-2 w-full rounded-md`}
+                value={formData.phone_number}
                 onChange={(e) =>
-                  handleSenderDetailsChange('bank', e.target.value)
+                  handleInputChange('phone_number', e.target.value)
                 }
               />
-            </label>{' '}
-          </div>
+            </div>
+            <div className='grid gap-2'>
+              <label className='text-gray-700'>Note</label>
+              <textarea
+                placeholder='Add any additional notes...'
+                className={`border border-gray-300 px-3 py-2 w-full rounded-md `}
+                value={formData.note}
+                onChange={(e) => handleInputChange('note', e.target.value)}
+              />
+            </div>
+          </form>
+          <p className='font-semibold'>Shipping Fee: N/A </p>
           <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
         </div>
         <DialogActions>
@@ -597,13 +576,13 @@ const Cart = () => {
             variant='outlined'
             onClick={handleConfirmOrder}
             color='success'>
-            Place Order
+            Proceed to payment
           </LoadingButton>
         </DialogActions>
         {/* Order receipt message */}
         <span className='text-center m-3'>
           <p className='text-green-700'>
-            !Order details will be sent to your email.
+            Order details / receipt will be sent to your email.
           </p>
         </span>
       </Dialog>
