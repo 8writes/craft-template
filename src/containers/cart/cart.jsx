@@ -509,7 +509,10 @@ const Cart = () => {
         open={paymentPopupOpen}
         onClose={closePaymentPopup}>
         <div className='p-5'>
-          <form className='grid gap-2 w-full lg:w-96'>
+          <p className='text-3xl md:text-4xl mb-5 font-semibold text-slate-600'>
+            Shipping Details
+          </p>
+          <form className='grid gap-2 w-full'>
             <div className='grid gap-2'>
               <label className='text-gray-700'>Full Name</label>
               <input
@@ -561,8 +564,10 @@ const Cart = () => {
               />
             </div>
           </form>
-          <p className='font-semibold'>Shipping Fee: N/A </p>
-          <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
+          <div className='flex justify-end my-5'>
+            <p className='font-semibold'>Shipping Fee: N/A </p>
+            <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
+          </div>
         </div>
         <DialogActions>
           <button
