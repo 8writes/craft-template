@@ -564,7 +564,7 @@ const Cart = () => {
               />
             </div>
           </form>
-          <div className='flex justify-end mt-5'>
+          <div className='flex md:justify-end mt-5'>
             <div className='text-slate-600'>
               <p className='text-xl font-semibold'>Shipping Fee: N/A </p>
               <p className='text-xl font-semibold'>
