@@ -7,7 +7,7 @@
   height: 100px;
 }
 
-.dot {
+.dotx {
   width: 20px;
   height: 20px;
   background-color: #343e4c; /* Blue */
@@ -16,19 +16,19 @@
   animation: bounce 0.5s ease-in-out infinite alternate;
 }
 
-.dot:nth-child(2) {
+.dotx:nth-child(2) {
   animation-delay: 0.1s;
 }
 
-.dot:nth-child(3) {
+.dotx:nth-child(3) {
   animation-delay: 0.2s;
 }
 
-.dot:nth-child(4) {
+.dotx:nth-child(4) {
   animation-delay: 0.3s;
 }
 
-.dot:nth-child(5) {
+.dotx:nth-child(5) {
   animation-delay: 0.4s;
 }
 

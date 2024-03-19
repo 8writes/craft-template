@@ -121,11 +121,11 @@ const Products = () => {
         {loading ? (
           <div className='flex justify-center h-96'>
             <div className='loader my-auto'>
-              <div className='dot'></div>
-              <div className='dot'></div>
-              <div className='dot'></div>
-              <div className='dot'></div>
-              <div className='dot'></div>
+              <div className='dotx'></div>
+              <div className='dotx'></div>
+              <div className='dotx'></div>
+              <div className='dotx'></div>
+              <div className='dotx'></div>
             </div>
           </div>
         ) : !filteredProducts || filteredProducts.length === 0 ? (
