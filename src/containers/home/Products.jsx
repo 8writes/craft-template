@@ -117,10 +117,10 @@ const Products = () => {
         </select>
       </div>
 
-      <section className='px-1 md:px-10 my-auto'>
+      <section className='px-1 md:px-10'>
         {loading ? (
-          <div className='flex justify-center mt-20'>
-            <div className='loader'>
+          <div className='flex justify-center h-96'>
+            <div className='loader my-auto'>
               <div className='dot'></div>
               <div className='dot'></div>
               <div className='dot'></div>
@@ -129,8 +129,8 @@ const Products = () => {
             </div>
           </div>
         ) : !filteredProducts || filteredProducts.length === 0 ? (
-          <div className='text-center mt-20'>
-            <p className='text-gray-700 text-2xl md:text-4xl'>
+          <div className='flex justify-center h-96 '>
+            <p className='text-gray-700 my-auto text-2xl md:text-4xl'>
               No products found :(
             </p>
           </div>
