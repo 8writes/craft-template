@@ -406,7 +406,7 @@ const Cart = () => {
           </Alert>
         )}
         {/* Cart Items */}
-        <div className='flex justify-center flex-col w-full xl:w-1/2 px-5 mt-20 md:px-14 mx-5 '>
+        <div className='flex justify-center flex-col w-full xl:w-1/2 px-5 mt-16 md:px-14 mx-5 '>
           {cart ? (
             <>
               {cart.length > 0 ? (
