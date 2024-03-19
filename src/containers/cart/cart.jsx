@@ -454,15 +454,22 @@ const Cart = () => {
                   ))}
                   {/* Checkout Cart Button */}
                   <div className='flex justify-center md:justify-end'>
-                    <Button
-                      size='medium'
-                      variant='outlined'
-                      color='success'
-                      onClick={openPaymentPopup}
-                      disabled={isDisabled}>
-                      <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
-                      Proceed to Checkout
-                    </Button>
+                    <div>
+                      <Typography
+                        variant='h6'
+                        className='py-2 font-medium text-slate-800'>
+                        Total Price: {formattedTotalPrice}
+                      </Typography>
+                      <Button
+                        size='medium'
+                        variant='outlined'
+                        color='success'
+                        onClick={openPaymentPopup}
+                        disabled={isDisabled}>
+                        <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
+                        Proceed to Checkout
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ) : (
