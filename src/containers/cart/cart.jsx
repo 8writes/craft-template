@@ -574,19 +574,21 @@ const Cart = () => {
           </div>
         </div>
         <DialogActions>
-          <button
-            className='text-red-700 font-semibold mx-4'
-            onClick={closePaymentPopup}>
-            Cancel
-          </button>
-          <LoadingButton
-            loading={isLoading}
-            disabled={isDisabledOrder}
-            variant='outlined'
-            onClick={handleConfirmOrder}
-            color='success'>
-            Proceed to payment
-          </LoadingButton>
+          <div className='flex justify-center md:justify-end px-5'>
+            <button
+              className='text-red-700 font-semibold mx-4'
+              onClick={closePaymentPopup}>
+              Cancel
+            </button>
+            <LoadingButton
+              loading={isLoading}
+              disabled={isDisabledOrder}
+              variant='outlined'
+              onClick={handleConfirmOrder}
+              color='success'>
+              Proceed to payment
+            </LoadingButton>{' '}
+          </div>
         </DialogActions>
         {/* Order receipt message */}
         <span className='text-center m-3'>
