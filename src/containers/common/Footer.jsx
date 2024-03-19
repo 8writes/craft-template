@@ -13,14 +13,14 @@ const Footer = () => {
   }, [])
 
   return (
-    <>
-      <section className='flex flex-col justify-center py-16 bg-slate-100 text-gray-700'>
-        <p className='text-sm font-semibold uppercase'> © {subdomain} 2024.</p>
-        <Typography variant='p.medium'>
-          &nbsp; powered by <Link href='https://craaft.com.ng'>craaft.</Link>{' '}
-        </Typography>
+    <div>
+      <section className='flex justify-center py-16 bg-slate-100 text-gray-700'>
+        <p className='text-sm uppercase'> © 2024, {subdomain} .</p>
       </section>
-    </>
+      <Typography variant='p.medium'>
+        &nbsp; Powered by <Link href='https://craaft.com.ng'>Craaft.</Link>{' '}
+      </Typography>
+    </div>
   )
 }
 
