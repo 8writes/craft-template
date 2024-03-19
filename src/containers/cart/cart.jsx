@@ -574,7 +574,7 @@ const Cart = () => {
           </div>
         </div>
         <DialogActions>
-          <div className='flex justify-center md:justify-end px-5'>
+          <div className='flex justify-center md:justify-end px-5 md:px-0'>
             <button
               className='text-red-700 font-semibold mx-4'
               onClick={closePaymentPopup}>
