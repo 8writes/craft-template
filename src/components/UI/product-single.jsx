@@ -223,7 +223,7 @@ const ProductSingle = () => {
                     key={index}
                     className={`px-4 py-1 text-slate-800 uppercase ${
                       selectedColor === color
-                        ? ' border-2 border-green-500 '
+                        ? ' border-2 border-slate-700 '
                         : 'border-2 border-slate-300'
                     }`}
                     onClick={() => handleColorClick(color)}
