@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import Image from 'next/image'
 import searchIcon from '../../../public/searchIcon.svg'
+import './Loader.css'
 
 const Products = () => {
   // States
@@ -90,7 +91,7 @@ const Products = () => {
           <input
             type='text'
             className='outline-none bg-transparent font-semibold w-full text-base md:text-sm'
-            placeholder='Search products'
+            placeholder='Search product / category  '
             value={searchQuery}
             onChange={handleSearch}
           />
@@ -118,16 +119,20 @@ const Products = () => {
 
       <section className='px-1 md:px-10 my-auto'>
         {loading ? (
-          <div className='text-center my-10'>
-            <Typography variant='h5' className='text-gray-700'>
-              Loading products...
-            </Typography>
+          <div className='flex justify-center mt-20'>
+            <div className='loader'>
+              <div className='dot'></div>
+              <div className='dot'></div>
+              <div className='dot'></div>
+              <div className='dot'></div>
+              <div className='dot'></div>
+            </div>
           </div>
         ) : !filteredProducts || filteredProducts.length === 0 ? (
-          <div className='text-center my-10'>
-            <Typography variant='h5' className='text-gray-700'>
-              No products found
-            </Typography>
+          <div className='text-center mt-20'>
+            <p className='text-gray-700 text-2xl md:text-4xl'>
+              No products found :(
+            </p>
           </div>
         ) : (
           <div className='flex mx-auto justify-center gap-5 md:gap-10 flex-wrap '>
