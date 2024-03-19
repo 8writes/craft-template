@@ -406,12 +406,12 @@ const Cart = () => {
           </Alert>
         )}
         {/* Cart Items */}
-        <div className='flex justify-center flex-col w-full xl:w-1/2 px-5 mt-16 md:px-14 mx-5 '>
+        <div className='flex justify-center flex-col w-full xl:w-1/2 px-5 mt-14 md:px-14 mx-5 '>
           {cart ? (
             <>
               {cart.length > 0 ? (
                 <div className='w-full space-y-4'>
-                  <p className='text-3xl md:text-4xl text-center font-semibold text-slate-600'>
+                  <p className='text-3xl md:text-4xl mb-5 text-center font-semibold text-slate-600'>
                     My Cart
                   </p>
                   {cart.map((item, index) => (
