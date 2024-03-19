@@ -314,14 +314,14 @@ const Cart = () => {
         </Grid>
       )}
       <SecondaryNav />
-      <div className='flex flex-wrap gap-10 justify-center items-start'>
+      <div className='flex flex-wrap justify-center'>
         {/* Checkout Section */}
         <div className='flex flex-col bg-white w-full lg:w-96 p-5 md:p-10 md:m-5'>
           <div className='grid gap-4 mb-4'>
-            <Typography variant='h5' className='text-gray-700 mb-2'>
+            {/*  <Typography variant='h5' className='text-gray-700 mb-2'>
               Checkout
             </Typography>
-            {/* Standard Delivery Form */}
+             Standard Delivery Form 
             <form className='grid gap-2 w-full lg:w-96'>
               <div className='grid gap-2'>
                 <label className='text-gray-700'>Full Name</label>
@@ -380,8 +380,8 @@ const Cart = () => {
               variant='h6'
               className='py-2 font-medium text-slate-800'>
               Total Price: {formattedTotalPrice}
-            </Typography>
-            {/* Checkout Cart Button */}
+            </Typography>*/}
+            {/* Checkout Cart Button 
             <Button
               size='medium'
               variant='outlined'
@@ -390,7 +390,7 @@ const Cart = () => {
               disabled={isDisabled}>
               <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
               Checkout Cart
-            </Button>
+            </Button>*/}
           </div>
         </div>
         {/* Order Status Alert */}
@@ -406,13 +406,7 @@ const Cart = () => {
           </Alert>
         )}
         {/* Cart Items */}
-        <div className='flex flex-col items-center w-full lg:w-2/5 px-5 md:px-14 mx-5 my-10 py-5 border mr-5'>
-          <div className='mt-2 mb-5 text-center'>
-            <Typography variant='h5' className='text-gray-700'>
-              Shopping Cart
-            </Typography>
-          </div>
-
+        <div className='flex flex-col w-full px-5 md:px-14 mx-5 '>
           {cart ? (
             <>
               {cart.length > 0 ? (
@@ -460,11 +454,13 @@ const Cart = () => {
                   ))}
                 </div>
               ) : (
-                <div className='flex flex-col items-center'>
-                  <Typography variant='p'>Your cart is empty</Typography>
-                  <Typography variant='p'>
+                <div className='flex gap-3 flex-col items-center'>
+                  <p className='text-2xl md:text-4xl font-semibold text-slate-600'>
+                    Your cart is empty :(
+                  </p>
+                  <p className='text-center text-md font-semibold text-slate-700'>
                     Looks like you haven’t added anything to your cart yet.
-                  </Typography>
+                  </p>
                   <Button
                     href='/'
                     variant='outlined'

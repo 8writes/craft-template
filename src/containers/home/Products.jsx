@@ -57,8 +57,6 @@ const Products = () => {
       if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1
       if (a.stock === 'Low Stock' && b.stock !== 'Low Stock') return -1
       if (a.stock !== 'Low Stock' && b.stock === 'Low Stock') return 1
-      if (a.stock !== 'In Stock' && b.stock !== 'In Stock') return 0
-      if (a.stock !== 'Low Stock' && b.stock !== 'Low Stock') return 0
       return 0
     },
   }
