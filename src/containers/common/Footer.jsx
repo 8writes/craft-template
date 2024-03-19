@@ -13,10 +13,10 @@ const Footer = () => {
   }, [])
 
   return (
-    <div>
-      <section className='flex justify-center py-16 bg-slate-100 text-gray-700'>
+    <div className='bg-slate-100 pb-5'>
+      <div className='flex justify-center pt-10 pb-5 text-gray-700'>
         <p className='text-sm uppercase'> © 2024, {subdomain} .</p>
-      </section>
+      </div>
       <Typography variant='p.medium'>
         &nbsp; Powered by <Link href='https://craaft.com.ng'>Craaft.</Link>{' '}
       </Typography>
