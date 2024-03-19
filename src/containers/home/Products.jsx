@@ -55,7 +55,7 @@ const Products = () => {
     availability: (a, b) => {
       if (a.stock === 'In Stock' && b.stock !== 'In Stock') return -1
       if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1
-      if (a.stock === 'In Stock' && b.stock === 'In Stock') return 0
+      if (a.stock === 'Out Of Stock' && b.stock === 'Out Of Stock') return 0
       return 0
     },
   }
@@ -66,11 +66,6 @@ const Products = () => {
   // Filter products based on search query
   const filteredProducts = sortedProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-
-  // Filter out-of-stock products
-  const availableProducts = filteredProducts.filter(
-    (product) => product.stock !== 'Out Of Stock'
   )
 
   const itemsPerPage = 9
@@ -135,13 +130,11 @@ const Products = () => {
           </div>
         ) : (
           <div className='flex mx-auto justify-center gap-5 md:gap-10 flex-wrap '>
-            {availableProducts
-              .slice(indexOfFirstItem, indexOfLastItem)
-              .map((product, index) => (
-                <div key={index} className='flex-initial w-40 md:w-64'>
-                  <ProductItem {...product} />
-                </div>
-              ))}
+            {currentItems.map((product, index) => (
+              <div key={index} className='flex-initial w-40 md:w-64'>
+                <ProductItem {...product} />
+              </div>
+            ))}
           </div>
         )}
       </section>
