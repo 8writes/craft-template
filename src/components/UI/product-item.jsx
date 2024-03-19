@@ -57,7 +57,7 @@ const ProductItem = ({
             </p>
             <div className='flex justify-between gap-6'>
               <>
-                <h6 className='my-auto font-Plus-Jakarta-Sans text-base font-semibold lg:text-xl text-slate-700'>
+                <h6 className='my-auto font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700'>
                   ₦{Number(price).toLocaleString()}
                 </h6>
               </>
