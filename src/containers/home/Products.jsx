@@ -137,9 +137,14 @@ const Products = () => {
                 <div className='dotx'></div>
               </div>
               {showLoadingMessage && (
-                <p className='text-slate-600 font-semibold text-center text-md'>
-                  Loading is taking longer than expected ...
-                </p>
+                <>
+                  <p className='text-slate-600 font-semibold text-center text-md'>
+                    Loading is taking longer than expected,
+                  </p>
+                  <p className='text-slate-600 font-semibold text-center text-md'>
+                    Please be patient.
+                  </p>
+                </>
               )}
             </div>
           </div>
