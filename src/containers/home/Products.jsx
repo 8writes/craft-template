@@ -53,10 +53,9 @@ const Products = () => {
     priceLow: (a, b) => a.price - b.price,
     priceHigh: (a, b) => b.price - a.price,
     availability: (a, b) => {
-      if (a.stock === 'In Stock' && b.stock !== 'In Stock') return -1
-      if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1
-      if (a.stock !== 'In Stock' && b.stock !== 'In Stock') return 0
-      return 0
+       if (a.stock === 'In Stock' && b.stock !== 'In Stock') return -1
+       if (a.stock !== 'In Stock' && b.stock === 'In Stock') return 1
+       return 0
     },
   }
 

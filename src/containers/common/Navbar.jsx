@@ -16,14 +16,16 @@ const Navbar = () => {
       <section className='hidden md:block bg-white fixed w-full z-50'>
         <div className='flex justify-between p-5 md:p-7'>
           <Logo />
-          <div className='flex items-center  gap-2 mx-10'>
+          <div className='flex items-center gap-2 mx-10'>
             <Link className='flex items-center' href='cart'>
-              <Image src={Cart} alt='' width='27' height='27' />
-              <Typography
-                className=' text-md mx-2 text-slate-800 font-medium hover:text-slate-900'
-                variant='subtitle1'>
-                CART
-              </Typography>
+              <div className='flex mx-2'>
+                <Image src={Cart} alt='' width='27' height='27' />
+                <Typography
+                  className=' text-md text-slate-800 font-medium hover:text-slate-900'
+                  variant='subtitle1'>
+                  CART
+                </Typography>
+              </div>
 
               <Typography
                 className='px-2 text-black border-2 border-slate-300 rounded-full'
