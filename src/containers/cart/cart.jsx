@@ -316,9 +316,9 @@ const Cart = () => {
       <SecondaryNav />
       <div className='flex flex-wrap justify-center'>
         {/* Checkout Section */}
-        <div className='flex flex-col bg-white w-full lg:w-96 p-5 md:p-10 md:m-5'>
+        {/*  <div className='flex flex-col bg-white w-full lg:w-96 p-5 md:p-10 md:m-5'>
           <div className='grid gap-4 mb-4'>
-            {/*  <Typography variant='h5' className='text-gray-700 mb-2'>
+           <Typography variant='h5' className='text-gray-700 mb-2'>
               Checkout
             </Typography>
              Standard Delivery Form 
@@ -381,7 +381,7 @@ const Cart = () => {
               className='py-2 font-medium text-slate-800'>
               Total Price: {formattedTotalPrice}
             </Typography>*/}
-            {/* Checkout Cart Button 
+        {/* Checkout Cart Button 
             <Button
               size='medium'
               variant='outlined'
@@ -390,9 +390,9 @@ const Cart = () => {
               disabled={isDisabled}>
               <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
               Checkout Cart
-            </Button>*/}
+            </Button>
           </div>
-        </div>
+        </div>*/}
         {/* Order Status Alert */}
         {orderStatus === 'success' && (
           <Alert severity='success' className='fixed bottom-10 right-10'>
@@ -406,7 +406,7 @@ const Cart = () => {
           </Alert>
         )}
         {/* Cart Items */}
-        <div className='flex flex-col w-full md:w-1/3 px-5 md:px-14 mx-5 '>
+        <div className='flex justify-center flex-col w-full xl:w-1/2 px-5 mt-20 md:px-14 mx-5 '>
           {cart ? (
             <>
               {cart.length > 0 ? (
@@ -452,6 +452,16 @@ const Cart = () => {
                       </div>
                     </div>
                   ))}
+                  {/* Checkout Cart Button */}
+                  <Button
+                    size='medium'
+                    variant='outlined'
+                    color='success'
+                    onClick={openPaymentPopup}
+                    disabled={isDisabled}>
+                    <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
+                    Proceed to Checkout
+                  </Button>
                 </div>
               ) : (
                 <div className='flex gap-3 flex-col items-center'>
