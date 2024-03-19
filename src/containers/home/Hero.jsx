@@ -31,7 +31,7 @@ const Hero = () => {
   return (
     <>
       <section>
-        {/**<div className="flex justify-center my-10 md:my-5 ">
+        <div className="flex justify-center my-10 md:my-5 ">
           <div className="grid gap-5 md:gap-10 max-w-7xl justify-items-center text-center py-5 md:py-5 px-5 md:px-10">
               <Carousel
               showArrows={true}
@@ -59,7 +59,7 @@ const Hero = () => {
               ))}
             </Carousel> 
           </div>
-        </div>*/}
+        </div>
       </section>
     </>
   );

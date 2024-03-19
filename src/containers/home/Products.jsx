@@ -1,13 +1,13 @@
 /** @format */
-
 'use client'
 
-// Imports
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ProductItem } from '@/components/UI'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
+import Image from 'next/image'
+import searchIcon from '../../../public/searchIcon.svg'
 
 const Products = () => {
   // States
@@ -15,31 +15,25 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [sortOption, setSortOption] = useState('newest')
   const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true)
-
         const subdomain = window.location.hostname.split('.')[0]
-
         const storeNameId = subdomain
-
         const response = await axios.get(
-          ` https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`
+          `https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`
         )
-
         const { error, data } = response.data
-
         if (error) {
           console.log('An error occurred', error)
         }
-
         const updatedProducts = data.map((item) => ({
           ...item,
           image: item.uploadedImageUrl1,
         }))
-
         setProducts(updatedProducts)
       } catch (error) {
         console.error('Error fetching data:', error.message)
@@ -47,9 +41,7 @@ const Products = () => {
         setLoading(false)
       }
     }
-
     fetchData()
-
     return () => {
       setProducts([])
     }
@@ -70,20 +62,45 @@ const Products = () => {
   // Sort products based on the selected option
   const sortedProducts = [...products].sort(sortFunctions[sortOption])
 
+  // Filter products based on search query
+  const filteredProducts = sortedProducts.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
   const itemsPerPage = 9
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = sortedProducts.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber)
   }
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value)
+  }
+
   return (
     <div>
       {/* Sorting options */}
-      <div className='flex justify-end  mb-10 mx-5 md:mx-24'>
-        <label className='mr-2 font-semibold text-slate-700'>Sort by:</label>
+      <div className='flex flex-wrap justify-end mb-10 mx-5 md:mx-16'>
+        <span className='flex w-full md:w-1/4 gap-2 border-b mx-5 mb-5 md:mb-0 border-gray-500 '>
+          <input
+            type='text'
+            className='outline-none bg-transparent font-semibold w-full text-base md:text-sm'
+            placeholder='Search products'
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          <Image
+            src={searchIcon}
+            alt='Search icon'
+            className='cursor-pointer'
+            width={19}
+            height={19}
+          />
+        </span>
+        <label className='mr-2 font-semibold text-slate-700'>Filter:</label>
         <select
           value={sortOption}
           className=' cursor-pointer'
@@ -104,7 +121,7 @@ const Products = () => {
               Loading products...
             </Typography>
           </div>
-        ) : !products || products.length === 0 ? (
+        ) : !filteredProducts || filteredProducts.length === 0 ? (
           <div className='text-center my-10'>
             <Typography variant='h5' className='text-gray-700'>
               No products found
@@ -124,7 +141,7 @@ const Products = () => {
       {/* Pagination */}
       <div className='flex justify-center md:justify-end first-letter py-10 md:mx-40 md:px-40'>
         {Array.from({
-          length: Math.ceil(sortedProducts.length / itemsPerPage),
+          length: Math.ceil(filteredProducts.length / itemsPerPage),
         }).map((_, index) => (
           <button key={index} onClick={() => paginate(index + 1)}>
             <Link href='#'>
