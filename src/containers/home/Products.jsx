@@ -17,6 +17,7 @@ const Products = () => {
   const [sortOption, setSortOption] = useState('newest')
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
+  const [showLoadingMessage, setShowLoadingMessage] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +43,16 @@ const Products = () => {
         setLoading(false)
       }
     }
+
+    const timeout = setTimeout(() => {
+      setShowLoadingMessage(true)
+    }, 10000)
+
     fetchData()
+
     return () => {
       setProducts([])
+      clearTimeout(timeout)
     }
   }, [])
 
@@ -120,12 +128,19 @@ const Products = () => {
       <section className='px-1 md:px-10'>
         {loading ? (
           <div className='flex justify-center h-96'>
-            <div className='loader my-auto'>
-              <div className='dotx'></div>
-              <div className='dotx'></div>
-              <div className='dotx'></div>
-              <div className='dotx'></div>
-              <div className='dotx'></div>
+            <div className='my-auto'>
+              <div className='loader  mx-auto'>
+                <div className='dotx'></div>
+                <div className='dotx'></div>
+                <div className='dotx'></div>
+                <div className='dotx'></div>
+                <div className='dotx'></div>
+              </div>
+              {showLoadingMessage && (
+                <p className='text-slate-600 font-semibold text-center text-md'>
+                  Loading is taking longer than expected ...
+                </p>
+              )}
             </div>
           </div>
         ) : !filteredProducts || filteredProducts.length === 0 ? (
