@@ -509,7 +509,7 @@ const Cart = () => {
         open={paymentPopupOpen}
         onClose={closePaymentPopup}>
         <div className='p-5'>
-          <p className='text-3xl md:text-4xl mb-5 font-semibold text-slate-600'>
+          <p className='text-2xl md:text-3xl mb-5 font-semibold text-slate-600'>
             Shipping Details
           </p>
           <form className='grid gap-2 w-full'>
@@ -565,8 +565,12 @@ const Cart = () => {
             </div>
           </form>
           <div className='flex justify-end my-5'>
-            <p className='font-semibold'>Shipping Fee: N/A </p>
-            <p className='font-semibold'>Total Price: {formattedTotalPrice}</p>
+            <div>
+              <p className='font-semibold'>Shipping Fee: N/A </p>
+              <p className='font-semibold'>
+                Total Price: {formattedTotalPrice}
+              </p>
+            </div>
           </div>
         </div>
         <DialogActions>
