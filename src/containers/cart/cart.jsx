@@ -466,7 +466,7 @@ const Cart = () => {
                   </div>
                 </div>
               ) : (
-                <div className='flex gap-3 flex-col items-center'>
+                <div className='flex gap-3 flex-col items-center mt-10'>
                   <p className='text-2xl md:text-4xl font-semibold text-slate-600'>
                     Your cart is empty :(
                   </p>
