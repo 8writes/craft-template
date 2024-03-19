@@ -91,14 +91,14 @@ const ProductSingle = () => {
 
   // Handle buying the product
   const handleBuyNow = () => {
-   const hasValidSize =
-     (sizes.length === 1 && sizes[0] === '') ||
-     selectedSize ||
-     sizes.length === 0
-   const hasValidColor =
-     (color.length === 1 && color[0] === '') ||
-     selectedColor ||
-     color.length === 0
+    const hasValidSize =
+      (sizes.length === 1 && sizes[0] === '') ||
+      selectedSize ||
+      sizes.length === 0
+    const hasValidColor =
+      (color.length === 1 && color[0] === '') ||
+      selectedColor ||
+      color.length === 0
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -182,6 +182,13 @@ const ProductSingle = () => {
               component='div'>
               {name}
             </Typography>
+            {/* Product price */}
+            <Typography
+              className='text-gray-800 px-1 '
+              variant='h5'
+              component='div'>
+              ₦{Number(price).toLocaleString()}
+            </Typography>
             {/* Size selection */}
             <Typography
               variant='subtitle1'
@@ -252,13 +259,6 @@ const ProductSingle = () => {
                 </span>
               </div>
             </Typography>
-            {/* Product price */}
-            <Typography
-              className='text-gray-800 px-1 '
-              variant='h5'
-              component='div'>
-              ₦{Number(price).toLocaleString()}
-            </Typography>
             {/* Buy Now and Add to Cart buttons */}
             <span className='flex gap-5'>
               <Button
@@ -283,9 +283,7 @@ const ProductSingle = () => {
             </span>
             {/* Product description */}
             <Typography variant='p' sx={{ my: '10px' }}>
-              <span className='uppercase text-base font-medium'>
-                Product Description:
-              </span>{' '}
+              <span className='uppercase text-base '>Product Description:</span>{' '}
               <br />
               <Typography variant='body1'>{description}</Typography>
             </Typography>
