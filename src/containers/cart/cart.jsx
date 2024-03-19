@@ -411,6 +411,9 @@ const Cart = () => {
             <>
               {cart.length > 0 ? (
                 <div className='w-full space-y-4'>
+                  <p className='text-3xl md:text-4xl text-center font-semibold text-slate-600'>
+                    My Cart
+                  </p>
                   {cart.map((item, index) => (
                     <div
                       key={item.id}
