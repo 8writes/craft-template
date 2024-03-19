@@ -14,11 +14,11 @@ const Typography = ({ variant, children }) => {
       break;
     case "p":
       className =
-        "font-montserrat   text-base md:text-lg leading-loose-light md:leading-loose-strong";
+        "font-montserrat text-base md:text-lg leading-loose-light md:leading-loose-strong";
       break;
     case "p.medium":
       className =
-        "font-montserrat font-medium text-[0.8125rem]   md:text-sm leading-loose-strong md:leading-loose-strong";
+        "font-montserrat font-medium text-[0.8125rem] md:text-sm leading-loose-strong md:leading-loose-strong";
       break;
     case "p.link":
       className =
