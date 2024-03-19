@@ -68,6 +68,11 @@ const Products = () => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  // Filter out-of-stock products
+  const availableProducts = filteredProducts.filter(
+    (product) => product.stock !== 'Out Of Stock'
+  )
+
   const itemsPerPage = 9
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -130,11 +135,13 @@ const Products = () => {
           </div>
         ) : (
           <div className='flex mx-auto justify-center gap-5 md:gap-10 flex-wrap '>
-            {currentItems.map((product, index) => (
-              <div key={index} className='flex-initial w-40 md:w-64'>
-                <ProductItem {...product} />
-              </div>
-            ))}
+            {availableProducts
+              .slice(indexOfFirstItem, indexOfLastItem)
+              .map((product, index) => (
+                <div key={index} className='flex-initial w-40 md:w-64'>
+                  <ProductItem {...product} />
+                </div>
+              ))}
           </div>
         )}
       </section>
