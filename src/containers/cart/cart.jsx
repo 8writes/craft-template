@@ -453,15 +453,17 @@ const Cart = () => {
                     </div>
                   ))}
                   {/* Checkout Cart Button */}
-                  <Button
-                    size='medium'
-                    variant='outlined'
-                    color='success'
-                    onClick={openPaymentPopup}
-                    disabled={isDisabled}>
-                    <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
-                    Proceed to Checkout
-                  </Button>
+                  <div className='flex justify-center md:justify-end'>
+                    <Button
+                      size='medium'
+                      variant='outlined'
+                      color='success'
+                      onClick={openPaymentPopup}
+                      disabled={isDisabled}>
+                      <ShoppingCartCheckoutIcon sx={{ margin: '10px' }} />
+                      Proceed to Checkout
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <div className='flex gap-3 flex-col items-center'>
