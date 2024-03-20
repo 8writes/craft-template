@@ -13,7 +13,8 @@ export function DataProvider({ children }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ` https://craftserver.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`
+        //  ` https://craaft.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`,
+          { withCredentials: true }
         )
 
         const { error, data } = response.data
