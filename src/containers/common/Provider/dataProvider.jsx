@@ -1,6 +1,5 @@
-/** @format */
 
-'use client'
+/**'use client'
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -50,4 +49,4 @@ export function DataProvider({ children }) {
 
 export function useData() {
   return useContext(DataContext)
-}
+}*/
