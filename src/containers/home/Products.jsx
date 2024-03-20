@@ -28,7 +28,7 @@ const Products = () => {
         const response = await axios.get(
           `https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`,
           { withCredentials: true }
-        )
+        ) 
         const { error, data } = response.data
         if (error) {
           console.log('An error occurred', error)
