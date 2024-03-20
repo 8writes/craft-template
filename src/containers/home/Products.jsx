@@ -26,7 +26,8 @@ const Products = () => {
         const subdomain = window.location.hostname.split('.')[0]
         const storeNameId = subdomain
         const response = await axios.get(
-          `https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`
+          `https://craaft.onrender.com/v1/api/fetch?store_name_id=${storeNameId}_product_partition`,
+          { withCredentials: true }
         )
         const { error, data } = response.data
         if (error) {
