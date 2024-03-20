@@ -15,9 +15,9 @@ const Footer = () => {
   }, [])
 
   return (
-    <div className='bg-slate-100 p-8'>
+    <div className='bg-slate-100 p-5 md:p-8'>
       <section className='flex flex-wrap gap-5 justify-between'>
-        <div className=''>
+        <div>
           <Link href='/' className='text-slate-600 grid'>
             <Typography variant='h2'>{subdomain}</Typography>
           </Link>
