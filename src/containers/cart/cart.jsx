@@ -461,7 +461,7 @@ const Cart = () => {
                       <Typography
                         variant='h6'
                         className='py-2 font-medium text-slate-800'>
-                        Total Price: {formattedTotalPrice}
+                        Subtotal: {formattedTotalPrice}
                       </Typography>
                       <Button
                         size='medium'
@@ -566,7 +566,10 @@ const Cart = () => {
           </form>
           <div className='flex md:justify-end mt-5'>
             <div className='text-slate-600'>
-              <p className='text-xl font-semibold'>Shipping Fee: N/A </p>
+              <p className='text-xl font-semibold'>
+                Subtotal: {formattedTotalPrice}
+              </p>
+              <p className='text-xl font-semibold'>Shipping: N/A </p>
               <p className='text-xl font-semibold'>
                 Total Price: {formattedTotalPrice}
               </p>

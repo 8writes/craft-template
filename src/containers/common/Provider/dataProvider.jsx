@@ -1,5 +1,5 @@
 
-/**'use client'
+'use client'
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -8,7 +8,7 @@ const DataContext = createContext()
 export function DataProvider({ children }) {
   const [products, setProducts] = useState([])
 
-  useEffect(() => {
+  /** useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -40,7 +40,7 @@ export function DataProvider({ children }) {
     return () => {
       setProducts([])
     }
-  }, [])
+  }, [])*/
 
   return (
     <DataContext.Provider value={{ products }}>{children}</DataContext.Provider>
@@ -49,4 +49,4 @@ export function DataProvider({ children }) {
 
 export function useData() {
   return useContext(DataContext)
-}*/
+}
