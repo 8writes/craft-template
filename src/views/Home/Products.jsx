@@ -112,7 +112,7 @@ const Products = () => {
             height={19}
           />
         </span>
-        <label className='mr-2 font-semibold text-slate-700'>Filter:</label>
+        <div className='mr-2 font-semibold text-slate-700'>Filter:</div>
         <select
           value={sortOption}
           className=' cursor-pointer'
