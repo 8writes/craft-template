@@ -4,9 +4,9 @@ import { Logo } from '@/components'
 //import Card from '@mui/material/Card'
 import Link from 'next/link'
 import Typography from '@mui/material/Typography'
-import { useCart } from '@/containers/common/Provider/cartProvider'
+import { useCart } from '@/context/cartContext'
 import Image from 'next/image'
-import Cart from '../../../public/cart.svg'
+import Cart from '../../public/cart.svg'
 
 const Navbar = () => {
   const { itemCount } = useCart()

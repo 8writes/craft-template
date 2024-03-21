@@ -2,30 +2,33 @@
 
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
-import { useCart } from '../../containers/common/Provider/cartProvider'
-import { useSearchParams } from 'next/navigation'
+import { useCart } from '../../context/cartContext'
 import { ProductImages } from '.'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Alert, Grid, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import { useProduct } from '@/context/productContext'
 
 const ProductSingle = () => {
   // Initialize Next.js router
   const router = useRouter()
+  const { productData } = useProduct()
 
-  // Get URL search parameters
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
-  const name = searchParams.get('name')
-  const alt = searchParams.get('alt')
-  const uploaded_image_urls = searchParams.getAll('uploaded_image_urls')
-  const sizes = searchParams.getAll('size')
-  const color = searchParams.getAll('color')
-  const price = searchParams.get('price')
-  const description = searchParams.get('description')
-  const cartLinkSrc = searchParams.get('cartLinkSrc')
-  const stock = searchParams.get('stock')
+  const {
+    id,
+    name,
+    alt,
+    uploaded_image_urls,
+    size,
+    price,
+    color,
+    linkSrc,
+    description,
+    buyLinkSrc,
+    cartLinkSrc,
+    stock,
+  } = productData
 
   // Cart context
   const { cartDispatch, addedState } = useCart()
@@ -56,9 +59,9 @@ const ProductSingle = () => {
   // Handle adding the product to the cart
   const handleAddToCart = () => {
     const hasValidSize =
-      (sizes.length === 1 && sizes[0] === '') ||
+      (size.length === 1 && size[0] === '') ||
       selectedSize ||
-      sizes.length === 0
+      size.length === 0
     const hasValidColor =
       (color.length === 1 && color[0] === '') ||
       selectedColor ||
@@ -92,9 +95,9 @@ const ProductSingle = () => {
   // Handle buying the product
   const handleBuyNow = () => {
     const hasValidSize =
-      (sizes.length === 1 && sizes[0] === '') ||
+      (size.length === 1 && size[0] === '') ||
       selectedSize ||
-      sizes.length === 0
+      size.length === 0
     const hasValidColor =
       (color.length === 1 && color[0] === '') ||
       selectedColor ||
@@ -196,7 +199,7 @@ const ProductSingle = () => {
               className='text-slate-700'>
               Size:
               <div className='flex flex-wrap gap-2'>
-                {sizes.map((singleSize, index) => (
+                {size.map((singleSize, index) => (
                   <button
                     key={index}
                     className={`px-4 py-1 text-slate-800 uppercase ${

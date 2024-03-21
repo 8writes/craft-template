@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^10",
-    "eslint": "^8",
     "eslint-config-next": "13.5.5",
     "postcss": "^8",
     "tailwindcss": "^3"

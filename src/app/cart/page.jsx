@@ -1,5 +1,7 @@
-import Cart from "@/containers/cart/cart";
-import Template from "../template";
+/** @format */
+
+import Cart from '@/views/Cart/cart'
+import Template from '../template'
 
 const Page = () => {
   return (
@@ -8,7 +10,7 @@ const Page = () => {
         <Cart />
       </>
     </Template>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

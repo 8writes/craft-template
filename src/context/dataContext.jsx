@@ -1,3 +1,4 @@
+/** @format */
 
 'use client'
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -7,12 +8,18 @@ const DataContext = createContext()
 
 export function DataProvider({ children }) {
   const [products, setProducts] = useState([])
+  const [subdomain, setSubdomain] = useState('')
 
+  useEffect(() => {
+    const subdomain = window.location.hostname.split('.')[0]
+    setSubdomain(subdomain)
+  }, [])
+  
   /** useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-        //  ` https://craaft.onrender.com/v1/api/fetch?store_name_id=teststore_product_partition`,
+             `https://craaft.onrender.com/v1/api/fetchuser?id=${userSessionData?.id}`
           { withCredentials: true }
         )
 

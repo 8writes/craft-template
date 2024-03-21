@@ -5,6 +5,7 @@ import Card from '@mui/material/Card'
 import { CardActionArea } from '@mui/material'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
+import { useProduct } from '@/context/productContext'
 
 const ProductItem = ({
   id,
@@ -20,28 +21,32 @@ const ProductItem = ({
   cartLinkSrc,
   stock,
 }) => {
-  const queryParams = {
-    id,
-    name,
-    alt,
-    uploaded_image_urls,
-    size,
-    price,
-    color,
-    linkSrc,
-    description,
-    buyLinkSrc,
-    cartLinkSrc,
-    stock,
-  }
 
+   const { setProductData } = useProduct()
+
+   const handleClick = () => {
+     setProductData({
+       id,
+       name,
+       alt,
+       uploaded_image_urls,
+       size,
+       price,
+       color,
+       linkSrc,
+       description,
+       buyLinkSrc,
+       cartLinkSrc,
+       stock,
+     })
+  }
+  
   return (
     <div>
-      <Card elevation={0}>
+      <Card onClick={handleClick} elevation={0}>
         <Link
           href={{
             pathname: 'product-info',
-            query: queryParams,
           }}>
           <CardActionArea>
             <CardMedia
@@ -49,7 +54,7 @@ const ProductItem = ({
               className='w-48 h-40  md:w-full lg:h-72 hover:scale-105 transition-all'
               image={uploaded_image_urls[0]}
               alt={alt}
-            />  
+            />
           </CardActionArea>
           <CardContent sx={{ pl: 0, pr: 0 }}>
             <p className='font-Plus-Jakarta-Sans text-base lg:text-xl text-slate-700 pb-2 uppercase'>

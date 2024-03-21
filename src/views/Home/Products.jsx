@@ -143,7 +143,7 @@ const Products = () => {
                     Loading is taking longer than expected,
                   </p>
                   <p className='text-slate-600 font-semibold text-center text-md'>
-                    please be patient.
+                    check your connection.
                   </p>
                 </>
               )}

@@ -4,7 +4,7 @@ import { Typography } from '@/components'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import badge from '../../../public/paystack-ii.webp'
+import badge from '../../public/paystack-ii.webp'
 
 const Footer = () => {
   const [subdomain, setSubdomain] = useState('')

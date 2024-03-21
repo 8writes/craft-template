@@ -4,19 +4,14 @@
 // Import necessary modules
 import React, { useState } from 'react'
 import { SecondaryNav } from '../../components/UI'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
-import { useCart } from '../common/Provider/cartProvider'
-import logo from '../../../public/logo.svg'
+import { useCart } from '../../context/cartContext'
 import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
-  TextField,
 } from '@mui/material'
 import emailjs from 'emailjs-com'
 import Alert from '@mui/material/Alert'

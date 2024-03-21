@@ -1,8 +1,7 @@
 /** @format */
 
-import { Hero } from '@/containers/home'
 import Template from './template'
-import Products from '@/containers/home/Products'
+import Products from '@/views/Home/Products'
 
 export default function Page() {
   return (

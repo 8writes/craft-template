@@ -1,10 +1,11 @@
 /** @format */
 
-import { CartProvider } from '@/containers/common/Provider/cartProvider'
-import { PageProvider } from '@/containers/common/Provider/pageProvider'
-import { DataProvider } from '@/containers/common/Provider/dataProvider'
-import { SortProvider } from '@/containers/common/Provider/sortProvider'
+import { CartProvider } from '@/context/cartContext'
+import { PageProvider } from '@/context/pageContext'
+import { DataProvider } from '@/context/dataContext'
+import { SortProvider } from '@/context/sortContext'
 import './globals.css'
+import { ProductProvider } from '@/context/productContext'
 
 export const metadata = {
   title: '',
@@ -15,13 +16,15 @@ export default function RootLayout({ children }) {
   return (
     <DataProvider>
       <PageProvider>
-        <CartProvider>
-          <SortProvider>
-          <html lang='en' className='scroll-smooth'>
-            <body>{children}</body>
-            </html>
-          </SortProvider>
-        </CartProvider>
+        <ProductProvider>
+          <CartProvider>
+            <SortProvider>
+              <html lang='en' className='scroll-smooth'>
+                <body>{children}</body>
+              </html>
+            </SortProvider>
+          </CartProvider>
+        </ProductProvider>
       </PageProvider>
     </DataProvider>
   )
