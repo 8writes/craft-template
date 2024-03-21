@@ -11,7 +11,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { connect } from 'react-redux'
 import { setProductData } from '../../redux/actions'
 
-const ProductSingle = ({ productData, setProductData }) => {
+const ProductSingle = ({ productData }) => {
   const router = useRouter()
 
   const {
