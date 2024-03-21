@@ -5,8 +5,7 @@ import Card from '@mui/material/Card'
 import { CardActionArea } from '@mui/material'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
-import { useDispatch } from 'react-redux'
-import { setProductData } from '../../redux/actions'
+import { useProduct } from '@/context/productContext'
 
 const ProductItem = ({
   id,
@@ -22,25 +21,24 @@ const ProductItem = ({
   cartLinkSrc,
   stock,
 }) => {
-   const dispatch = useDispatch()
+
+   const { setProductData } = useProduct()
 
    const handleClick = () => {
-     dispatch(
-       setProductData({
-         id,
-         name,
-         alt,
-         uploaded_image_urls,
-         size,
-         price,
-         color,
-         linkSrc,
-         description,
-         buyLinkSrc,
-         cartLinkSrc,
-         stock,
-       })
-     )
+     setProductData({
+       id,
+       name,
+       alt,
+       uploaded_image_urls,
+       size,
+       price,
+       color,
+       linkSrc,
+       description,
+       buyLinkSrc,
+       cartLinkSrc,
+       stock,
+     })
   }
   
   return (
