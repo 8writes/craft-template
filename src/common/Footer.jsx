@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
       </section>
       <div className='flex justify-center md:justify-start pt-10'>
-        <Image src={badge} width={230} height={200} />
+        <Image src={badge} alt='' width={230} height={200} />
       </div>
       <div className='grid justify-center md:justify-start'>
         <p className='text-sm uppercase  font-medium pt-10 pb-2 text-slate-600'>

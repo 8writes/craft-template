@@ -8,16 +8,15 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Alert, Grid, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import { useProduct } from '@/context/productContext'
+import { connect } from 'react-redux'
+import { setProductData } from '../../redux/actions'
 
-const ProductSingle = () => {
-  // Initialize Next.js router
+const ProductSingle = ({ productData, setProductData }) => {
   const router = useRouter()
-  const { productData } = useProduct()
 
   const {
     id,
-    name, 
+    name,
     alt,
     uploaded_image_urls,
     size,
@@ -302,5 +301,10 @@ const ProductSingle = () => {
     </>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    productData: state.productData,
+  }
+}
 
-export default ProductSingle
+export default connect(mapStateToProps, { setProductData })(ProductSingle)
