@@ -21,17 +21,18 @@ const ProductItem = ({
   stock,
 }) => {
 
-  const lastPublicIndex = uploaded_image_urls.lastIndexOf('/public/')
-
-  const extractedPart = uploaded_image_urls.substring(
-    lastPublicIndex + '/public/'.length
-  )
+  const extractPartAfterPublic = (url) => {
+    const lastPublicIndex = url.lastIndexOf('/public/')
+    return lastPublicIndex !== -1
+      ? url.substring(lastPublicIndex + '/public/'.length)
+      : null
+  }
 
   const queryParams = {
     id: id,
     name: name,
     alt: alt,
-    uploaded_image_urls: extractedPart,
+    uploaded_image_urls: extractPartAfterPublic,
     size: size,
     price: price,
     color: color,
