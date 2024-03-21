@@ -17,7 +17,7 @@ const ProductSingle = () => {
 
   const {
     id,
-    name,
+    name, 
     alt,
     uploaded_image_urls,
     size,
@@ -28,7 +28,10 @@ const ProductSingle = () => {
     buyLinkSrc,
     cartLinkSrc,
     stock,
-  } = productData
+  } = productData || {}
+
+  const sizes = size || []
+  const colors = color || []
 
   // Cart context
   const { cartDispatch, addedState } = useCart()
@@ -59,13 +62,13 @@ const ProductSingle = () => {
   // Handle adding the product to the cart
   const handleAddToCart = () => {
     const hasValidSize =
-      (size.length === 1 && size[0] === '') ||
+      (sizes.length === 1 && sizes[0] === '') ||
       selectedSize ||
-      size.length === 0
+      sizes.length === 0
     const hasValidColor =
-      (color.length === 1 && color[0] === '') ||
+      (colors.length === 1 && colors[0] === '') ||
       selectedColor ||
-      color.length === 0
+      colors.length === 0
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -95,13 +98,13 @@ const ProductSingle = () => {
   // Handle buying the product
   const handleBuyNow = () => {
     const hasValidSize =
-      (size.length === 1 && size[0] === '') ||
+      (sizes.length === 1 && sizes[0] === '') ||
       selectedSize ||
-      size.length === 0
+      sizes.length === 0
     const hasValidColor =
-      (color.length === 1 && color[0] === '') ||
+      (colors.length === 1 && colors[0] === '') ||
       selectedColor ||
-      color.length === 0
+      colors.length === 0
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -169,7 +172,10 @@ const ProductSingle = () => {
         {/* Product images */}
         <div className='flex max-w-sm md:w-5/12 md:max-w-xl my-5'>
           <ProductImages
-            images={uploaded_image_urls.map((src, index) => ({ src, alt }))}
+            images={(uploaded_image_urls || []).map((src) => ({
+              src,
+              alt,
+            }))}
           />
         </div>
         {/* Product information */}
@@ -199,7 +205,7 @@ const ProductSingle = () => {
               className='text-slate-700'>
               Size:
               <div className='flex flex-wrap gap-2'>
-                {size.map((singleSize, index) => (
+                {sizes.map((singleSize, index) => (
                   <button
                     key={index}
                     className={`px-4 py-1 text-slate-800 uppercase ${
@@ -221,7 +227,7 @@ const ProductSingle = () => {
               className='text-slate-700'>
               Color:
               <div className='flex flex-wrap gap-2'>
-                {color.map((color, index) => (
+                {colors.map((color, index) => (
                   <button
                     key={index}
                     className={`px-4 py-1 text-slate-800 uppercase ${
