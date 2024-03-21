@@ -3,35 +3,27 @@
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { useCart } from '../../context/cartContext'
+import { useSearchParams } from 'next/navigation'
 import { ProductImages } from '.'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Alert, Grid, Typography } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import { useProduct } from '@/context/productContext'
 
 const ProductSingle = () => {
-  // Initialize Next.js router
   const router = useRouter()
-  const { productData } = useProduct()
-
-  const {
-    id,
-    name, 
-    alt,
-    uploaded_image_urls,
-    size,
-    price,
-    color,
-    linkSrc,
-    description,
-    buyLinkSrc,
-    cartLinkSrc,
-    stock,
-  } = productData || {}
-
-  const sizes = size || []
-  const colors = color || []
+  const searchParams = useSearchParams()
+  
+  const id = searchParams.get('id')
+  const name = searchParams.get('name')
+  const alt = searchParams.get('alt')
+  const uploaded_image_urls = searchParams.getAll('uploaded_image_urls')
+  const sizes = searchParams.getAll('size')
+  const color = searchParams.getAll('color')
+  const price = searchParams.get('price')
+  const description = searchParams.get('description')
+  const cartLinkSrc = searchParams.get('cartLinkSrc')
+  const stock = searchParams.get('stock')
 
   // Cart context
   const { cartDispatch, addedState } = useCart()
@@ -66,9 +58,9 @@ const ProductSingle = () => {
       selectedSize ||
       sizes.length === 0
     const hasValidColor =
-      (colors.length === 1 && colors[0] === '') ||
+      (color.length === 1 && color[0] === '') ||
       selectedColor ||
-      colors.length === 0
+      color.length === 0
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -102,9 +94,9 @@ const ProductSingle = () => {
       selectedSize ||
       sizes.length === 0
     const hasValidColor =
-      (colors.length === 1 && colors[0] === '') ||
+      (color.length === 1 && color[0] === '') ||
       selectedColor ||
-      colors.length === 0
+      color.length === 0
 
     if (!isAdded && hasValidSize && hasValidColor) {
       // Dispatch action to add the product to the cart
@@ -172,10 +164,7 @@ const ProductSingle = () => {
         {/* Product images */}
         <div className='flex max-w-sm md:w-5/12 md:max-w-xl my-5'>
           <ProductImages
-            images={(uploaded_image_urls || []).map((src) => ({
-              src,
-              alt,
-            }))}
+            images={uploaded_image_urls.map((src, index) => ({ src, alt }))}
           />
         </div>
         {/* Product information */}
@@ -227,7 +216,7 @@ const ProductSingle = () => {
               className='text-slate-700'>
               Color:
               <div className='flex flex-wrap gap-2'>
-                {colors.map((color, index) => (
+                {color.map((color, index) => (
                   <button
                     key={index}
                     className={`px-4 py-1 text-slate-800 uppercase ${

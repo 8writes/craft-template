@@ -5,7 +5,6 @@ import Card from '@mui/material/Card'
 import { CardActionArea } from '@mui/material'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
-import { useProduct } from '@/context/productContext'
 
 const ProductItem = ({
   id,
@@ -22,31 +21,28 @@ const ProductItem = ({
   stock,
 }) => {
 
-   const { setProductData } = useProduct()
-
-   const handleClick = () => {
-     setProductData({
-       id,
-       name,
-       alt,
-       uploaded_image_urls,
-       size,
-       price,
-       color,
-       linkSrc,
-       description,
-       buyLinkSrc,
-       cartLinkSrc,
-       stock,
-     })
+  const queryParams = {
+    id: id,
+    name: name,
+    alt: alt,
+    uploaded_image_urls: uploaded_image_urls,
+    size: size,
+    price: price,
+    color: color,
+    linkSrc: linkSrc,
+    description: description,
+    buyLinkSrc: buyLinkSrc,
+    cartLinkSrc: cartLinkSrc,
+    stock: stock,
   }
-  
+
   return (
     <div>
-      <Card onClick={handleClick} elevation={0}>
+      <Card elevation={0}>
         <Link
           href={{
-            pathname: 'product-info',
+            pathname: 'product',
+            query: queryParams,
           }}>
           <CardActionArea>
             <CardMedia
