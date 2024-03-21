@@ -23,7 +23,9 @@ const ProductItem = ({
 
   const lastPublicIndex = uploaded_image_urls.lastIndexOf('/public/')
 
-  const extractedPart = fullLink.substring(lastPublicIndex + '/public/'.length)
+  const extractedPart = uploaded_image_urls.substring(
+    lastPublicIndex + '/public/'.length
+  )
 
   const queryParams = {
     id: id,
