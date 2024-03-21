@@ -5,6 +5,7 @@ import Card from '@mui/material/Card'
 import { CardActionArea } from '@mui/material'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
+import { useSearchParams } from 'next/navigation'
 
 const ProductItem = ({
   id,
@@ -21,18 +22,11 @@ const ProductItem = ({
   stock,
 }) => {
 
-  const extractPartAfterPublic = (url) => {
-    const lastPublicIndex = url.lastIndexOf('/public/')
-    return lastPublicIndex !== -1
-      ? url.substring(lastPublicIndex + '/public/'.length)
-      : null
-  }
-
   const queryParams = {
     id: id,
     name: name,
     alt: alt,
-    uploaded_image_urls: extractPartAfterPublic,
+    uploaded_image_urls: uploaded_image_urls,
     size: size,
     price: price,
     color: color,
