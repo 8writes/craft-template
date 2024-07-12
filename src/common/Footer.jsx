@@ -15,22 +15,9 @@ const Footer = () => {
   }, [])
 
   return (
-    <div className='bg-gray-500 p-5 md:p-8'>
-      <section className='flex flex-wrap gap-5 py-20 justify-between'>
-        <div>
-          
-        </div>
+    <div className='bg-gray-800 p-5 md:p-8'>
         <div className='pr-16 grid w-full md:w-fit'>
-          <p className=' text-lg py-2 text-white font-semibold uppercase'>
-            Useful links
-          </p>
-          <div className='grid gap-1 text-base text-white'>
-            <p>About Us</p>
-            <p>Shipping & Returns </p>
-          </div>
-        </div>
-        <div className='pr-16 grid w-full md:w-fit'>
-          <p className='text-lg py-2 text-white font-semibold uppercase'>
+          <p className='text-2xl py-2 text-white font-semibold uppercase'>
             {' '}
             Contact Us
           </p>
@@ -40,7 +27,6 @@ const Footer = () => {
             <p className='hover:underline'> vendormail@gmail.com</p>
           </div>
         </div>
-      </section>
       <div className='grid justify-center'>
         <p className='text-xs md:text-sm font-medium text-white'>
           © 2024, {subdomain} Powered by{' '}
