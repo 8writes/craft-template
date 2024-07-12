@@ -21,44 +21,27 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [orderStatus, setOrderStatus] = useState(null)
-  const [paymentPopupOpen, setPaymentPopupOpen] = useState(false)
+  const [orderInfoPopupOpen, setOrderInfoPopupOpen] = useState(false)
+  const [accountInfoPopupOpen, setAccountInfoPopupOpen] = useState(false)
   const [reference, setReference] = useState(null)
 
-  const banksInNigeria = [
-    'Access Bank',
-    'Citibank',
-    'Diamond Bank',
-    'Ecobank Nigeria',
-    'Enterprise Bank',
-    'Fidelity Bank',
-    'First Bank of Nigeria',
-    'First City Monument Bank (FCMB)',
-    'Guaranty Trust Bank (GTBank)',
-    'Heritage Bank',
-    'Keystone Bank',
-    'Providus Bank',
-    'Polaris Bank',
-    'Stanbic IBTC Bank',
-    'Standard Chartered Bank',
-    'Sterling Bank',
-    'SunTrust Bank',
-    'Union Bank of Nigeria',
-    'United Bank for Africa (UBA)',
-    'Unity Bank',
-    'Wema Bank',
-    'Zenith Bank',
-    'Opay',
-    'Kuda Bank',
-  ]
-
-  const openPaymentPopup = () => {
-    setPaymentPopupOpen(true)
+  const openOrderInfoPopup = () => {
+    setOrderInfoPopupOpen(true)
     const id1 = generateUniqueId()
     setReference(id1)
   }
 
-  const closePaymentPopup = () => {
-    setPaymentPopupOpen(false)
+  const closeOrderInfoPopup = () => {
+    setOrderInfoPopupOpen(false)
+  }
+
+  const openAccountInfoPopup = () => {
+    setOrderInfoPopupOpen(false)
+    setAccountInfoPopupOpen(true)
+  }
+
+  const closeAccountInfoPopup = () => {
+    setAccountInfoPopupOpen(false)
   }
 
   const handleConfirmOrder = async () => {
@@ -67,22 +50,8 @@ const Cart = () => {
     } catch (error) {
       console.error('Error in handleConfirmOrder:', error)
     } finally {
-      setPaymentPopupOpen(false)
+      setAccountInfoPopupOpen(false)
     }
-  }
-
-  const [senderDetails, setSenderDetails] = useState({
-    fullName: '',
-    bank: '',
-  })
-
-  const isDisabledOrder = !senderDetails.fullName || !senderDetails.bank
-
-  const handleSenderDetailsChange = (field, value) => {
-    setSenderDetails({
-      ...senderDetails,
-      [field]: value,
-    })
   }
 
   const totalPrice = cart.reduce((total, item) => {
@@ -192,7 +161,6 @@ const Cart = () => {
         size: item.size,
         color: item.color,
         price: item.price,
-        details: senderDetails,
       }))
 
       const payload = {
@@ -330,44 +298,15 @@ const Cart = () => {
               <Typography variant='h6' sx={{ textAlign: 'center', mt: 5 }}>
                 Total: {formattedTotalPrice}
               </Typography>
-              <div className='mt-6'>
-                <p className='text-xl md:text-2xl text-center mb-2 font-semibold text-slate-600'>
-                  Sender Details
-                </p>
-                <form className='grid md:grid-cols-2 gap-4'>
-                  <input
-                    type='text'
-                    placeholder='Sender Full Name'
-                    value={senderDetails.fullName}
-                    onChange={(e) =>
-                      handleSenderDetailsChange('fullName', e.target.value)
-                    }
-                    className='border border-gray-300 p-2 rounded-md'
-                  />
-                  <select
-                    value={senderDetails.bank}
-                    onChange={(e) =>
-                      handleSenderDetailsChange('bank', e.target.value)
-                    }
-                    className='border border-gray-300 p-2 rounded-md'>
-                    <option value=''>Select Bank</option>
-                    {banksInNigeria.map((bank) => (
-                      <option key={bank} value={bank}>
-                        {bank}
-                      </option>
-                    ))}
-                  </select>
-                </form>
-              </div>
               <div className='flex justify-center mt-10'>
                 <button
                   className={`px-4 py-2 rounded-md shadow-md text-white ${
-                    isDisabledOrder
+                    cart.length === 0
                       ? 'bg-gray-400'
                       : 'bg-teal-500 hover:bg-teal-600'
                   }`}
-                  onClick={openPaymentPopup}
-                  disabled={isDisabledOrder}>
+                  onClick={openOrderInfoPopup}
+                  disabled={cart.length === 0}>
                   Confirm Order
                 </button>
               </div>
@@ -380,8 +319,8 @@ const Cart = () => {
         </div>
       </div>
       <Dialog
-        open={paymentPopupOpen}
-        onClose={closePaymentPopup}
+        open={orderInfoPopupOpen}
+        onClose={closeOrderInfoPopup}
         maxWidth='md'
         fullWidth>
         <div className='p-8'>
@@ -428,8 +367,7 @@ const Cart = () => {
           </form>
           <div className='flex justify-center mt-10'>
             <LoadingButton
-              onClick={handleConfirmOrder}
-              loading={isLoading}
+              onClick={openAccountInfoPopup}
               variant='contained'
               color='primary'
               disabled={isDisabled}>
@@ -438,7 +376,44 @@ const Cart = () => {
           </div>
         </div>
         <DialogActions>
-          <Button onClick={closePaymentPopup} color='secondary'>
+          <Button onClick={closeOrderInfoPopup} color='secondary'>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={accountInfoPopupOpen}
+        onClose={closeAccountInfoPopup}
+        maxWidth='md'
+        fullWidth>
+        <div className='p-8'>
+          <Typography variant='h6' gutterBottom>
+            Account Information
+          </Typography>
+          <Typography variant='body1' gutterBottom>
+            Please make a payment to the following account details:
+          </Typography>
+          <Typography variant='body2'>
+            Account Name: Example Account Name
+            <br />
+            Account Number: 1234567890
+            <br />
+            Bank Name: Example Bank
+          </Typography>
+          <div className='flex justify-center mt-10'>
+            <LoadingButton
+              onClick={handleConfirmOrder}
+              loading={isLoading}
+              variant='contained'
+              color='primary'
+              disabled={isDisabled}>
+              Confirm and Place Order
+            </LoadingButton>
+          </div>
+        </div>
+        <DialogActions>
+          <Button onClick={closeAccountInfoPopup} color='secondary'>
             Close
           </Button>
         </DialogActions>
