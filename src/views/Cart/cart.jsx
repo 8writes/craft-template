@@ -295,10 +295,10 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
-              <Typography variant='h6' sx={{ textAlign: 'center', mt: 5 }}>
+              <Typography variant='h6' sx={{ textAlign: 'right', mt: 5 }}>
                 Total: {formattedTotalPrice}
               </Typography>
-              <div className='flex justify-center mt-10'>
+              <div className='flex justify-end mt-10'>
                 <button
                   className={`px-4 py-2 rounded-md shadow-md text-white ${
                     cart.length === 0
@@ -314,6 +314,10 @@ const Cart = () => {
           ) : (
             <div className='flex justify-center items-center w-full h-64'>
               <Typography variant='h6'>Your cart is empty</Typography>
+              <button
+                className={`px-4 py-2 rounded-md shadow-md text-white ${'bg-teal-500 hover:bg-teal-600'}`}>
+                Go Shopping 
+              </button>
             </div>
           )}
         </div>
@@ -392,7 +396,7 @@ const Cart = () => {
             Account Information
           </Typography>
           <Typography variant='body1' gutterBottom>
-            Please make a payment to the following account details:
+            Please make payment to the following account details:
           </Typography>
           <Typography variant='body2'>
             Account Name: Example Account Name
